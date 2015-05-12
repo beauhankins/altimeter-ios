@@ -1,0 +1,424 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		090887211B022D53003E9A60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887201B022D53003E9A60 /* AppDelegate.swift */; };
+		090887231B022D53003E9A60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887221B022D53003E9A60 /* ViewController.swift */; };
+		090887261B022D53003E9A60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090887241B022D53003E9A60 /* Main.storyboard */; };
+		090887281B022D53003E9A60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 090887271B022D53003E9A60 /* Images.xcassets */; };
+		0908872B1B022D53003E9A60 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090887291B022D53003E9A60 /* LaunchScreen.xib */; };
+		090887371B022D53003E9A60 /* altimeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887361B022D53003E9A60 /* altimeterTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		090887311B022D53003E9A60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 090887131B022D53003E9A60 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0908871A1B022D53003E9A60;
+			remoteInfo = altimeter;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0908871B1B022D53003E9A60 /* altimeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = altimeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0908871F1B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		090887201B022D53003E9A60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		090887221B022D53003E9A60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		090887251B022D53003E9A60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		090887271B022D53003E9A60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		0908872A1B022D53003E9A60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		090887301B022D53003E9A60 /* altimeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = altimeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		090887351B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		090887361B022D53003E9A60 /* altimeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = altimeterTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		090887181B022D53003E9A60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0908872D1B022D53003E9A60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		090887121B022D53003E9A60 = {
+			isa = PBXGroup;
+			children = (
+				0908871D1B022D53003E9A60 /* altimeter */,
+				090887331B022D53003E9A60 /* altimeterTests */,
+				0908871C1B022D53003E9A60 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0908871C1B022D53003E9A60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0908871B1B022D53003E9A60 /* altimeter.app */,
+				090887301B022D53003E9A60 /* altimeterTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0908871D1B022D53003E9A60 /* altimeter */ = {
+			isa = PBXGroup;
+			children = (
+				090887201B022D53003E9A60 /* AppDelegate.swift */,
+				090887221B022D53003E9A60 /* ViewController.swift */,
+				090887241B022D53003E9A60 /* Main.storyboard */,
+				090887271B022D53003E9A60 /* Images.xcassets */,
+				090887291B022D53003E9A60 /* LaunchScreen.xib */,
+				0908871E1B022D53003E9A60 /* Supporting Files */,
+			);
+			path = altimeter;
+			sourceTree = "<group>";
+		};
+		0908871E1B022D53003E9A60 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0908871F1B022D53003E9A60 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		090887331B022D53003E9A60 /* altimeterTests */ = {
+			isa = PBXGroup;
+			children = (
+				090887361B022D53003E9A60 /* altimeterTests.swift */,
+				090887341B022D53003E9A60 /* Supporting Files */,
+			);
+			path = altimeterTests;
+			sourceTree = "<group>";
+		};
+		090887341B022D53003E9A60 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				090887351B022D53003E9A60 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0908871A1B022D53003E9A60 /* altimeter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0908873A1B022D53003E9A60 /* Build configuration list for PBXNativeTarget "altimeter" */;
+			buildPhases = (
+				090887171B022D53003E9A60 /* Sources */,
+				090887181B022D53003E9A60 /* Frameworks */,
+				090887191B022D53003E9A60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = altimeter;
+			productName = altimeter;
+			productReference = 0908871B1B022D53003E9A60 /* altimeter.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0908872F1B022D53003E9A60 /* altimeterTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0908873D1B022D53003E9A60 /* Build configuration list for PBXNativeTarget "altimeterTests" */;
+			buildPhases = (
+				0908872C1B022D53003E9A60 /* Sources */,
+				0908872D1B022D53003E9A60 /* Frameworks */,
+				0908872E1B022D53003E9A60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				090887321B022D53003E9A60 /* PBXTargetDependency */,
+			);
+			name = altimeterTests;
+			productName = altimeterTests;
+			productReference = 090887301B022D53003E9A60 /* altimeterTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		090887131B022D53003E9A60 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = "Beau Hankins";
+				TargetAttributes = {
+					0908871A1B022D53003E9A60 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					0908872F1B022D53003E9A60 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = 0908871A1B022D53003E9A60;
+					};
+				};
+			};
+			buildConfigurationList = 090887161B022D53003E9A60 /* Build configuration list for PBXProject "altimeter" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 090887121B022D53003E9A60;
+			productRefGroup = 0908871C1B022D53003E9A60 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0908871A1B022D53003E9A60 /* altimeter */,
+				0908872F1B022D53003E9A60 /* altimeterTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		090887191B022D53003E9A60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				090887261B022D53003E9A60 /* Main.storyboard in Resources */,
+				0908872B1B022D53003E9A60 /* LaunchScreen.xib in Resources */,
+				090887281B022D53003E9A60 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0908872E1B022D53003E9A60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		090887171B022D53003E9A60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				090887231B022D53003E9A60 /* ViewController.swift in Sources */,
+				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0908872C1B022D53003E9A60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				090887371B022D53003E9A60 /* altimeterTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		090887321B022D53003E9A60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0908871A1B022D53003E9A60 /* altimeter */;
+			targetProxy = 090887311B022D53003E9A60 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		090887241B022D53003E9A60 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				090887251B022D53003E9A60 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		090887291B022D53003E9A60 /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0908872A1B022D53003E9A60 /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		090887381B022D53003E9A60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		090887391B022D53003E9A60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0908873B1B022D53003E9A60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = altimeter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		0908873C1B022D53003E9A60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = altimeter/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		0908873E1B022D53003E9A60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = altimeterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/altimeter.app/altimeter";
+			};
+			name = Debug;
+		};
+		0908873F1B022D53003E9A60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = altimeterTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/altimeter.app/altimeter";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		090887161B022D53003E9A60 /* Build configuration list for PBXProject "altimeter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				090887381B022D53003E9A60 /* Debug */,
+				090887391B022D53003E9A60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0908873A1B022D53003E9A60 /* Build configuration list for PBXNativeTarget "altimeter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0908873B1B022D53003E9A60 /* Debug */,
+				0908873C1B022D53003E9A60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		0908873D1B022D53003E9A60 /* Build configuration list for PBXNativeTarget "altimeterTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0908873E1B022D53003E9A60 /* Debug */,
+				0908873F1B022D53003E9A60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 090887131B022D53003E9A60 /* Project object */;
+}
