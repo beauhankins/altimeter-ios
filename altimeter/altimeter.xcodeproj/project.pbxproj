@@ -9,10 +9,11 @@
 /* Begin PBXBuildFile section */
 		090887211B022D53003E9A60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887201B022D53003E9A60 /* AppDelegate.swift */; };
 		090887231B022D53003E9A60 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887221B022D53003E9A60 /* ViewController.swift */; };
-		090887261B022D53003E9A60 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 090887241B022D53003E9A60 /* Main.storyboard */; };
 		090887281B022D53003E9A60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 090887271B022D53003E9A60 /* Images.xcassets */; };
 		0908872B1B022D53003E9A60 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 090887291B022D53003E9A60 /* LaunchScreen.xib */; };
 		090887371B022D53003E9A60 /* altimeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887361B022D53003E9A60 /* altimeterTests.swift */; };
+		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
+		09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F76EB71B04D9B60050A594 /* LocationData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,16 +27,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0908871B1B022D53003E9A60 /* altimeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = altimeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0908871B1B022D53003E9A60 /* Altimeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Altimeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0908871F1B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		090887201B022D53003E9A60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		090887221B022D53003E9A60 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		090887251B022D53003E9A60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		090887271B022D53003E9A60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0908872A1B022D53003E9A60 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		090887301B022D53003E9A60 /* altimeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = altimeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		090887351B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		090887361B022D53003E9A60 /* altimeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = altimeterTests.swift; sourceTree = "<group>"; };
+		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		09F76EB71B04D9B60050A594 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Classes/LocationData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +71,7 @@
 		0908871C1B022D53003E9A60 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0908871B1B022D53003E9A60 /* altimeter.app */,
+				0908871B1B022D53003E9A60 /* Altimeter.app */,
 				090887301B022D53003E9A60 /* altimeterTests.xctest */,
 			);
 			name = Products;
@@ -78,8 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				090887201B022D53003E9A60 /* AppDelegate.swift */,
-				090887221B022D53003E9A60 /* ViewController.swift */,
-				090887241B022D53003E9A60 /* Main.storyboard */,
+				09F76EBA1B04DA180050A594 /* Controllers */,
+				09F76EB91B04DA060050A594 /* Models */,
 				090887271B022D53003E9A60 /* Images.xcassets */,
 				090887291B022D53003E9A60 /* LaunchScreen.xib */,
 				0908871E1B022D53003E9A60 /* Supporting Files */,
@@ -90,6 +93,7 @@
 		0908871E1B022D53003E9A60 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				09F76EB51B04CFED0050A594 /* Frameworks */,
 				0908871F1B022D53003E9A60 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -112,6 +116,30 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		09F76EB51B04CFED0050A594 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				09F76EB31B04CFDC0050A594 /* CoreLocation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		09F76EB91B04DA060050A594 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				09F76EB71B04D9B60050A594 /* LocationData.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		09F76EBA1B04DA180050A594 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				090887221B022D53003E9A60 /* ViewController.swift */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -129,7 +157,7 @@
 			);
 			name = altimeter;
 			productName = altimeter;
-			productReference = 0908871B1B022D53003E9A60 /* altimeter.app */;
+			productReference = 0908871B1B022D53003E9A60 /* Altimeter.app */;
 			productType = "com.apple.product-type.application";
 		};
 		0908872F1B022D53003E9A60 /* altimeterTests */ = {
@@ -192,7 +220,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				090887261B022D53003E9A60 /* Main.storyboard in Resources */,
 				0908872B1B022D53003E9A60 /* LaunchScreen.xib in Resources */,
 				090887281B022D53003E9A60 /* Images.xcassets in Resources */,
 			);
@@ -212,6 +239,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */,
 				090887231B022D53003E9A60 /* ViewController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 			);
@@ -236,14 +264,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		090887241B022D53003E9A60 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				090887251B022D53003E9A60 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		090887291B022D53003E9A60 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -342,7 +362,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Altimeter;
 			};
 			name = Debug;
 		};
@@ -352,7 +372,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = Altimeter;
 			};
 			name = Release;
 		};
@@ -409,6 +429,7 @@
 				0908873C1B022D53003E9A60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0908873D1B022D53003E9A60 /* Build configuration list for PBXNativeTarget "altimeterTests" */ = {
 			isa = XCConfigurationList;
@@ -417,6 +438,7 @@
 				0908873F1B022D53003E9A60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
