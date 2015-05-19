@@ -14,6 +14,7 @@
 		090887371B022D53003E9A60 /* altimeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887361B022D53003E9A60 /* altimeterTests.swift */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
 		09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F76EB71B04D9B60050A594 /* LocationData.swift */; };
+		09F76EBC1B057DCB0050A594 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F76EBB1B057DCB0050A594 /* Colors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		090887361B022D53003E9A60 /* altimeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = altimeterTests.swift; sourceTree = "<group>"; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		09F76EB71B04D9B60050A594 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Classes/LocationData.swift; sourceTree = "<group>"; };
+		09F76EBB1B057DCB0050A594 /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Colors.swift; path = altimeter/Classes/Colors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 		090887121B022D53003E9A60 = {
 			isa = PBXGroup;
 			children = (
+				09F76EBB1B057DCB0050A594 /* Colors.swift */,
 				0908871D1B022D53003E9A60 /* altimeter */,
 				090887331B022D53003E9A60 /* altimeterTests */,
 				0908871C1B022D53003E9A60 /* Products */,
@@ -240,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */,
+				09F76EBC1B057DCB0050A594 /* Colors.swift in Sources */,
 				090887231B022D53003E9A60 /* ViewController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 			);
@@ -363,6 +367,7 @@
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Altimeter;
+				PROVISIONING_PROFILE = "f51f2a3b-05e9-4fd6-9421-f2b207902c83";
 			};
 			name = Debug;
 		};
@@ -373,6 +378,7 @@
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = Altimeter;
+				PROVISIONING_PROFILE = "f51f2a3b-05e9-4fd6-9421-f2b207902c83";
 			};
 			name = Release;
 		};
