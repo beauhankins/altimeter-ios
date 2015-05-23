@@ -9,10 +9,10 @@
 import Foundation
 
 class LocationData {
-    var altitude: Double!
-    var altitudeAccuracy: Double!
-    var latitude: Double!
-    var longitude: Double!
-    var psi: Double!
-    var temperature: Double!
+  var altitude: Double!
+  var altitudeAccuracy: Double!
+  var latitude: Double!
+  var longitude: Double!
+  var psi: Double = 0.0
+  var temperature: Double!
 }
