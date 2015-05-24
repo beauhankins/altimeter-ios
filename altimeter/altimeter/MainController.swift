@@ -66,7 +66,7 @@ class MainController: UIViewController {
     nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Check-In"
     nav.rightBarItem.icon = UIImage(named: "icon-pin")
-    nav.rightBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: "checkInController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   
@@ -226,13 +226,13 @@ class MainController: UIViewController {
   }
   
   func updateInterfaceData(data: LocationData) {
-    var altitudeString = NSString(format: "%.0f", round(data.altitude)) as String
-    var accuracyString = NSString(format: "~%.0f' ACCURACY", round(data.altitudeAccuracy)) as String
-    var psiAndTemperatureString = data.psi > 0 ? NSString(format: "%.2f PSI %.0f°C", data.psi, 77.0) as String : NSString(format: "%.0f°C", 77.0) as String
-    var latitudeString = NSString(format: "%.4f %@", fabs(data.latitude), data.longitude > 0 ? "S" : "N") as String
-    var formattedLatitudeString = NSString(format: "%.4f", data.latitude) as String
-    var longitudeString = NSString(format: "%.4f %@", fabs(data.longitude), data.longitude > 0 ? "E" : "W") as String
-    var formattedLongitudeString = NSString(format: "%.4f", data.longitude) as String
+    var altitudeString = String(format: "%.0f", round(data.altitude))
+    var accuracyString = String(format: "~%.0f' ACCURACY", round(data.altitudeAccuracy))
+    var psiAndTemperatureString = data.psi > 0 ? String(format: "%.2f PSI %.0f°C", data.psi, 77.0) : String(format: "%.0f°C", 77.0)
+    var latitudeString = String(format: "%.4f %@", fabs(data.latitude), data.longitude > 0 ? "S" : "N")
+    var formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
+    var longitudeString = String(format: "%.4f %@", fabs(data.longitude), data.longitude > 0 ? "E" : "W")
+    var formattedLongitudeString = formattedCoordinateAngleString(data.longitude)
     
     altitudeLabel.attributedText = attributedString(altitudeString)
     accuracyLabel.attributedText = attributedString(accuracyString)
@@ -241,6 +241,18 @@ class MainController: UIViewController {
     formattedLatitudeLabel.attributedText = attributedString(formattedLatitudeString)
     longitudeLabel.attributedText = attributedString(longitudeString)
     formattedLongitudeLabel.attributedText = attributedString(formattedLongitudeString)
+  }
+  
+  func formattedCoordinateAngleString(angle: Double) -> String {
+    var seconds = Int(angle * 3600)
+    let degrees = seconds / 3600
+    seconds = abs(seconds % 3600)
+    let minutes = seconds / 60
+    seconds %= 60
+    return String(format:"%d°%d'%d\"",
+      abs(degrees),
+      minutes,
+      seconds)
   }
   
   // MARK: - Location Services
@@ -280,13 +292,15 @@ class MainController: UIViewController {
   func settingsController() {
     println("Action: Settings Controller")
     var settingsController = SettingsController()
-    settingsController.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-    settingsController.modalPresentationStyle = UIModalPresentationStyle.Custom
+    settingsController.modalTransitionStyle = .CrossDissolve
+    settingsController.modalPresentationStyle = .Custom
     presentViewController(settingsController, animated: true, completion: nil)
   }
   
-  func checkinController() {
+  func checkInController() {
     println("Action: Check-In Controller")
+    var checkInController = CheckInController()
+    navigationController?.pushViewController(checkInController, animated: true)
   }
 }
 

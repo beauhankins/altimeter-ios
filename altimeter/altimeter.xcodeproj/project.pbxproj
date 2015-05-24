@@ -18,6 +18,7 @@
 		092342351B1040640028C7A9 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 092342301B103F480028C7A9 /* Lato-Regular.ttf */; };
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
 		092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342381B106CDC0028C7A9 /* NavigationBar.swift */; };
+		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
 		09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F76EB71B04D9B60050A594 /* LocationData.swift */; };
 /* End PBXBuildFile section */
@@ -48,6 +49,7 @@
 		092342301B103F480028C7A9 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		092342381B106CDC0028C7A9 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBar.swift; path = Classes/NavigationBar.swift; sourceTree = "<group>"; };
+		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		09F76EB71B04D9B60050A594 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Classes/LocationData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +98,7 @@
 			children = (
 				090887201B022D53003E9A60 /* AppDelegate.swift */,
 				0923422C1B1031150028C7A9 /* Settings.swift */,
+				093AB9E11B11A3B9006FD4BE /* CheckInController.swift */,
 				09F76EBA1B04DA180050A594 /* Controllers */,
 				0923423A1B1070E90028C7A9 /* Views */,
 				09F76EB91B04DA060050A594 /* Models */,
@@ -289,6 +292,7 @@
 				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
+				093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */,
 				092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

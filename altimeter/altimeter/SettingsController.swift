@@ -21,18 +21,6 @@ class SettingsController: UIViewController {
     return nav
     }()
   
-  lazy var closeButton: UIButton = {
-    let button = UIButton()
-    button.setTranslatesAutoresizingMaskIntoConstraints(false)
-    button.titleLabel?.font = Fonts().Default
-    button.titleLabel?.textAlignment = .Left
-    button.setTitleColor(Colors().White, forState: UIControlState.Normal)
-    button.setTitleColor(Colors().White.colorWithAlphaComponent(0.5), forState: UIControlState.Highlighted)
-    button.setTitle("Close", forState: UIControlState.Normal)
-    button.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
-    return button
-    }()
-  
   lazy var iconImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
@@ -95,6 +83,6 @@ class SettingsController: UIViewController {
   
   func closeController() {
     println("Action: Close Controller")
-    dismissViewControllerAnimated(true, completion: nil);
+    dismissViewControllerAnimated(true, completion: nil)
   }
 }

@@ -96,10 +96,10 @@ class NavigationBarItem: UIControl {
   override func layoutSubviews() {
     addSubview(iconView)
     addSubview(textLabel)
-        
+    
     addConstraint(NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: textLabel, attribute: .Width, multiplier: 1, constant: icon != nil ? 25 : 0))
     
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: 5))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? 5 : 0))
     addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
