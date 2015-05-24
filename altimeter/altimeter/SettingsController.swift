@@ -25,7 +25,7 @@ class SettingsController: UIViewController {
     let button = UIButton()
     button.setTranslatesAutoresizingMaskIntoConstraints(false)
     button.titleLabel?.font = Fonts().Default
-    button.titleLabel?.textAlignment = NSTextAlignment.Left
+    button.titleLabel?.textAlignment = .Left
     button.setTitleColor(Colors().White, forState: UIControlState.Normal)
     button.setTitleColor(Colors().White.colorWithAlphaComponent(0.5), forState: UIControlState.Highlighted)
     button.setTitle("Close", forState: UIControlState.Normal)
@@ -46,7 +46,7 @@ class SettingsController: UIViewController {
     let label = UILabel()
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().Caption
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = .Center
     label.textColor = Colors().White
     label.text = NSString(format: "Version %@", NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String) as String
     return label

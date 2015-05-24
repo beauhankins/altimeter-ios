@@ -14,40 +14,40 @@ import UIKit
 class NavigationBar: UIView {
   
   lazy var leftBarItem: NavigationBarItem = {
-    var control = NavigationBarItem()
-    control.setTranslatesAutoresizingMaskIntoConstraints(false)
-    return control
+    var navBarItem = NavigationBarItem()
+    navBarItem.setTranslatesAutoresizingMaskIntoConstraints(false)
+    navBarItem.alignment = .Left
+    return navBarItem
   }()
   
   lazy var rightBarItem: NavigationBarItem = {
-    var control = NavigationBarItem()
-    control.setTranslatesAutoresizingMaskIntoConstraints(false)
-    return control
+    var navBarItem = NavigationBarItem()
+    navBarItem.setTranslatesAutoresizingMaskIntoConstraints(false)
+    navBarItem.alignment = .Right
+    return navBarItem
     }()
   
   lazy var titleLabel: UILabel = {
     var label = UILabel()
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().Heading
-    label.textAlignment = NSTextAlignment.Center
-    label.text = "Settings"
+    label.textAlignment = .Center
     label.textColor = Colors().White
     return label
     }()
   
   override func layoutSubviews() {
+    
     addSubview(titleLabel)
     addSubview(leftBarItem)
     addSubview(rightBarItem)
     
     addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 20))
     addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 10))
-    addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 20))
     addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 20))
     
     addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
     addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 10))
-    addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 20))
     addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 20))
     
     addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
@@ -62,24 +62,33 @@ enum NavigationBarItemAlignment : Int {
   case Right
 }
 
+enum NavigationBarItemType : Int {
+  case Default
+  case Emphasis
+}
+
 class NavigationBarItem: UIControl {
   
   var icon: UIImage!
   var text: String!
-  var alignment: String!
+  var alignment: NavigationBarItemAlignment = .Left
+  var type: NavigationBarItemType = .Default
+  var color: UIColor = Colors().White
   
   private lazy var iconView: UIImageView = {
     var imageView = UIImageView()
     imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
     imageView.image = self.icon
+    imageView.contentMode = .ScaleAspectFit
     return imageView
     }()
   
   private lazy var textLabel: UILabel = {
     var label = UILabel()
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
-    label.textAlignment = alignment ==  NSTextAlignment.Left
-    label.textColor = Colors().White
+    label.font = self.type == .Emphasis ? Fonts().Heading : Fonts().Default
+    label.textAlignment = self.alignment == .Left ? .Left : .Right
+    label.textColor = self.color
     label.text = self.text
     return label
     }()
@@ -87,10 +96,14 @@ class NavigationBarItem: UIControl {
   override func layoutSubviews() {
     addSubview(iconView)
     addSubview(textLabel)
+        
+    addConstraint(NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: textLabel, attribute: .Width, multiplier: 1, constant: icon != nil ? 25 : 0))
     
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: 5))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
   }
 }

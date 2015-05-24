@@ -53,7 +53,7 @@ class MainController: UIViewController {
     let label = UILabel()
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().Default
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = .Center
     label.textColor = Colors().White
     label.text = "Temperature"
     return label
@@ -62,10 +62,11 @@ class MainController: UIViewController {
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
     nav.setTranslatesAutoresizingMaskIntoConstraints(false)
-    nav.leftBarItem.text = "Settings"
+    nav.leftBarItem.icon = UIImage(named: "icon-cog")
     nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Check-In"
-    nav.rightBarItem.addTarget(self, action: "checkinController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.icon = UIImage(named: "icon-pin")
+    nav.rightBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   
@@ -74,7 +75,7 @@ class MainController: UIViewController {
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().Coordinate
     label.text = "Latitude"
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = .Center
     return label
     }()
   
@@ -83,7 +84,7 @@ class MainController: UIViewController {
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().FormattedCoordinate
     label.text = "Latitude"
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = .Center
     return label
     }()
   
@@ -92,7 +93,7 @@ class MainController: UIViewController {
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().Coordinate
     label.text = "Longitude"
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = .Center
     return label
     }()
   
@@ -101,7 +102,7 @@ class MainController: UIViewController {
     label.setTranslatesAutoresizingMaskIntoConstraints(false)
     label.font = Fonts().FormattedCoordinate
     label.text = "Longitude"
-    label.textAlignment = NSTextAlignment.Center
+    label.textAlignment = .Center
     return label
     }()
   
