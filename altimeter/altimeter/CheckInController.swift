@@ -14,7 +14,7 @@ class CheckInController: UIViewController {
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
-    nav.setTranslatesAutoresizingMaskIntoConstraints(false)
+    nav.translatesAutoresizingMaskIntoConstraints = false
     nav.titleLabel.text = "Check-In"
     nav.titleLabel.textColor = Colors().Black
     nav.leftBarItem.text = "Cancel"
@@ -59,11 +59,11 @@ class CheckInController: UIViewController {
   // MARK: - Actions
   
   func closeController() {
-    println("Action: Close Controller")
+    print("Action: Close Controller")
     navigationController?.popViewControllerAnimated(true)
   }
   
   func nextController() {
-    println("Action: Next Controller")
+    print("Action: Next Controller")
   }
 }

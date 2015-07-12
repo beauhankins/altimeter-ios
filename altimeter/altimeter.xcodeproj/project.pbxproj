@@ -11,6 +11,7 @@
 		090887231B022D53003E9A60 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887221B022D53003E9A60 /* MainController.swift */; };
 		090887281B022D53003E9A60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 090887271B022D53003E9A60 /* Images.xcassets */; };
 		090887371B022D53003E9A60 /* altimeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887361B022D53003E9A60 /* altimeterTests.swift */; };
+		090E19381B29C3E000D19B0B /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090E19371B29C3E000D19B0B /* ListCell.swift */; };
 		092342281B1030480028C7A9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342271B1030480028C7A9 /* SettingsController.swift */; };
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
 		092342331B1040640028C7A9 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0923422E1B103F480028C7A9 /* Lato-Bold.ttf */; };
@@ -21,6 +22,7 @@
 		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
 		09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F76EB71B04D9B60050A594 /* LocationData.swift */; };
+		D60E7EE17F4429D4FD2A10CE /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA1DDFCE35C27562189375 /* libPods-altimeter.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +44,7 @@
 		090887301B022D53003E9A60 /* altimeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = altimeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		090887351B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		090887361B022D53003E9A60 /* altimeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = altimeterTests.swift; sourceTree = "<group>"; };
+		090E19371B29C3E000D19B0B /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListCell.swift; path = altimeter/Classes/ListCell.swift; sourceTree = "<group>"; };
 		092342271B1030480028C7A9 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		0923422C1B1031150028C7A9 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		0923422E1B103F480028C7A9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -52,6 +55,9 @@
 		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		09F76EB71B04D9B60050A594 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Classes/LocationData.swift; sourceTree = "<group>"; };
+		7470450BBA62FF8D8EC16BF1 /* Pods-altimeter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.debug.xcconfig"; sourceTree = "<group>"; };
+		88AA1DDFCE35C27562189375 /* libPods-altimeter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-altimeter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7379AAEB755A4B5D7483CBF /* Pods-altimeter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.release.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +67,7 @@
 			files = (
 				092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */,
 				09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */,
+				D60E7EE17F4429D4FD2A10CE /* libPods-altimeter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,10 +84,13 @@
 		090887121B022D53003E9A60 = {
 			isa = PBXGroup;
 			children = (
+				090E19371B29C3E000D19B0B /* ListCell.swift */,
 				092342361B1046380028C7A9 /* CoreMotion.framework */,
 				0908871D1B022D53003E9A60 /* altimeter */,
 				090887331B022D53003E9A60 /* altimeterTests */,
 				0908871C1B022D53003E9A60 /* Products */,
+				7CFA95E7E64279579E5D41F2 /* Pods */,
+				1DA91F4EC8252B703B0CB9AE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -186,6 +196,23 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		1DA91F4EC8252B703B0CB9AE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				88AA1DDFCE35C27562189375 /* libPods-altimeter.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7CFA95E7E64279579E5D41F2 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7470450BBA62FF8D8EC16BF1 /* Pods-altimeter.debug.xcconfig */,
+				A7379AAEB755A4B5D7483CBF /* Pods-altimeter.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -193,9 +220,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0908873A1B022D53003E9A60 /* Build configuration list for PBXNativeTarget "altimeter" */;
 			buildPhases = (
+				DA030745112A1CA45C7C6829 /* Check Pods Manifest.lock */,
 				090887171B022D53003E9A60 /* Sources */,
 				090887181B022D53003E9A60 /* Frameworks */,
 				090887191B022D53003E9A60 /* Resources */,
+				FBB2E6D7D12D2F2010B5B2C6 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -230,7 +259,8 @@
 		090887131B022D53003E9A60 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Beau Hankins";
 				TargetAttributes = {
 					0908871A1B022D53003E9A60 = {
@@ -282,6 +312,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		DA030745112A1CA45C7C6829 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		FBB2E6D7D12D2F2010B5B2C6 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-altimeter/Pods-altimeter-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		090887171B022D53003E9A60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -292,6 +355,7 @@
 				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
+				090E19381B29C3E000D19B0B /* ListCell.swift in Sources */,
 				093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */,
 				092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */,
 			);
@@ -337,6 +401,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -399,11 +464,13 @@
 		};
 		0908873B1B022D53003E9A60 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7470450BBA62FF8D8EC16BF1 /* Pods-altimeter.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.altimeter.app;
 				PRODUCT_NAME = Altimeter;
 				PROVISIONING_PROFILE = "f51f2a3b-05e9-4fd6-9421-f2b207902c83";
 			};
@@ -411,11 +478,13 @@
 		};
 		0908873C1B022D53003E9A60 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7379AAEB755A4B5D7483CBF /* Pods-altimeter.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.altimeter.app;
 				PRODUCT_NAME = Altimeter;
 				PROVISIONING_PROFILE = "f51f2a3b-05e9-4fd6-9421-f2b207902c83";
 			};
@@ -435,6 +504,7 @@
 				);
 				INFOPLIST_FILE = altimeterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beauhankins.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/altimeter.app/altimeter";
 			};
@@ -450,6 +520,7 @@
 				);
 				INFOPLIST_FILE = altimeterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.beauhankins.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/altimeter.app/altimeter";
 			};

@@ -15,21 +15,21 @@ class NavigationBar: UIView {
   
   lazy var leftBarItem: NavigationBarItem = {
     var navBarItem = NavigationBarItem()
-    navBarItem.setTranslatesAutoresizingMaskIntoConstraints(false)
+    navBarItem.translatesAutoresizingMaskIntoConstraints = false
     navBarItem.alignment = .Left
     return navBarItem
   }()
   
   lazy var rightBarItem: NavigationBarItem = {
     var navBarItem = NavigationBarItem()
-    navBarItem.setTranslatesAutoresizingMaskIntoConstraints(false)
+    navBarItem.translatesAutoresizingMaskIntoConstraints = false
     navBarItem.alignment = .Right
     return navBarItem
     }()
   
   lazy var titleLabel: UILabel = {
     var label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Heading
     label.textAlignment = .Center
     label.textColor = Colors().White
@@ -77,7 +77,7 @@ class NavigationBarItem: UIControl {
   
   private lazy var iconView: UIImageView = {
     var imageView = UIImageView()
-    imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+    imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.icon
     imageView.contentMode = .ScaleAspectFit
     return imageView
@@ -85,7 +85,7 @@ class NavigationBarItem: UIControl {
   
   private lazy var textLabel: UILabel = {
     var label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = self.type == .Emphasis ? Fonts().Heading : Fonts().Default
     label.textAlignment = self.alignment == .Left ? .Left : .Right
     label.textColor = self.color

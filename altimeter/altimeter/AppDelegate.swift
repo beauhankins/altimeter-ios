@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window = {
       let win = UIWindow(frame: UIScreen.mainScreen().bounds)
       win.backgroundColor = UIColor.whiteColor()
-      var navigationController = UINavigationController(rootViewController: MainController())
+      let navigationController = UINavigationController(rootViewController: MainController())
       navigationController.navigationBarHidden = true
       win.rootViewController = navigationController
       return win

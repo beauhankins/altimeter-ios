@@ -12,9 +12,16 @@ import UIKit
 class SettingsController: UIViewController {
   // MARK: - Variables & Constants
   
+  enum Unit: Int {
+    case Feet
+    case Meters
+  }
+  
+  var unit: Unit = .Feet
+  
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
-    nav.setTranslatesAutoresizingMaskIntoConstraints(false)
+    nav.translatesAutoresizingMaskIntoConstraints = false
     nav.titleLabel.text = "Settings"
     nav.leftBarItem.icon = UIImage(named: "icon-close")
     nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
@@ -23,7 +30,7 @@ class SettingsController: UIViewController {
   
   lazy var iconImageView: UIImageView = {
     let imageView = UIImageView()
-    imageView.setTranslatesAutoresizingMaskIntoConstraints(false)
+    imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = UIImage(named: "app-icon-settings")
     imageView.layer.cornerRadius = 16.0
     imageView.layer.masksToBounds = true
@@ -32,7 +39,7 @@ class SettingsController: UIViewController {
   
   lazy var versionLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Caption
     label.textAlignment = .Center
     label.textColor = Colors().White
@@ -45,6 +52,7 @@ class SettingsController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    fetchSettings()
     configureInterface()
   }
   
@@ -82,7 +90,21 @@ class SettingsController: UIViewController {
   // MARK: - Actions
   
   func closeController() {
-    println("Action: Close Controller")
+    print("Action: Close Controller")
     dismissViewControllerAnimated(true, completion: nil)
+  }
+  
+  // MARK: - Settings
+  
+  func fetchSettings() {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    unit = Unit(rawValue: defaults.integerForKey("settings_unit"))!
+  }
+  
+  func saveSettings() {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    defaults.setInteger(unit.rawValue, forKey: "settings_unit")
   }
 }

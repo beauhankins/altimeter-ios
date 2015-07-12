@@ -15,7 +15,30 @@ class MainController: UIViewController {
   
   // MARK: - Variables & Constants
   
-  let unit = "ft"
+  enum Unit: Int {
+    case Feet
+    case Meters
+    
+    func factor() -> Double {
+      switch self {
+      case .Feet:
+        return 1.0
+      case .Meters:
+        return 3.2808399
+      }
+    }
+    
+    func abbreviation() -> String {
+      switch self {
+      case .Feet:
+        return "ft"
+      case .Meters:
+        return "m"
+      }
+    }
+  }
+  
+  var unit: Unit = .Feet
   let locationManager = CLLocationManager()
   let barometerManager = CMAltimeter()
   lazy var locationData = LocationData()
@@ -24,7 +47,7 @@ class MainController: UIViewController {
   
   lazy var altitudeLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().LargeHeading
     label.textColor = Colors().White
     label.text = "Altitude"
@@ -33,16 +56,16 @@ class MainController: UIViewController {
   
   lazy var unitLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Unit
     label.textColor = Colors().White
-    label.text = self.unit.uppercaseString
+    label.text = self.unit.abbreviation().uppercaseString
     return label
     }()
   
   lazy var accuracyLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Default
     label.textColor = Colors().White
     label.text = "Altitude Accuracy"
@@ -51,7 +74,7 @@ class MainController: UIViewController {
   
   lazy var psiAndTemperatureLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Default
     label.textAlignment = .Center
     label.textColor = Colors().White
@@ -61,7 +84,7 @@ class MainController: UIViewController {
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
-    nav.setTranslatesAutoresizingMaskIntoConstraints(false)
+    nav.translatesAutoresizingMaskIntoConstraints = false
     nav.leftBarItem.icon = UIImage(named: "icon-cog")
     nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Check-In"
@@ -72,7 +95,7 @@ class MainController: UIViewController {
   
   lazy var latitudeLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Coordinate
     label.text = "Latitude"
     label.textAlignment = .Center
@@ -81,7 +104,7 @@ class MainController: UIViewController {
   
   lazy var formattedLatitudeLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().FormattedCoordinate
     label.text = "Latitude"
     label.textAlignment = .Center
@@ -90,7 +113,7 @@ class MainController: UIViewController {
   
   lazy var longitudeLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Coordinate
     label.text = "Longitude"
     label.textAlignment = .Center
@@ -99,7 +122,7 @@ class MainController: UIViewController {
   
   lazy var formattedLongitudeLabel: UILabel = {
     let label = UILabel()
-    label.setTranslatesAutoresizingMaskIntoConstraints(false)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().FormattedCoordinate
     label.text = "Longitude"
     label.textAlignment = .Center
@@ -108,14 +131,14 @@ class MainController: UIViewController {
   
   lazy var dividerView: UIView = {
     let view = UIView()
-    view.setTranslatesAutoresizingMaskIntoConstraints(false)
+    view.translatesAutoresizingMaskIntoConstraints = false
     view.backgroundColor = Colors().Primary
     return view
     }()
   
   lazy var topView: UIView = {
     let view = UIView()
-    view.setTranslatesAutoresizingMaskIntoConstraints(false)
+    view.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(self.altitudeLabel)
     view.addSubview(self.unitLabel)
@@ -145,7 +168,7 @@ class MainController: UIViewController {
   
   lazy var bottomView: UIView = {
     let view = UIView()
-    view.setTranslatesAutoresizingMaskIntoConstraints(false)
+    view.translatesAutoresizingMaskIntoConstraints = false
     view.backgroundColor = Colors().White
     
     view.addSubview(self.latitudeLabel)
@@ -183,6 +206,7 @@ class MainController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    fetchSettings()
     configureInterface()
   }
   
@@ -193,8 +217,8 @@ class MainController: UIViewController {
   }
   
   override func viewDidLayoutSubviews() {
-    var topBackgroundLayer: CAGradientLayer = {
-      var layer = Gradients().SecondaryToPrimary
+    let topBackgroundLayer: CAGradientLayer = {
+      let layer = Gradients().SecondaryToPrimary
       layer.frame = self.topView.bounds
       layer.backgroundColor = Colors().Secondary.CGColor
       return layer
@@ -226,13 +250,13 @@ class MainController: UIViewController {
   }
   
   func updateInterfaceData(data: LocationData) {
-    var altitudeString = String(format: "%.0f", round(data.altitude))
-    var accuracyString = String(format: "~%.0f' ACCURACY", round(data.altitudeAccuracy))
-    var psiAndTemperatureString = data.psi > 0 ? String(format: "%.2f PSI %.0f°C", data.psi, 77.0) : String(format: "%.0f°C", 77.0)
-    var latitudeString = String(format: "%.4f %@", fabs(data.latitude), data.longitude > 0 ? "S" : "N")
-    var formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
-    var longitudeString = String(format: "%.4f %@", fabs(data.longitude), data.longitude > 0 ? "E" : "W")
-    var formattedLongitudeString = formattedCoordinateAngleString(data.longitude)
+    let altitudeString = String(format: "%.0f", round(data.altitude))
+    let accuracyString = String(format: "~%.0f' ACCURACY", round(data.altitudeAccuracy))
+    let psiAndTemperatureString = data.psi > 0 ? String(format: "%.2f PSI %.0f°C", data.psi, 77.0) : String(format: "%.0f°C", 77.0)
+    let latitudeString = String(format: "%.4f %@", fabs(data.latitude), data.longitude > 0 ? "S" : "N")
+    let formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
+    let longitudeString = String(format: "%.4f %@", fabs(data.longitude), data.longitude > 0 ? "E" : "W")
+    let formattedLongitudeString = formattedCoordinateAngleString(data.longitude)
     
     altitudeLabel.attributedText = attributedString(altitudeString)
     accuracyLabel.attributedText = attributedString(accuracyString)
@@ -253,6 +277,14 @@ class MainController: UIViewController {
       abs(degrees),
       minutes,
       seconds)
+  }
+  
+  // MARK: - Settings
+  
+  func fetchSettings() {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    unit = Unit(rawValue: defaults.integerForKey("settings_unit"))!
   }
   
   // MARK: - Location Services
@@ -278,10 +310,10 @@ class MainController: UIViewController {
     if CMAltimeter.isRelativeAltitudeAvailable() {
       barometerManager.startRelativeAltitudeUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { data, error in
         if error != nil {
-          self.locationData.psi = Double((data as CMAltitudeData).pressure)
-          println("Relative Altitude: \(data.relativeAltitude)")
+          self.locationData.psi = Double((data as CMAltitudeData?)!.pressure)
+          print("Relative Altitude: \(data!.relativeAltitude)")
         } else {
-          println("Relative Altitude: \(error.localizedDescription)")
+          print("Relative Altitude: \(error!.localizedDescription)")
         }
       })
     }
@@ -290,16 +322,16 @@ class MainController: UIViewController {
   // MARK: - Actions
   
   func settingsController() {
-    println("Action: Settings Controller")
-    var settingsController = SettingsController()
+    print("Action: Settings Controller")
+    let settingsController = SettingsController()
     settingsController.modalTransitionStyle = .CrossDissolve
     settingsController.modalPresentationStyle = .Custom
     presentViewController(settingsController, animated: true, completion: nil)
   }
   
   func checkInController() {
-    println("Action: Check-In Controller")
-    var checkInController = CheckInController()
+    print("Action: Check-In Controller")
+    let checkInController = CheckInController()
     navigationController?.pushViewController(checkInController, animated: true)
   }
 }
@@ -308,30 +340,28 @@ class MainController: UIViewController {
 
 extension MainController: CLLocationManagerDelegate {
   
-  func locationManager(manager: CLLocationManager!, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
     if status == .AuthorizedWhenInUse || status == .AuthorizedAlways {
       startUpdatingLocation()
     }
   }
   
-  func locationManager(manager: CLLocationManager!, didUpdateLocations locations: [AnyObject]!) {
-    let unitRatio = unit == "ft" ? 3.2808399 : 1
-    
-    println("Altitude: \(locationManager.location.altitude.advancedBy(0) * unitRatio)")
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+    print("Altitude: \(locationManager.location!.altitude.advancedBy(0) * unit.factor())")
     
     if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
-    altitudeStore.addObject((locationManager.location.altitude.advancedBy(0) * unitRatio))
+    altitudeStore.addObject((locationManager.location!.altitude.advancedBy(0) * unit.factor()))
     
     if altitudeAccuracyStore.count > 10 { altitudeAccuracyStore.removeObjectAtIndex(0) }
-    altitudeAccuracyStore.addObject(locationManager.location.verticalAccuracy * unitRatio)
+    altitudeAccuracyStore.addObject(locationManager.location!.verticalAccuracy * unit.factor())
     
     let avAltitude = Double((altitudeStore as NSArray as! [Int]).reduce(0,combine:+)) / Double(altitudeStore.count)
     let avAltitudeAccuracy = Double((altitudeAccuracyStore as NSArray as! [Int]).reduce(0,combine:+)) / Double(altitudeAccuracyStore.count)
     
     locationData.altitude = avAltitude
     locationData.altitudeAccuracy = avAltitudeAccuracy
-    locationData.latitude = locationManager.location.coordinate.latitude
-    locationData.longitude = locationManager.location.coordinate.longitude
+    locationData.latitude = locationManager.location!.coordinate.latitude
+    locationData.longitude = locationManager.location!.coordinate.longitude
     
     updateInterfaceData(locationData)
   }
@@ -346,4 +376,3 @@ extension MainController: CLLocationManagerDelegate {
       ])
   }
 }
-
