@@ -2,28 +2,24 @@
 //  CheckInController.swift
 //  altimeter
 //
-//  Created by Beau Hankins on 24/05/2015.
+//  Created by Beau Hankins on 16/07/2015.
 //  Copyright (c) 2015 Beau Hankins. All rights reserved.
 //
 
 import Foundation
 import UIKit
 
-class CheckInController: UIViewController {
+class CheckInSuccessController: UIViewController {
   // MARK: - Variables & Constants
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
     nav.translatesAutoresizingMaskIntoConstraints = false
-    nav.titleLabel.text = "Check-In"
-    nav.titleLabel.textColor = Colors().Black
-    nav.leftBarItem.text = "Cancel"
-    nav.leftBarItem.color = Colors().Black
-    nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
-    nav.rightBarItem.text = "Next"
+    
+    nav.rightBarItem.text = "Close"
     nav.rightBarItem.type = .Emphasis
-    nav.rightBarItem.color = Colors().Primary
-    nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.color = Colors().White
+    nav.rightBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   
@@ -46,7 +42,7 @@ class CheckInController: UIViewController {
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
-    return UIStatusBarStyle.Default
+    return UIStatusBarStyle.LightContent
   }
   
   // MARK: - Configure Interface
@@ -70,17 +66,24 @@ class CheckInController: UIViewController {
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
+  override func viewDidLayoutSubviews() {
+    let topBackgroundLayer: CAGradientLayer = {
+      let layer = Gradients().SecondaryToPrimary
+      layer.frame = self.navigationBar.bounds
+      layer.backgroundColor = Colors().Secondary.CGColor
+      layer.startPoint = CGPoint(x: 0,y: 0.5)
+      layer.endPoint = CGPoint(x: 1,y: 0.5)
+      return layer
+      }()
+    
+    navigationBar.layer.insertSublayer(topBackgroundLayer, atIndex: 0)
+  }
+  
   // MARK: - Actions
   
   func closeController() {
     print("Action: Close Controller")
-    navigationController?.popViewControllerAnimated(true)
-  }
-  
-  func nextController() {
-    print("Action: Next Controller")
-    let checkInFinalController = CheckInFinalController()
-    navigationController?.pushViewController(checkInFinalController, animated: true)
+    navigationController?.popToRootViewControllerAnimated(true)
   }
   
   func canContinue() -> Bool {

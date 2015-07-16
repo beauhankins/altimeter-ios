@@ -15,35 +15,12 @@ class MainController: UIViewController {
   
   // MARK: - Variables & Constants
   
-  enum Unit: Int {
-    case Feet
-    case Meters
-    
-    func factor() -> Double {
-      switch self {
-      case .Feet:
-        return 1.0
-      case .Meters:
-        return 3.2808399
-      }
-    }
-    
-    func abbreviation() -> String {
-      switch self {
-      case .Feet:
-        return "ft"
-      case .Meters:
-        return "m"
-      }
-    }
-  }
-  
-  var unit: Unit = .Feet
   let locationManager = CLLocationManager()
   let barometerManager = CMAltimeter()
   lazy var locationData = LocationData()
   lazy var altitudeStore = NSMutableArray() // Remember to reset this when toggling between Fahrenheit & Celsius
   lazy var altitudeAccuracyStore = NSMutableArray() // Remember to reset this when toggling between Fahrenheit & Celsius
+  lazy var unit: Unit = UserSettings.sharedSettings.unit
   
   lazy var altitudeLabel: UILabel = {
     let label = UILabel()
@@ -206,7 +183,6 @@ class MainController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    fetchSettings()
     configureInterface()
   }
   
@@ -235,18 +211,20 @@ class MainController: UIViewController {
   
   func configureInterface() {
     
-    self.view.addSubview(topView)
-    self.view.addSubview(bottomView)
+    view.addSubview(topView)
+    view.addSubview(bottomView)
     
-    self.view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Top, relatedBy: .Equal, toItem: self.view, attribute: .Top, multiplier: 1, constant: 0))
-    self.view.addConstraint(NSLayoutConstraint(item: topView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1, constant: 0))
-    self.view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Height, relatedBy: .Equal, toItem: self.view, attribute: .Height, multiplier: 1, constant: -100))
-    self.view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: -100))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     
-    self.view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Bottom, relatedBy: .Equal, toItem: self.view, attribute: .Bottom, multiplier: 1, constant: 0))
-    self.view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1, constant: 0))
-    self.view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 100))
-    self.view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Width, relatedBy: .Equal, toItem: self.view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 100))
+    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    
+    updateInterfaceData(LocationData())
   }
   
   func updateInterfaceData(data: LocationData) {
@@ -277,14 +255,6 @@ class MainController: UIViewController {
       abs(degrees),
       minutes,
       seconds)
-  }
-  
-  // MARK: - Settings
-  
-  func fetchSettings() {
-    let defaults = NSUserDefaults.standardUserDefaults()
-    
-    unit = Unit(rawValue: defaults.integerForKey("settings_unit"))!
   }
   
   // MARK: - Location Services
@@ -331,6 +301,7 @@ class MainController: UIViewController {
   
   func checkInController() {
     print("Action: Check-In Controller")
+    CheckInDataManager.sharedManager.locationData = locationData
     let checkInController = CheckInController()
     navigationController?.pushViewController(checkInController, animated: true)
   }
@@ -347,8 +318,6 @@ extension MainController: CLLocationManagerDelegate {
   }
   
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
-    print("Altitude: \(locationManager.location!.altitude.advancedBy(0) * unit.factor())")
-    
     if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
     altitudeStore.addObject((locationManager.location!.altitude.advancedBy(0) * unit.factor()))
     

@@ -106,4 +106,16 @@ class NavigationBarItem: UIControl {
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
   }
+  
+  override var enabled:Bool {
+    didSet {
+      if !enabled {
+        textLabel.textColor = Colors().Black
+        alpha = 0.3
+      } else {
+        textLabel.textColor = self.color
+        alpha = 1.0
+      }
+    }
+  }
 }

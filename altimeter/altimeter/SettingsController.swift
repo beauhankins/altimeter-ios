@@ -12,12 +12,7 @@ import UIKit
 class SettingsController: UIViewController {
   // MARK: - Variables & Constants
   
-  enum Unit: Int {
-    case Feet
-    case Meters
-  }
-  
-  var unit: Unit = .Feet
+  var unit: Unit = UserSettings.sharedSettings.unit
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -52,12 +47,11 @@ class SettingsController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    fetchSettings()
     configureInterface()
   }
   
   override func viewWillAppear(animated: Bool) {
-    
+    print(UserSettings.sharedSettings.unit.abbreviation())
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -92,19 +86,17 @@ class SettingsController: UIViewController {
   func closeController() {
     print("Action: Close Controller")
     dismissViewControllerAnimated(true, completion: nil)
+    saveSettings()
   }
   
   // MARK: - Settings
   
-  func fetchSettings() {
-    let defaults = NSUserDefaults.standardUserDefaults()
-    
-    unit = Unit(rawValue: defaults.integerForKey("settings_unit"))!
-  }
-  
   func saveSettings() {
     let defaults = NSUserDefaults.standardUserDefaults()
     
-    defaults.setInteger(unit.rawValue, forKey: "settings_unit")
+    unit = .Meters
+    UserSettings.sharedSettings.unit = unit
+    
+    defaults.setInteger(UserSettings.sharedSettings.unit.rawValue, forKey: "settings_unit")
   }
 }
