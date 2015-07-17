@@ -62,10 +62,9 @@ class MainController: UIViewController {
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
     nav.translatesAutoresizingMaskIntoConstraints = false
-    nav.leftBarItem.icon = UIImage(named: "icon-cog")
+    nav.leftBarItem.icon = UIImage(named: "icon-gear")
     nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
-    nav.rightBarItem.text = "Check-In"
-    nav.rightBarItem.icon = UIImage(named: "icon-pin")
+    nav.rightBarItem.icon = UIImage(named: "icon-location")
     nav.rightBarItem.addTarget(self, action: "checkInController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
@@ -123,6 +122,11 @@ class MainController: UIViewController {
     view.addSubview(self.psiAndTemperatureLabel)
     view.addSubview(self.navigationBar)
     
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    
     view.addConstraint(NSLayoutConstraint(item: self.altitudeLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.accuracyLabel, attribute: .CenterY, multiplier: 1, constant: -20))
     view.addConstraint(NSLayoutConstraint(item: self.altitudeLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: -(self.unitLabel.frame.size.width)-10))
     
@@ -134,11 +138,6 @@ class MainController: UIViewController {
     
     view.addConstraint(NSLayoutConstraint(item: self.psiAndTemperatureLabel, attribute: .Top, relatedBy: .Equal, toItem: self.accuracyLabel, attribute: .Bottom, multiplier: 1, constant: 10))
     view.addConstraint(NSLayoutConstraint(item: self.psiAndTemperatureLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-    
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     return view
     }()

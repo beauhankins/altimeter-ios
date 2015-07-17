@@ -86,15 +86,14 @@ class SettingsController: UIViewController {
   func closeController() {
     print("Action: Close Controller")
     dismissViewControllerAnimated(true, completion: nil)
-    saveSettings()
+    saveUserSettings()
   }
   
   // MARK: - Settings
   
-  func saveSettings() {
+  func saveUserSettings() {
     let defaults = NSUserDefaults.standardUserDefaults()
     
-    unit = .Meters
     UserSettings.sharedSettings.unit = unit
     
     defaults.setInteger(UserSettings.sharedSettings.unit.rawValue, forKey: "settings_unit")

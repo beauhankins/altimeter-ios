@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class ListCell: UICollectionViewCell {
-  var text: String!
+  var text: String?
   var color: UIColor = Colors().White
   
   private lazy var textLabel: UILabel = {

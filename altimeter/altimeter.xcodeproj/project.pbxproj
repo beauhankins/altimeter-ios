@@ -20,6 +20,7 @@
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
 		092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342381B106CDC0028C7A9 /* NavigationBar.swift */; };
 		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
+		09402F101B585E58007A136D /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09402F0F1B585E58007A136D /* InformationDetailView.swift */; };
 		0982577D1B57D66900E82295 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982577C1B57D66900E82295 /* UserSettings.swift */; };
 		09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A21B5795250087D24B /* CheckInFinalController.swift */; };
 		09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */; };
@@ -58,8 +59,9 @@
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		092342381B106CDC0028C7A9 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBar.swift; path = Classes/NavigationBar.swift; sourceTree = "<group>"; };
 		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
+		09402F0F1B585E58007A136D /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
-		0982577C1B57D66900E82295 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSettings.swift; path = altimeter/UserSettings.swift; sourceTree = "<group>"; };
+		0982577C1B57D66900E82295 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		09ADC4A21B5795250087D24B /* CheckInFinalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInFinalController.swift; sourceTree = "<group>"; };
 		09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInServiceHandler.swift; sourceTree = "<group>"; };
 		09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInSuccessController.swift; sourceTree = "<group>"; };
@@ -95,7 +97,6 @@
 		090887121B022D53003E9A60 = {
 			isa = PBXGroup;
 			children = (
-				0982577C1B57D66900E82295 /* UserSettings.swift */,
 				0908871D1B022D53003E9A60 /* altimeter */,
 				090887331B022D53003E9A60 /* altimeterTests */,
 				0908871C1B022D53003E9A60 /* Products */,
@@ -120,6 +121,7 @@
 				0923422C1B1031150028C7A9 /* Settings.swift */,
 				09F76EBA1B04DA180050A594 /* Controllers */,
 				09ADC4A41B5797FD0087D24B /* Handlers */,
+				09402F111B585E73007A136D /* Managers */,
 				0923423A1B1070E90028C7A9 /* Components */,
 				09F76EB91B04DA060050A594 /* Models */,
 				092342321B103F710028C7A9 /* Resources */,
@@ -177,17 +179,26 @@
 		0923423A1B1070E90028C7A9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				09402F0F1B585E58007A136D /* InformationDetailView.swift */,
 				090E19371B29C3E000D19B0B /* ListCell.swift */,
 				092342381B106CDC0028C7A9 /* NavigationBar.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
 		};
+		09402F111B585E73007A136D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				0982577C1B57D66900E82295 /* UserSettings.swift */,
+				09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
 		09ADC4A41B5797FD0087D24B /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
 				09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */,
-				09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -377,6 +388,7 @@
 			files = (
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
 				09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */,
+				09402F101B585E58007A136D /* InformationDetailView.swift in Sources */,
 				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
 				0982577D1B57D66900E82295 /* UserSettings.swift in Sources */,

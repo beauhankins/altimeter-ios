@@ -12,4 +12,5 @@ class CheckInDataManager {
   static let sharedManager = CheckInDataManager()
   
   var locationData: LocationData?
+  var image: UIImage?
 }

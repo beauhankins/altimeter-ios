@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     
+    fetchUserSettings()
+    
     window = {
       let win = UIWindow(frame: UIScreen.mainScreen().bounds)
       win.backgroundColor = UIColor.whiteColor()
@@ -27,6 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       }()
     
     window!.makeKeyAndVisible()
+    
     return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
   }
   
@@ -56,6 +59,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
   }
   
-  
+  func fetchUserSettings() {
+    let defaults = NSUserDefaults.standardUserDefaults()
+    
+    UserSettings.sharedSettings.unit = Unit(rawValue: defaults.integerForKey("settings_unit"))!
+    
+    defaults.setInteger(UserSettings.sharedSettings.unit.rawValue, forKey: "settings_unit")
+  }
 }
 

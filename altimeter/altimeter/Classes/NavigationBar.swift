@@ -44,11 +44,11 @@ class NavigationBar: UIView {
     
     addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 20))
     addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 10))
-    addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 20))
+    addConstraint(NSLayoutConstraint(item: leftBarItem, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 31))
     
     addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
     addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 10))
-    addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 20))
+    addConstraint(NSLayoutConstraint(item: rightBarItem, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 31))
     
     addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: 0))
     addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 10))
@@ -69,8 +69,8 @@ enum NavigationBarItemType : Int {
 
 class NavigationBarItem: UIControl {
   
-  var icon: UIImage!
-  var text: String!
+  var icon: UIImage?
+  var text: String?
   var alignment: NavigationBarItemAlignment = .Left
   var type: NavigationBarItemType = .Default
   var color: UIColor = Colors().White

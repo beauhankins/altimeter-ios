@@ -23,9 +23,46 @@ class CheckInSuccessController: UIViewController {
     return nav
     }()
   
+  lazy var informationDetailView: InformationDetailView = {
+    let view = InformationDetailView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    let altitude = CheckInDataManager.sharedManager.locationData?.altitude
+    view.title = " - \(altitude!)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
+    view.style = .Gradient
+    view.icon = UIImage(named: "icon-location")
+    return view
+    }()
+  
+  lazy var successView: InformationDetailView = {
+    let view = InformationDetailView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    let altitude = CheckInDataManager.sharedManager.locationData?.altitude
+    view.title = "Shared Successfully!"
+    view.backgroundColor = Colors().Primary
+    view.style = .Default
+    view.textColor = Colors().White
+    view.titleLabel.font = Fonts().Default
+    view.icon = UIImage(named: "radio-checked-light")
+    return view
+    }()
+  
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
+    
+    view.addSubview(self.informationDetailView)
+    view.addSubview(self.successView)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+    view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
+    
     return view
     }()
   
