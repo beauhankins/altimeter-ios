@@ -54,4 +54,14 @@ class StackViewItem: UIControl {
       }
     }
   }
+  
+  override var highlighted:Bool {
+    didSet {
+      if !highlighted {
+        textLabel.textColor = self.textColor
+      } else {
+        textLabel.textColor = Colors().Primary
+      }
+    }
+  }
 }
