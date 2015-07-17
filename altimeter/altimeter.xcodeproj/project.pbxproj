@@ -11,7 +11,7 @@
 		090887231B022D53003E9A60 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887221B022D53003E9A60 /* MainController.swift */; };
 		090887281B022D53003E9A60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 090887271B022D53003E9A60 /* Images.xcassets */; };
 		090887371B022D53003E9A60 /* altimeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887361B022D53003E9A60 /* altimeterTests.swift */; };
-		090E19381B29C3E000D19B0B /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090E19371B29C3E000D19B0B /* ListCell.swift */; };
+		090E19381B29C3E000D19B0B /* StackViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090E19371B29C3E000D19B0B /* StackViewItem.swift */; };
 		092342281B1030480028C7A9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342271B1030480028C7A9 /* SettingsController.swift */; };
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
 		092342331B1040640028C7A9 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0923422E1B103F480028C7A9 /* Lato-Bold.ttf */; };
@@ -50,7 +50,7 @@
 		090887301B022D53003E9A60 /* altimeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = altimeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		090887351B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		090887361B022D53003E9A60 /* altimeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = altimeterTests.swift; sourceTree = "<group>"; };
-		090E19371B29C3E000D19B0B /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListCell.swift; path = Classes/ListCell.swift; sourceTree = "<group>"; };
+		090E19371B29C3E000D19B0B /* StackViewItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StackViewItem.swift; path = Classes/StackViewItem.swift; sourceTree = "<group>"; };
 		092342271B1030480028C7A9 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		0923422C1B1031150028C7A9 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		0923422E1B103F480028C7A9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
@@ -180,7 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				09402F0F1B585E58007A136D /* InformationDetailView.swift */,
-				090E19371B29C3E000D19B0B /* ListCell.swift */,
+				090E19371B29C3E000D19B0B /* StackViewItem.swift */,
 				092342381B106CDC0028C7A9 /* NavigationBar.swift */,
 			);
 			name = Components;
@@ -393,7 +393,7 @@
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
 				0982577D1B57D66900E82295 /* UserSettings.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
-				090E19381B29C3E000D19B0B /* ListCell.swift in Sources */,
+				090E19381B29C3E000D19B0B /* StackViewItem.swift in Sources */,
 				09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */,
 				093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */,
 				09ADC4AA1B57B5E40087D24B /* CheckInDataManager.swift in Sources */,
