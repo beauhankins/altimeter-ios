@@ -13,4 +13,5 @@ class CheckInDataManager {
   
   var locationData: LocationData?
   var image: UIImage?
+  var timestamp: NSDate?
 }

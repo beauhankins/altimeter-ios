@@ -33,32 +33,54 @@ class CheckInFinalController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     let altitude = CheckInDataManager.sharedManager.locationData?.altitude
-    view.title = "\(altitude!)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
+    let altitudeString = String(format: "%.0f", round(altitude!))
+    view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
     view.style = .Gradient
     view.icon = UIImage(named: "icon-location")
     return view
     }()
   
-  lazy var facebookCheckBox: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Facebook", forState: .Normal)
-    button.setTitleColor(Colors().Black, forState: .Normal)
-    button.setTitleColor(Colors().Primary, forState: .Selected)
-    button.titleLabel?.font = Fonts().Heading
-    button.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
-    return button
+  lazy var facebookCheckBox: ListControl = {
+    let listControl = ListControl()
+    listControl.translatesAutoresizingMaskIntoConstraints = false
+    listControl.text = "Facebook"
+    listControl.textLabel.font = Fonts().Heading
+    listControl.checkboxImage = UIImage(named: "radio-facebook")!
+    listControl.showCheckBox = true
+    listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
+    return listControl
     }()
   
-  lazy var twitterCheckBox: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Twitter", forState: .Normal)
-    button.setTitleColor(Colors().Black, forState: .Normal)
-    button.setTitleColor(Colors().Primary, forState: .Selected)
-    button.titleLabel?.font = Fonts().Heading
-    button.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
-    return button
+  lazy var twitterCheckBox: ListControl = {
+    let listControl = ListControl()
+    listControl.translatesAutoresizingMaskIntoConstraints = false
+    listControl.text = "Twitter"
+    listControl.textLabel.font = Fonts().Heading
+    listControl.checkboxImage = UIImage(named: "radio-twitter")!
+    listControl.showCheckBox = true
+    listControl.textIndent = 20.0
+    listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
+    return listControl
+    }()
+  
+  lazy var socialView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    
+    view.addSubview(self.facebookCheckBox)
+    view.addSubview(self.twitterCheckBox)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 0.5, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Left, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    
+    return view
     }()
   
   lazy var contentView: UIView = {
@@ -66,23 +88,18 @@ class CheckInFinalController: UIViewController {
     view.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(self.informationDetailView)
-    view.addSubview(self.facebookCheckBox)
-    view.addSubview(self.twitterCheckBox)
+    view.addSubview(self.socialView)
     
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 0.5, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Left, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 0.5, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     return view
     }()
   
@@ -132,13 +149,14 @@ class CheckInFinalController: UIViewController {
   
   func nextController() {
     print("Action: Next Controller")
-    CheckInServiceHandler().checkIn(locationData, services: CheckInService.Facebook, CheckInService.Twitter)
+    if facebookCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Facebook) }
+    if twitterCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Twitter) }
     let checkInSuccessController = CheckInSuccessController()
     navigationController?.pushViewController(checkInSuccessController, animated: true)
   }
   
   func checkBoxPressed(sender: AnyObject) {
-    let button = sender as! UIButton
+    let button = sender as! ListControl
     button.selected = !button.selected
     navigationBar.rightBarItem.enabled = canContinue()
   }

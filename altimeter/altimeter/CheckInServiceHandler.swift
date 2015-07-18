@@ -52,9 +52,10 @@ class CheckInServiceHandler {
   }
   
   func postToFacebook(locationData: LocationData) {
+    let altitudeString = String(format: "%.0f", round(locationData.altitude))
     FBSDKGraphRequest(
       graphPath: "me/feed",
-      parameters: [ "message" : "Just checking in at \(locationData.altitude)\(UserSettings.sharedSettings.unit.abbreviation())" ],
+      parameters: [ "message" : "Just checking in at \(altitudeString)\(UserSettings.sharedSettings.unit.abbreviation())" ],
       HTTPMethod: "POST").startWithCompletionHandler({
         (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
         if (error != nil) {

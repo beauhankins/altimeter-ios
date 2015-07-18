@@ -28,7 +28,8 @@ class CheckInSuccessController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     let altitude = CheckInDataManager.sharedManager.locationData?.altitude
-    view.title = "\(altitude!)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
+    let altitudeString = String(format: "%.0f", round(altitude!))
+    view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
     view.style = .Gradient
     view.icon = UIImage(named: "icon-location")
     return view
@@ -42,7 +43,7 @@ class CheckInSuccessController: UIViewController {
     view.style = .Default
     view.textColor = Colors().White
     view.titleLabel.font = Fonts().Default
-    view.icon = UIImage(named: "radio-checked-light")
+    view.icon = UIImage(named: "radio-whiteChecked")
     return view
     }()
   
