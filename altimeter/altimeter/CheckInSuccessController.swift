@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 class CheckInSuccessController: UIViewController {
   // MARK: - Variables & Constants
@@ -27,7 +28,7 @@ class CheckInSuccessController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     let altitude = CheckInDataManager.sharedManager.locationData?.altitude
-    view.title = " - \(altitude!)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
+    view.title = "\(altitude!)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
     view.style = .Gradient
     view.icon = UIImage(named: "icon-location")
     return view
@@ -36,7 +37,6 @@ class CheckInSuccessController: UIViewController {
   lazy var successView: InformationDetailView = {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    let altitude = CheckInDataManager.sharedManager.locationData?.altitude
     view.title = "Shared Successfully!"
     view.backgroundColor = Colors().Primary
     view.style = .Default
@@ -46,12 +46,28 @@ class CheckInSuccessController: UIViewController {
     return view
     }()
   
+  lazy var mapView: MKMapView = {
+    let mapView = MKMapView()
+    mapView.translatesAutoresizingMaskIntoConstraints = false
+    let latitude = CheckInDataManager.sharedManager.locationData?.latitude
+    let longitude = CheckInDataManager.sharedManager.locationData?.longitude
+    mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), span: MKCoordinateSpan(latitudeDelta: 10.0, longitudeDelta: 10.0))
+    return mapView
+    }()
+  
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
+    view.backgroundColor = Colors().White
+    
     view.addSubview(self.informationDetailView)
     view.addSubview(self.successView)
+    
+    view.layer.masksToBounds = false
+    view.layer.shadowOffset = CGSizeMake(0.0, 1.0)
+    view.layer.shadowOpacity = 0.15
+    view.layer.shadowRadius = 2.0
     
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
@@ -87,17 +103,23 @@ class CheckInSuccessController: UIViewController {
   func configureInterface() {
     view.backgroundColor = Colors().White
     
-    view.addSubview(navigationBar)
+    view.addSubview(mapView)
     view.addSubview(contentView)
+    view.addSubview(navigationBar)
     
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
+    view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 315))
+    view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: -navigationBar.frame.height))
+    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: mapView, attribute: .Top, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     
     navigationBar.rightBarItem.enabled = canContinue()

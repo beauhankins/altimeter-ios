@@ -110,12 +110,28 @@ class MainController: UIViewController {
     return view
     }()
   
-  lazy var topView: UIView = {
+  lazy var altitudeView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(self.altitudeLabel)
     view.addSubview(self.unitLabel)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.altitudeLabel, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.altitudeLabel, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.unitLabel, attribute: .Baseline, relatedBy: .Equal, toItem: self.altitudeLabel, attribute: .Baseline, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.unitLabel, attribute: .Left, relatedBy: .Equal, toItem: self.altitudeLabel, attribute: .Right, multiplier: 1, constant: 5))
+    view.addConstraint(NSLayoutConstraint(item: self.unitLabel, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    
+    return view
+    }()
+  
+  lazy var topView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    
+    view.addSubview(self.altitudeView)
     view.addSubview(self.accuracyLabel)
     view.addSubview(self.psiAndTemperatureLabel)
     view.addSubview(self.navigationBar)
@@ -125,11 +141,8 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.altitudeLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self.accuracyLabel, attribute: .CenterY, multiplier: 1, constant: -20))
-    view.addConstraint(NSLayoutConstraint(item: self.altitudeLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: -(self.unitLabel.frame.size.width)-10))
-    
-    view.addConstraint(NSLayoutConstraint(item: self.unitLabel, attribute: .Baseline, relatedBy: .Equal, toItem: self.altitudeLabel, attribute: .Baseline, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.unitLabel, attribute: .Left, relatedBy: .Equal, toItem: self.altitudeLabel, attribute: .Right, multiplier: 1, constant: 5))
+    view.addConstraint(NSLayoutConstraint(item: self.altitudeView, attribute: .Bottom, relatedBy: .Equal, toItem: self.accuracyLabel, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.altitudeView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.accuracyLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.accuracyLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))

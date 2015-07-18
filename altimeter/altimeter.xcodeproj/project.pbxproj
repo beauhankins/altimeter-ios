@@ -21,6 +21,7 @@
 		092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342381B106CDC0028C7A9 /* NavigationBar.swift */; };
 		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
 		09402F101B585E58007A136D /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09402F0F1B585E58007A136D /* InformationDetailView.swift */; };
+		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
 		0982577D1B57D66900E82295 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982577C1B57D66900E82295 /* UserSettings.swift */; };
 		09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A21B5795250087D24B /* CheckInFinalController.swift */; };
 		09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */; };
@@ -60,6 +61,7 @@
 		092342381B106CDC0028C7A9 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBar.swift; path = Classes/NavigationBar.swift; sourceTree = "<group>"; };
 		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
 		09402F0F1B585E58007A136D /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
+		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		0982577C1B57D66900E82295 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		09ADC4A21B5795250087D24B /* CheckInFinalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInFinalController.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */,
 				092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */,
 				09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */,
 				D60E7EE17F4429D4FD2A10CE /* libPods-altimeter.a in Frameworks */,
@@ -234,6 +237,7 @@
 		1DA91F4EC8252B703B0CB9AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0978A17E1B5A111C002FB5FE /* MapKit.framework */,
 				092342361B1046380028C7A9 /* CoreMotion.framework */,
 				88AA1DDFCE35C27562189375 /* libPods-altimeter.a */,
 			);
