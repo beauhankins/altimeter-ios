@@ -103,6 +103,22 @@ class CheckInController: UIViewController {
     let savedCheckInsController = SavedCheckInsController()
     savedCheckInsController.modalTransitionStyle = .CoverVertical
     savedCheckInsController.modalPresentationStyle = .Custom
+    
+    let savedButton_copy: CounterButton = {
+      let counterButton = CounterButton()
+      counterButton.translatesAutoresizingMaskIntoConstraints = false
+      counterButton.text = savedButton.text
+      counterButton.counterValue = savedButton.counterValue
+      return counterButton
+      }()
+    
+    savedCheckInsController.view.addSubview(savedButton_copy)
+    
+    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Bottom, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Top, multiplier: 1, constant: 0))
+    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Left, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Left, multiplier: 1, constant: 0))
+    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Right, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Right, multiplier: 1, constant: 0))
+    
     presentViewController(savedCheckInsController, animated: true, completion: nil)
   }
   

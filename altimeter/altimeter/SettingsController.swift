@@ -9,10 +9,27 @@
 import Foundation
 import UIKit
 
-class SettingsController: UIViewController {
+class SettingsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   // MARK: - Variables & Constants
   
   var unit: Unit = UserSettings.sharedSettings.unit
+  
+  var settingsListItems: [[String:String]] {
+    return [
+      [
+        "text":"Units: \(unit.abbreviation().uppercaseString)",
+        "action":"toggleUnits"
+      ],
+      [
+        "text":"Send Feedback",
+        "action":"sendFeedback"
+      ],
+      [
+        "text":"Rate in the App Store",
+        "action":"openInAppStore"
+      ],
+    ]
+  }
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -42,40 +59,18 @@ class SettingsController: UIViewController {
     return label
     }()
   
-  func settingsStackItem(text: String?, selectedText: String?, selected: Bool, selector: Selector?) -> StackViewItem {
-    let stackItem: StackViewItem = {
-      let view = StackViewItem()
-      view.translatesAutoresizingMaskIntoConstraints = false
-      view.text = text
-      view.textColor = Colors().White
-      view.selectedText = selectedText
-      view.selected = selected
-      if selector != nil { view.addTarget(self, action: selector!, forControlEvents: .TouchUpInside) }
-      return view
-      }()
-    return stackItem
-  }
-  
-  @available(iOS 9.0, *)
-  lazy var settingsStackView: UIStackView = {
-    let stackView = UIStackView()
-    stackView.translatesAutoresizingMaskIntoConstraints = false
-    stackView.alignment = UIStackViewAlignment.Fill
-    stackView.distribution = UIStackViewDistribution.EqualCentering
-    stackView.axis = .Vertical
+  lazy var settingsListView: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
     
-    stackView.addArrangedSubview(self.settingsStackItem("Units: \(Unit.Feet.abbreviation())", selectedText: "Units: \(Unit.Meters.abbreviation())", selected: (self.unit == .Meters), selector: Selector("toggleUnits:")))
-    stackView.addArrangedSubview(self.settingsStackItem("Send Feedback", selectedText: nil, selected: false, selector: Selector("sendFeedback")))
-    stackView.addArrangedSubview(self.settingsStackItem("Rate in the App Store", selectedText: nil, selected: false, selector: Selector("openInAppStore")))
-    
-    return stackView
-    }()
-  
-  lazy var settingsStackViewLegacy: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    
-    return view
+    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "ListCell")
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    collectionView.backgroundColor = UIColor.clearColor()
+    return collectionView
     }()
   
   // MARK: - View Lifecycle
@@ -86,6 +81,7 @@ class SettingsController: UIViewController {
   
   override func viewWillAppear(animated: Bool) {
     configureInterface()
+    settingsListView.reloadData()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -100,34 +96,80 @@ class SettingsController: UIViewController {
     view.addSubview(navigationBar)
     view.addSubview(iconImageView)
     view.addSubview(versionLabel)
-    
-    let settingsListView: UIView = {
-        if #available(iOS 9.0, *) {
-          return settingsStackView
-        } else {
-          return settingsStackViewLegacy
-        }
-      }()
-    
     view.addSubview(settingsListView)
     
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
+    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 52))
-    view.addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 90))
-    view.addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 90))
+    view.addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 90))
+    view.addConstraint(NSLayoutConstraint(item: iconImageView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 90))
     
     view.addConstraint(NSLayoutConstraint(item: versionLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: versionLabel, attribute: .Top, relatedBy: .Equal, toItem: iconImageView, attribute: .Bottom, multiplier: 1, constant: 11))
     
-    view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: -20))
-    view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 64*3))
-    view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -20))
+    let settingsListHeightConstraint: NSLayoutConstraint = {
+      let constraint = NSLayoutConstraint(item: settingsListView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 500)
+      constraint.constant = CGFloat(64*settingsListItems.count+1)
+      return constraint
+      }()
+    view.addConstraint(settingsListHeightConstraint)
+    
+  }
+  
+  // MARK: - CollectionView Delegate
+  
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let row = indexPath.row
+    
+    if let action = settingsListItems[row]["action"] {
+      NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: Selector(action), userInfo: nil, repeats: false)
+    }
+  }
+  
+  func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    
+    cell.textColor = Colors().Primary
+  }
+  
+  func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    
+    cell.textColor = Colors().White
+  }
+  
+  // MARK: - CollectionView Delegate Flow Layout
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 0
+  }
+  
+  // MARK: - CollectionView Data Source
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return settingsListItems.count
+  }
+  
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ListCell", forIndexPath: indexPath) as! ListCell
+    let row = indexPath.row
+    
+    cell.textColor = Colors().White
+    
+    if let text = settingsListItems[row]["text"] { cell.text = text }
+    
+    return cell
   }
   
   // MARK: - Actions
@@ -138,10 +180,10 @@ class SettingsController: UIViewController {
     saveUserSettings()
   }
   
-  func toggleUnits(sender: AnyObject?) {
+  func toggleUnits() {
     unit = unit == .Feet ? .Meters : .Feet
-    let item = sender as! StackViewItem
-    item.selected = unit == .Meters
+    UserSettings.sharedSettings.unit = unit
+    settingsListView.reloadData()
   }
   
   func sendFeedback() {
@@ -156,8 +198,6 @@ class SettingsController: UIViewController {
   
   func saveUserSettings() {
     let defaults = NSUserDefaults.standardUserDefaults()
-    
-    UserSettings.sharedSettings.unit = unit
     
     defaults.setInteger(UserSettings.sharedSettings.unit.rawValue, forKey: "settings_unit")
   }

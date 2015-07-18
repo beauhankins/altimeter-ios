@@ -11,7 +11,7 @@ import UIKit
 
 class CounterButton: UIControl {
   var text: String?
-  var counterValue: Int?
+  var counterValue: Int = 0
   
   private lazy var titleLabel: UILabel = {
     var label = UILabel()
@@ -28,7 +28,7 @@ class CounterButton: UIControl {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Unit
     label.textAlignment = .Right
-    label.text = "\(self.counterValue!)"
+    label.text = "\(self.counterValue)"
     label.textColor = Colors().Black
     return label
     }()
