@@ -143,6 +143,8 @@ class CheckInFinalController: UIViewController {
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
+  // MARK: - Validation
+  
   func canContinue() -> Bool {
     return (facebookCheckBox.selected || twitterCheckBox.selected)
   }

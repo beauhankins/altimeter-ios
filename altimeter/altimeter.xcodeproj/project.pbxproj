@@ -22,6 +22,8 @@
 		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
 		09402F101B585E58007A136D /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09402F0F1B585E58007A136D /* InformationDetailView.swift */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
+		0978A1811B5A1CB1002FB5FE /* CounterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1801B5A1CB1002FB5FE /* CounterButton.swift */; };
+		0978A1831B5A26C6002FB5FE /* SavedCheckInsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */; };
 		0982577D1B57D66900E82295 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982577C1B57D66900E82295 /* UserSettings.swift */; };
 		09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A21B5795250087D24B /* CheckInFinalController.swift */; };
 		09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */; };
@@ -62,6 +64,8 @@
 		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
 		09402F0F1B585E58007A136D /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		0978A1801B5A1CB1002FB5FE /* CounterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CounterButton.swift; sourceTree = "<group>"; };
+		0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckInsController.swift; sourceTree = "<group>"; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		0982577C1B57D66900E82295 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		09ADC4A21B5795250087D24B /* CheckInFinalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInFinalController.swift; sourceTree = "<group>"; };
@@ -185,6 +189,7 @@
 				09402F0F1B585E58007A136D /* InformationDetailView.swift */,
 				090E19371B29C3E000D19B0B /* StackViewItem.swift */,
 				092342381B106CDC0028C7A9 /* NavigationBar.swift */,
+				0978A1801B5A1CB1002FB5FE /* CounterButton.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -225,10 +230,11 @@
 		09F76EBA1B04DA180050A594 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				09ADC4A21B5795250087D24B /* CheckInFinalController.swift */,
-				093AB9E11B11A3B9006FD4BE /* CheckInController.swift */,
-				092342271B1030480028C7A9 /* SettingsController.swift */,
 				090887221B022D53003E9A60 /* MainController.swift */,
+				092342271B1030480028C7A9 /* SettingsController.swift */,
+				093AB9E11B11A3B9006FD4BE /* CheckInController.swift */,
+				0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */,
+				09ADC4A21B5795250087D24B /* CheckInFinalController.swift */,
 				09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */,
 			);
 			name = Controllers;
@@ -391,11 +397,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
+				0978A1811B5A1CB1002FB5FE /* CounterButton.swift in Sources */,
 				09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */,
 				09402F101B585E58007A136D /* InformationDetailView.swift in Sources */,
 				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
 				0982577D1B57D66900E82295 /* UserSettings.swift in Sources */,
+				0978A1831B5A26C6002FB5FE /* SavedCheckInsController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 				090E19381B29C3E000D19B0B /* StackViewItem.swift in Sources */,
 				09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */,
