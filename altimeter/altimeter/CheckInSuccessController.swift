@@ -29,7 +29,7 @@ class CheckInSuccessController: UIViewController {
     view.translatesAutoresizingMaskIntoConstraints = false
     let altitude = CheckInDataManager.sharedManager.locationData?.altitude
     let altitudeString = String(format: "%.0f", round(altitude!))
-    view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.abbreviation().uppercaseString)"
+    view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     view.style = .Gradient
     view.icon = UIImage(named: "icon-location")
     return view

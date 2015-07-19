@@ -17,7 +17,7 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
   var settingsListItems: [[String:String]] {
     return [
       [
-        "text":"Units: \(unit.abbreviation().uppercaseString)",
+        "text":"Units: \(unit.description())",
         "action":"toggleUnits"
       ],
       [
@@ -181,7 +181,7 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
   }
   
   func toggleUnits() {
-    unit = unit == .Feet ? .Meters : .Feet
+    unit = unit == .Imperial ? .Metric : .Imperial
     UserSettings.sharedSettings.unit = unit
     settingsListView.reloadData()
   }

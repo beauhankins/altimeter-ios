@@ -31,11 +31,11 @@ class CheckInServiceHandler {
   
   func checkInWithFacebook(locationData: LocationData) {
     if (FBSDKAccessToken.currentAccessToken() != nil) {
-      if FBSDKAccessToken.currentAccessToken().hasGranted("publish_actions") {
+//      if FBSDKAccessToken.currentAccessToken().hasGranted("publish_actions") {
         self.postToFacebook(locationData)
-      } else {
-        print("No publish permissions")
-      }
+//      } else {
+//        print("No publish permissions")
+//      }
     } else {
       let login = FBSDKLoginManager()
       login.logInWithPublishPermissions(["publish_actions"], handler: { (result: FBSDKLoginManagerLoginResult!, error: NSError!) -> Void in
@@ -55,7 +55,7 @@ class CheckInServiceHandler {
     let altitudeString = String(format: "%.0f", round(locationData.altitude))
     FBSDKGraphRequest(
       graphPath: "me/feed",
-      parameters: [ "message" : "Just checking in at \(altitudeString)\(UserSettings.sharedSettings.unit.abbreviation())" ],
+      parameters: [ "message" : "Just checking in at \(altitudeString)\(UserSettings.sharedSettings.unit.distanceAbbreviation()) above sea level." ],
       HTTPMethod: "POST").startWithCompletionHandler({
         (connection: FBSDKGraphRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
         if (error != nil) {

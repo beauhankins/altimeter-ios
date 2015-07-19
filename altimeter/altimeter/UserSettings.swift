@@ -9,24 +9,51 @@
 import Foundation
 
 enum Unit: Int {
-  case Feet
-  case Meters
+  case Imperial
+  case Metric
   
-  func factor() -> Double {
+  func convertDistance(distance: Double) -> Double {
     switch self {
-    case .Feet:
-      return 1.0
-    case .Meters:
-      return 3.2808399
+    case .Imperial:
+      return distance
+    case .Metric:
+      return distance * 3.2808399
     }
   }
   
-  func abbreviation() -> String {
+  func distanceAbbreviation() -> String {
     switch self {
-    case .Feet:
+    case .Imperial:
       return "ft"
-    case .Meters:
+    case .Metric:
       return "m"
+    }
+  }
+  
+  func convertDegrees(degrees: Double) -> Double {
+    switch self {
+    case .Imperial:
+      return degrees
+    case .Metric:
+      return (degrees - 32) / 1.8
+    }
+  }
+  
+  func degreesAbbreviation() -> String {
+    switch self {
+    case .Imperial:
+      return "F"
+    case .Metric:
+      return "C"
+    }
+  }
+  
+  func description() -> String {
+    switch self {
+    case .Imperial:
+      return "Feet, Fahrenheit"
+    case .Metric:
+      return "Meters, Celsius"
     }
   }
 }
@@ -34,5 +61,5 @@ enum Unit: Int {
 class UserSettings {
   static let sharedSettings = UserSettings()
   
-  var unit: Unit = .Feet
+  var unit: Unit = .Imperial
 }

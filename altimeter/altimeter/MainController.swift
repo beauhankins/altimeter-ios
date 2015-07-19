@@ -18,8 +18,9 @@ class MainController: UIViewController {
   let locationManager = CLLocationManager()
   let barometerManager = CMAltimeter()
   lazy var locationData = LocationData()
-  lazy var altitudeStore = NSMutableArray() // Remember to reset this when toggling between Fahrenheit & Celsius
-  lazy var altitudeAccuracyStore = NSMutableArray() // Remember to reset this when toggling between Fahrenheit & Celsius
+  lazy var altitudeStore = NSMutableArray()
+  lazy var altitudeAccuracyStore = NSMutableArray()
+  lazy var unitStore = NSMutableArray()
   
   lazy var altitudeLabel: UILabel = {
     let label = UILabel()
@@ -240,7 +241,7 @@ class MainController: UIViewController {
   func updateInterfaceData(data: LocationData) {
     let altitudeString = String(format: "%.0f", round(data.altitude))
     let accuracyString = String(format: "~%.0f' ACCURACY", round(data.altitudeAccuracy))
-    let psiAndTemperatureString = data.psi > 0 ? String(format: "%.2f PSI %.0f°C", data.psi, 77.0) : String(format: "%.0f°C", 77.0)
+    let psiAndTemperatureString = data.psi > 0 ? String(format: "%.2f PSI %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, UserSettings.sharedSettings.unit.convertDegrees(77.0)) : String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", UserSettings.sharedSettings.unit.convertDegrees(77.0))
     let latitudeString = String(format: "%.4f %@", fabs(data.latitude), data.longitude > 0 ? "S" : "N")
     let formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
     let longitudeString = String(format: "%.4f %@", fabs(data.longitude), data.longitude > 0 ? "E" : "W")
@@ -254,7 +255,7 @@ class MainController: UIViewController {
     longitudeLabel.attributedText = attributedString(longitudeString)
     formattedLongitudeLabel.attributedText = attributedString(formattedLongitudeString)
     
-    unitLabel.text = UserSettings.sharedSettings.unit.abbreviation().uppercaseString
+    unitLabel.text = UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString
   }
   
   func formattedCoordinateAngleString(angle: Double) -> String {
@@ -272,11 +273,13 @@ class MainController: UIViewController {
   // MARK: - Location Services
 
   func startLocationServices() {
-    if CLLocationManager.locationServicesEnabled() {
-      if self.locationManager.respondsToSelector("requestWhenInUseAuthorization") {
-        locationManager.requestWhenInUseAuthorization()
-      } else {
-        startUpdatingLocation()
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+      if CLLocationManager.locationServicesEnabled() {
+        if self.locationManager.respondsToSelector("requestWhenInUseAuthorization") {
+          self.locationManager.requestWhenInUseAuthorization()
+        } else {
+          self.startUpdatingLocation()
+        }
       }
     }
   }
@@ -331,11 +334,20 @@ extension MainController: CLLocationManagerDelegate {
   }
   
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
-    if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
-    altitudeStore.addObject((locationManager.location!.altitude.advancedBy(0) * UserSettings.sharedSettings.unit.factor()))
+    if unitStore.count > 0 {
+      if unitStore[0] as! NSNumber != UserSettings.sharedSettings.unit.rawValue {
+        altitudeStore.removeAllObjects()
+        altitudeAccuracyStore.removeAllObjects()
+      }
+    }
     
-    if altitudeAccuracyStore.count > 10 { altitudeAccuracyStore.removeObjectAtIndex(0) }
-    altitudeAccuracyStore.addObject(locationManager.location!.verticalAccuracy * UserSettings.sharedSettings.unit.factor())
+    unitStore[0] = UserSettings.sharedSettings.unit.rawValue
+    
+    if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
+    altitudeStore.addObject(UserSettings.sharedSettings.unit.convertDistance(locationManager.location!.altitude.advancedBy(0)))
+    
+    if altitudeAccuracyStore.count > 5 { altitudeAccuracyStore.removeObjectAtIndex(0) }
+    altitudeAccuracyStore.addObject(UserSettings.sharedSettings.unit.convertDistance(locationManager.location!.verticalAccuracy))
     
     let avAltitude = Double((altitudeStore as NSArray as! [Int]).reduce(0,combine:+)) / Double(altitudeStore.count)
     let avAltitudeAccuracy = Double((altitudeAccuracyStore as NSArray as! [Int]).reduce(0,combine:+)) / Double(altitudeAccuracyStore.count)
