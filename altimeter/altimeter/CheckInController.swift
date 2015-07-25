@@ -8,9 +8,34 @@
 
 import Foundation
 import UIKit
+import MapKit
+import CoreLocation
 
-class CheckInController: UIViewController {
+class CheckInController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   // MARK: - Variables & Constants
+  
+  let locationManager = CLLocationManager()
+  var userLocation: CLLocation?
+  
+  var searchResults: [[String:AnyObject]] {
+    return [
+      [
+        "location":"Lair O\' The Bear Park",
+        "latitude":38.898556,
+        "longitude":-77.037852
+      ],
+      [
+        "location":"Deer Creek Canyon",
+        "latitude":37.898556,
+        "longitude":-76.037852
+      ],
+      [
+        "location":"Lookout Mountain",
+        "latitude":36.898556,
+        "longitude":-75.037852
+      ],
+    ]
+  }
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -30,6 +55,13 @@ class CheckInController: UIViewController {
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(self.searchResultsListView)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    
     return view
     }()
   
@@ -42,6 +74,20 @@ class CheckInController: UIViewController {
     return counterButton
     }()
   
+  lazy var searchResultsListView: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
+    
+    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "SearchListCell")
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    collectionView.backgroundColor = UIColor.clearColor()
+    return collectionView
+    }()
+  
   // MARK: - View Lifecycle
   
   override func viewDidLoad() {
@@ -51,7 +97,8 @@ class CheckInController: UIViewController {
   }
   
   override func viewWillAppear(animated: Bool) {
-    
+    locationManager.delegate = self
+    searchResultsListView.reloadData()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -83,6 +130,55 @@ class CheckInController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     
     navigationBar.rightBarItem.enabled = canContinue()
+  }
+  
+  // MARK: - CollectionView Delegate
+  
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    cell.selected = true
+  }
+  
+  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    cell.selected = false
+  }
+  
+  // MARK: - CollectionView Delegate Flow Layout
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 0
+  }
+  
+  // MARK: - CollectionView Data Source
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return searchResults.count
+  }
+  
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SearchListCell", forIndexPath: indexPath) as! ListCell
+    let row = indexPath.row
+    
+    cell.showCheckBox = true
+    cell.textColor = Colors().Black
+    
+    if let locationName = searchResults[row]["location"] {
+      cell.text = String(locationName)
+    }
+    if (userLocation != nil) {
+      if let latitude = searchResults[row]["latitude"] as? Double, longitude = searchResults[row]["longitude"] as? Double  {
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let distance = location.distanceFromLocation(userLocation!)
+        cell.subtext = "\(Double(UserSettings.sharedSettings.unit.convertDistance(distance)))\(UserSettings.sharedSettings.unit.distanceAbbreviation()))"
+      }
+    }
+    
+    return cell
   }
   
   // MARK: - Actions
@@ -124,5 +220,20 @@ class CheckInController: UIViewController {
   
   func canContinue() -> Bool {
     return true
+  }
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension CheckInController: CLLocationManagerDelegate {
+  
+  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    if status == .AuthorizedWhenInUse || status == .AuthorizedAlways {
+      locationManager.startUpdatingLocation()
+    }
+  }
+  
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    userLocation = locations.last!
   }
 }

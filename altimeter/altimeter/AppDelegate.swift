@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     // Override point for customization after application launch.
     
+    TestFairy.begin("0f73ffc16bc7e9db019e7d16f85eed8e733e7264")
+    
     fetchUserSettings()
     
     window = {

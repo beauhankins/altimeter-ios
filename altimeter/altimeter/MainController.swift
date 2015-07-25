@@ -286,7 +286,7 @@ class MainController: UIViewController {
   
   func startUpdatingLocation() {
     locationManager.startUpdatingLocation()
-    startUpdatingAltimeter()
+//    startUpdatingAltimeter()
   }
   
   // MARK: - Barometer
@@ -333,7 +333,7 @@ extension MainController: CLLocationManagerDelegate {
     }
   }
   
-  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [AnyObject]) {
+  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if unitStore.count > 0 {
       if unitStore[0] as! NSNumber != UserSettings.sharedSettings.unit.rawValue {
         altitudeStore.removeAllObjects()

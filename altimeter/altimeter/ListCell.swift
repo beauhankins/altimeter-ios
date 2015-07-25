@@ -16,6 +16,12 @@ class ListCell: UICollectionViewCell {
       textLabel.text = text
     }
   }
+  var subtext: String? {
+    didSet {
+      subtextLabel.text = subtext
+      subtextLabel.hidden = false
+    }
+  }
   var textColor: UIColor? {
     didSet {
       textLabel.textColor = textColor
@@ -49,6 +55,18 @@ class ListCell: UICollectionViewCell {
     return label
     }()
   
+  private lazy var subtextLabel: UILabel = {
+    var label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = Fonts().Caption
+    label.textAlignment = .Left
+    if let textColor = self.textColor { label.textColor = textColor }
+    label.alpha = 0.2
+    label.text = self.subtext
+    label.hidden = true
+    return label
+    }()
+  
   private lazy var checkboxView: UIImageView = {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,12 +80,20 @@ class ListCell: UICollectionViewCell {
     layer.sublayers?.removeAll()
     
     addSubview(textLabel)
+    addSubview(subtextLabel)
     addSubview(checkboxView)
     
     addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     
     addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: textIndent))
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    if subtextLabel.hidden == false {
+      addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: -5))
+    } else {
+      addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    }
+    
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: textIndent))
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 5))
     
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
@@ -91,6 +117,16 @@ class ListCell: UICollectionViewCell {
     
     layer.insertSublayer(borderBottom, atIndex: 0)
     layer.insertSublayer(borderRight, atIndex: 0)
+  }
+  
+  override var selected:Bool {
+    didSet {
+      if !selected {
+        checkboxView.image = checkboxImage
+      } else {
+        checkboxView.image = UIImage(named: "radio-checked")!
+      }
+    }
   }
   
   override init(frame: CGRect) {

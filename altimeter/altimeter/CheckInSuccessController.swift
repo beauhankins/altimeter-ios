@@ -63,7 +63,6 @@ class CheckInSuccessController: UIViewController {
     view.backgroundColor = Colors().White
     
     view.addSubview(self.informationDetailView)
-    view.addSubview(self.successView)
     
     view.layer.masksToBounds = false
     view.layer.shadowOffset = CGSizeMake(0.0, 1.0)
@@ -74,11 +73,6 @@ class CheckInSuccessController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
-    
-    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    view.addConstraint(NSLayoutConstraint(item: self.successView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     
     return view
     }()
@@ -106,6 +100,7 @@ class CheckInSuccessController: UIViewController {
     
     view.addSubview(mapView)
     view.addSubview(contentView)
+    view.addSubview(successView)
     view.addSubview(navigationBar)
     
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
@@ -116,12 +111,17 @@ class CheckInSuccessController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 210))
-    view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: mapView, attribute: .Bottom, relatedBy: .Equal, toItem: successView, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: mapView, attribute: .Top, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+    view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     
     navigationBar.rightBarItem.enabled = canContinue()
   }

@@ -66,7 +66,7 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
     
     let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "ListCell")
+    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "SettingsListCell")
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.backgroundColor = UIColor.clearColor()
@@ -162,7 +162,7 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
   }
   
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("ListCell", forIndexPath: indexPath) as! ListCell
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SettingsListCell", forIndexPath: indexPath) as! ListCell
     let row = indexPath.row
     
     cell.textColor = Colors().White

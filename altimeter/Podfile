@@ -5,6 +5,7 @@ target 'altimeter' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
+  pod 'TestFairy'
 end
 
 target 'altimeterTests' do

@@ -26,11 +26,11 @@ struct Gradients {
 }
 
 struct Fonts {
-  let Default = UIFont(name: "Lato-Light", size: 18.0)
+  let Default = UIFont(name: "Lato-Regular", size: 18.0)
   let LargeHeading = UIFont(name: "Lato-Light", size: 64.0)
   let Heading = UIFont(name: "Lato-Regular", size: 18.0)
   let Caption = UIFont(name: "Lato-Regular", size: 11.0)
   let Coordinate = UIFont(name: "Lato-Regular", size: 16.0)
-  let FormattedCoordinate = UIFont(name: "Lato-Light", size: 16.0)
+  let FormattedCoordinate = UIFont(name: "Lato-Regular", size: 16.0)
   let Unit = UIFont(name: "Lato-Bold", size: 14.0)
 }
