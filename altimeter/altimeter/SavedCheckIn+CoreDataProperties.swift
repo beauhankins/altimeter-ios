@@ -13,9 +13,8 @@ import Foundation
 import CoreData
 
 extension SavedCheckIn {
-
-    @NSManaged var locationData: NSData?
-    @NSManaged var timestamp: NSDate?
-    @NSManaged var image: NSData?
-
+  @NSManaged var locationData: NSData?
+  @NSManaged var timestamp: NSDate?
+  @NSManaged var image: NSData?
+  @NSManaged var locationName: String?
 }

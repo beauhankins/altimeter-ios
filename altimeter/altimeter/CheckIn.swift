@@ -12,4 +12,5 @@ class CheckIn {
   var locationData: LocationData?
   var image: NSData?
   var timestamp: NSDate?
+  var locationName: String?
 }

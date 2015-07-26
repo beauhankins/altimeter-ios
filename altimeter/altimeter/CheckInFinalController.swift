@@ -157,12 +157,9 @@ class CheckInFinalController: UIViewController {
   }
   
   func saveCheckIn() {
-    let savedCheckIn = SavedCheckIn.MR_createEntity()
-    savedCheckIn.timestamp = CheckInDataManager.sharedManager.checkIn?.timestamp
-    savedCheckIn.image = nil
-    savedCheckIn.locationData = NSKeyedArchiver.archivedDataWithRootObject((CheckInDataManager.sharedManager.checkIn?.locationData)!)
-    
-    NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
+    if let checkIn = CheckInDataManager.sharedManager.checkIn {
+      SavedCheckInHandler().save(checkIn)
+    }
   }
   
   func checkBoxPressed(sender: AnyObject) {

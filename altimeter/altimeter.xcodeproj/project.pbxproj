@@ -35,6 +35,7 @@
 		09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */; };
 		09ADC4A81B57AE680087D24B /* CheckInSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */; };
 		09ADC4AA1B57B5E40087D24B /* CheckInDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */; };
+		09BE03E71B64FDA70027EA86 /* SavedCheckInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BE03E61B64FDA70027EA86 /* SavedCheckInHandler.swift */; };
 		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
 		09F6E1C61B64D44A00E25FBB /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
@@ -85,6 +86,7 @@
 		09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInServiceHandler.swift; sourceTree = "<group>"; };
 		09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInSuccessController.swift; sourceTree = "<group>"; };
 		09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInDataManager.swift; sourceTree = "<group>"; };
+		09BE03E61B64FDA70027EA86 /* SavedCheckInHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckInHandler.swift; sourceTree = "<group>"; };
 		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -225,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */,
+				09BE03E61B64FDA70027EA86 /* SavedCheckInHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -435,6 +438,7 @@
 				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
 				0982577D1B57D66900E82295 /* UserSettings.swift in Sources */,
+				09BE03E71B64FDA70027EA86 /* SavedCheckInHandler.swift in Sources */,
 				0978A1831B5A26C6002FB5FE /* SavedCheckInsController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 				090E19381B29C3E000D19B0B /* ListControl.swift in Sources */,

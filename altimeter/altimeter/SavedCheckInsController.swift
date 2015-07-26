@@ -12,7 +12,7 @@ import UIKit
 class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   // MARK: - Variables & Constants
   
-  let savedCheckIns = SavedCheckIn.MR_findAll()
+  let savedCheckIns = SavedCheckInHandler().allSavedCheckIns()
   
   var selectedRow: Int?
   
@@ -133,21 +133,21 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
     cell.showCheckBox = true
     cell.textColor = Colors().Black
     
-    let savedCheckIn = savedCheckIns[row] as? SavedCheckIn
+    let checkIn = savedCheckIns[row]
     
-    if let locationData = savedCheckIn?.locationData {
-      let altitude = ((NSKeyedUnarchiver.unarchiveObjectWithData(locationData) as! LocationData).altitude)
-      
-      cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(altitude)))\(UserSettings.sharedSettings.unit.distanceAbbreviation())"
+    if let locationData = checkIn.locationData {
+      cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(locationData.altitude)))\(UserSettings.sharedSettings.unit.distanceAbbreviation())"
     }
     
-    if let timestamp = savedCheckIn?.timestamp {
-      let formatter = NSDateFormatter()
-      formatter.dateFormat = "EEEE dd/MM/yyyy at HH:mm a"
-      cell.subtext = String("\(formatter.stringFromDate(timestamp))")
+    if let timestamp = checkIn.timestamp {
+      let dateFormatter = NSDateFormatter()
+      dateFormatter.dateFormat = "EEEE dd/MM/yyyy"
+      let timeFormatter = NSDateFormatter()
+      timeFormatter.dateFormat = "hh:mma"
+      cell.subtext = String("\(dateFormatter.stringFromDate(timestamp)) at \(timeFormatter.stringFromDate(timestamp))")
     }
     
-    if let imageData = savedCheckIn?.image {
+    if let imageData = checkIn.image {
       cell.image = UIImage(data: imageData)
     }
     
@@ -163,14 +163,7 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
   
   func nextController() {
     print("Action: Next Controller")
-    let savedCheckIn = savedCheckIns[selectedRow!] as? SavedCheckIn
-    let checkIn = CheckIn()
-    if let locationData = savedCheckIn?.locationData {
-      checkIn.locationData = NSKeyedUnarchiver.unarchiveObjectWithData(locationData) as? LocationData
-    }
-    checkIn.timestamp = savedCheckIn?.timestamp
-    checkIn.image = savedCheckIn?.image
-    CheckInDataManager.sharedManager.checkIn = checkIn
+    CheckInDataManager.sharedManager.checkIn = savedCheckIns[selectedRow!]
     let checkInFinalController = CheckInFinalController()
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
