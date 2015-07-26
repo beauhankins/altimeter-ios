@@ -239,12 +239,20 @@ class MainController: UIViewController {
   }
   
   func updateInterfaceData(data: LocationData) {
-    let altitudeString = String(format: "%.0f", round(data.altitude))
-    let accuracyString = String(format: "~%.0f' ACCURACY", round(data.altitudeAccuracy))
-    let psiAndTemperatureString = data.psi > 0 ? String(format: "%.2f PSI %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, UserSettings.sharedSettings.unit.convertDegrees(77.0)) : String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", UserSettings.sharedSettings.unit.convertDegrees(77.0))
-    let latitudeString = String(format: "%.4f %@", fabs(data.latitude), data.longitude > 0 ? "S" : "N")
+    let altitude = round(data.altitude)
+    let altitudeAccuracy = round(data.altitudeAccuracy)
+    let temperature = UserSettings.sharedSettings.unit.convertDegrees(77.0)
+    let latitude = fabs(data.latitude)
+    let longitude = fabs(data.longitude)
+    
+    let altitudeString = String(format: "%.0f", altitude)
+    let accuracyString = String(format: "~%.0f' ACCURACY", altitudeAccuracy)
+    let psiAndTemperatureString = data.psi > 0 ?
+      String(format: "%.2f PSI %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, temperature) :
+      String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", temperature)
+    let latitudeString = String(format: "%.4f %@", latitude, data.latitude > 0 ? "S" : "N")
     let formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
-    let longitudeString = String(format: "%.4f %@", fabs(data.longitude), data.longitude > 0 ? "E" : "W")
+    let longitudeString = String(format: "%.4f %@", longitude, data.longitude > 0 ? "E" : "W")
     let formattedLongitudeString = formattedCoordinateAngleString(data.longitude)
     
     altitudeLabel.attributedText = attributedString(altitudeString)
