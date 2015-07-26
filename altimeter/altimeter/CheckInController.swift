@@ -52,6 +52,20 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
     return nav
     }()
   
+  lazy var searchResultsListView: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
+    
+    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "SearchListCell")
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    collectionView.backgroundColor = UIColor.clearColor()
+    return collectionView
+    }()
+  
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
@@ -69,23 +83,9 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
     let counterButton = CounterButton()
     counterButton.translatesAutoresizingMaskIntoConstraints = false
     counterButton.text = "View Saved Check-In's"
-    counterButton.counterValue = 3
+    counterButton.counterValue = SavedCheckIn.MR_findAll().count
     counterButton.addTarget(self, action: Selector("savedCheckInsController"), forControlEvents: .TouchUpInside)
     return counterButton
-    }()
-  
-  lazy var searchResultsListView: UICollectionView = {
-    let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
-    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
-    
-    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
-    collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "SearchListCell")
-    collectionView.dataSource = self
-    collectionView.delegate = self
-    collectionView.backgroundColor = UIColor.clearColor()
-    return collectionView
     }()
   
   // MARK: - View Lifecycle
@@ -98,7 +98,6 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
   
   override func viewWillAppear(animated: Bool) {
     locationManager.delegate = self
-    searchResultsListView.reloadData()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -196,7 +195,9 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
   
   func savedCheckInsController() {
     print("Action: Saved Check-In's Controller")
-    let savedCheckInsController = SavedCheckInsController()
+    let savedCheckInsController = UINavigationController(rootViewController: SavedCheckInsController())
+    savedCheckInsController.navigationBarHidden = true
+    
     savedCheckInsController.modalTransitionStyle = .CoverVertical
     savedCheckInsController.modalPresentationStyle = .Custom
     

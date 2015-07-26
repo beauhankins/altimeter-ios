@@ -9,8 +9,12 @@
 import Foundation
 import UIKit
 
-class SavedCheckInsController: UIViewController {
+class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
   // MARK: - Variables & Constants
+  
+  let savedCheckIns = SavedCheckIn.MR_findAll()
+  
+  var selectedRow: Int?
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -25,6 +29,34 @@ class SavedCheckInsController: UIViewController {
     nav.rightBarItem.color = Colors().Primary
     nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
+    }()
+  
+  lazy var savedCheckInsListView: UICollectionView = {
+    let layout = UICollectionViewFlowLayout()
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
+    
+    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.registerClass(ListCell.self, forCellWithReuseIdentifier: "SavedListCell")
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    collectionView.backgroundColor = UIColor.clearColor()
+    
+    return collectionView
+    }()
+  
+  lazy var contentView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(self.savedCheckInsListView)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.savedCheckInsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.savedCheckInsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.savedCheckInsListView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.savedCheckInsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    
+    return view
     }()
   
   // MARK: - View Lifecycle
@@ -48,13 +80,78 @@ class SavedCheckInsController: UIViewController {
   func configureInterface() {
     view.backgroundColor = Colors().White
     view.addSubview(navigationBar)
+    view.addSubview(contentView)
     
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
+    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    
     navigationBar.rightBarItem.enabled = canContinue()
+  }
+  
+  // MARK: - CollectionView Delegate
+  
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    
+    cell.selected = true
+    selectedRow = indexPath.row
+    navigationBar.rightBarItem.enabled = canContinue()
+  }
+  
+  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    cell.selected = false
+  }
+  
+  // MARK: - CollectionView Delegate Flow Layout
+  
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 0
+  }
+  
+  // MARK: - CollectionView Data Source
+  
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return savedCheckIns.count
+  }
+  
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SavedListCell", forIndexPath: indexPath) as! ListCell
+    let row = indexPath.row
+    
+    cell.showCheckBox = true
+    cell.textColor = Colors().Black
+    
+    let savedCheckIn = savedCheckIns[row] as? SavedCheckIn
+    
+    if let locationData = savedCheckIn?.locationData {
+      let altitude = ((NSKeyedUnarchiver.unarchiveObjectWithData(locationData) as! LocationData).altitude)
+      
+      cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(altitude)))\(UserSettings.sharedSettings.unit.distanceAbbreviation())"
+    }
+    
+    if let timestamp = savedCheckIn?.timestamp {
+      let formatter = NSDateFormatter()
+      formatter.dateFormat = "EEEE dd/MM/yyyy at HH:mm a"
+      cell.subtext = String("\(formatter.stringFromDate(timestamp))")
+    }
+    
+    if let imageData = savedCheckIn?.image {
+      cell.image = UIImage(data: imageData)
+    }
+    
+    return cell
   }
   
   // MARK: - Actions
@@ -66,7 +163,14 @@ class SavedCheckInsController: UIViewController {
   
   func nextController() {
     print("Action: Next Controller")
-//    CheckInDataManager.sharedManager.locationData = ???
+    let savedCheckIn = savedCheckIns[selectedRow!] as? SavedCheckIn
+    let checkIn = CheckIn()
+    if let locationData = savedCheckIn?.locationData {
+      checkIn.locationData = NSKeyedUnarchiver.unarchiveObjectWithData(locationData) as? LocationData
+    }
+    checkIn.timestamp = savedCheckIn?.timestamp
+    checkIn.image = savedCheckIn?.image
+    CheckInDataManager.sharedManager.checkIn = checkIn
     let checkInFinalController = CheckInFinalController()
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
@@ -74,6 +178,6 @@ class SavedCheckInsController: UIViewController {
   // MARK: - Validation
   
   func canContinue() -> Bool {
-    return false
+    return selectedRow != nil
   }
 }

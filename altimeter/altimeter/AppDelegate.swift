@@ -19,7 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     TestFairy.begin("0f73ffc16bc7e9db019e7d16f85eed8e733e7264")
     
+    MagicalRecord.setupAutoMigratingCoreDataStack()
+    
     fetchUserSettings()
+//    SavedCheckIn.MR_truncateAll()
     
     window = {
       let win = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -59,6 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func applicationWillTerminate(application: UIApplication) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    MagicalRecord.cleanUp()
   }
   
   func fetchUserSettings() {

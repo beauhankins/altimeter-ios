@@ -6,6 +6,7 @@ target 'altimeter' do
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'TestFairy'
+  pod 'MagicalRecord', '~> 2.3'
 end
 
 target 'altimeterTests' do

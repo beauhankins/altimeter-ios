@@ -52,7 +52,7 @@ class CheckInServiceHandler {
   }
   
   func postToFacebook(locationData: LocationData) {
-    let altitudeString = String(format: "%.0f", round(locationData.altitude))
+    let altitudeString = String(format: "%.0f", round(locationData.altitude as Double))
     FBSDKGraphRequest(
       graphPath: "me/feed",
       parameters: [ "message" : "Just checking in at \(altitudeString)\(UserSettings.sharedSettings.unit.distanceAbbreviation()) above sea level." ],

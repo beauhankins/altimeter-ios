@@ -27,7 +27,7 @@ class CheckInSuccessController: UIViewController {
   lazy var informationDetailView: InformationDetailView = {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    let altitude = CheckInDataManager.sharedManager.locationData?.altitude
+    let altitude = CheckInDataManager.sharedManager.checkIn!.locationData?.altitude
     let altitudeString = String(format: "%.0f", round(altitude!))
     view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     view.style = .Gradient
@@ -50,8 +50,8 @@ class CheckInSuccessController: UIViewController {
   lazy var mapView: MKMapView = {
     let mapView = MKMapView()
     mapView.translatesAutoresizingMaskIntoConstraints = false
-    let latitude = CheckInDataManager.sharedManager.locationData?.latitude
-    let longitude = CheckInDataManager.sharedManager.locationData?.longitude
+    let latitude = CheckInDataManager.sharedManager.checkIn!.locationData?.latitude
+    let longitude = CheckInDataManager.sharedManager.checkIn!.locationData?.longitude
     mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
     return mapView
     }()
@@ -143,6 +143,7 @@ class CheckInSuccessController: UIViewController {
   
   func closeController() {
     print("Action: Close Controller")
+    navigationController?.dismissViewControllerAnimated(true, completion: nil)
     navigationController?.popToRootViewControllerAnimated(true)
   }
   

@@ -2,3 +2,4 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <FBSDKShareKit/FBSDKShareKit.h>
 #import "TestFairy.h"
+#import <MagicalRecord/MagicalRecord.h>

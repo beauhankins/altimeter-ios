@@ -12,7 +12,7 @@ import UIKit
 class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
   
-  lazy var locationData = CheckInDataManager.sharedManager.locationData!
+  lazy var locationData = CheckInDataManager.sharedManager.checkIn!.locationData!
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -32,7 +32,7 @@ class CheckInFinalController: UIViewController {
   lazy var informationDetailView: InformationDetailView = {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    let altitude = CheckInDataManager.sharedManager.locationData?.altitude
+    let altitude = CheckInDataManager.sharedManager.checkIn!.locationData?.altitude
     let altitudeString = String(format: "%.0f", round(altitude!))
     view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     view.style = .Gradient
@@ -149,10 +149,20 @@ class CheckInFinalController: UIViewController {
   
   func nextController() {
     print("Action: Next Controller")
+    saveCheckIn()
     if facebookCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Facebook) }
     if twitterCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Twitter) }
     let checkInSuccessController = CheckInSuccessController()
     navigationController?.pushViewController(checkInSuccessController, animated: true)
+  }
+  
+  func saveCheckIn() {
+    let savedCheckIn = SavedCheckIn.MR_createEntity()
+    savedCheckIn.timestamp = CheckInDataManager.sharedManager.checkIn?.timestamp
+    savedCheckIn.image = nil
+    savedCheckIn.locationData = NSKeyedArchiver.archivedDataWithRootObject((CheckInDataManager.sharedManager.checkIn?.locationData)!)
+    
+    NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
   }
   
   func checkBoxPressed(sender: AnyObject) {

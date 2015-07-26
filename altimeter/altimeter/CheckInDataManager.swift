@@ -11,7 +11,5 @@ import Foundation
 class CheckInDataManager {
   static let sharedManager = CheckInDataManager()
   
-  var locationData: LocationData?
-  var image: UIImage?
-  var timestamp: NSDate?
+  var checkIn: CheckIn?
 }

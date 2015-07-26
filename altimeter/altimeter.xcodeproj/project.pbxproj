@@ -21,6 +21,11 @@
 		092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342381B106CDC0028C7A9 /* NavigationBar.swift */; };
 		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
 		09402F101B585E58007A136D /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09402F0F1B585E58007A136D /* InformationDetailView.swift */; };
+		0954E49A1B6449D80020CE6F /* example-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0954E4991B6449D80020CE6F /* example-image.jpeg */; };
+		096FA0B71B64DE4100F6E566 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0B61B64DE4100F6E566 /* LocationData.swift */; };
+		096FA0B91B64DE5700F6E566 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0B81B64DE5700F6E566 /* CheckIn.swift */; };
+		096FA0BC1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0BA1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift */; };
+		096FA0BD1B64DF7200F6E566 /* SavedCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0BB1B64DF7200F6E566 /* SavedCheckIn.swift */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
 		0978A1811B5A1CB1002FB5FE /* CounterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1801B5A1CB1002FB5FE /* CounterButton.swift */; };
 		0978A1831B5A26C6002FB5FE /* SavedCheckInsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */; };
@@ -30,8 +35,9 @@
 		09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */; };
 		09ADC4A81B57AE680087D24B /* CheckInSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */; };
 		09ADC4AA1B57B5E40087D24B /* CheckInDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */; };
+		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
+		09F6E1C61B64D44A00E25FBB /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
-		09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F76EB71B04D9B60050A594 /* LocationData.swift */; };
 		D60E7EE17F4429D4FD2A10CE /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA1DDFCE35C27562189375 /* libPods-altimeter.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +70,11 @@
 		092342381B106CDC0028C7A9 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBar.swift; path = Classes/NavigationBar.swift; sourceTree = "<group>"; };
 		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
 		09402F0F1B585E58007A136D /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
+		0954E4991B6449D80020CE6F /* example-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "example-image.jpeg"; sourceTree = "<group>"; };
+		096FA0B61B64DE4100F6E566 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
+		096FA0B81B64DE5700F6E566 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckIn.swift; sourceTree = "<group>"; };
+		096FA0BA1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SavedCheckIn+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		096FA0BB1B64DF7200F6E566 /* SavedCheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckIn.swift; sourceTree = "<group>"; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0978A1801B5A1CB1002FB5FE /* CounterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CounterButton.swift; sourceTree = "<group>"; };
 		0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckInsController.swift; sourceTree = "<group>"; };
@@ -74,8 +85,9 @@
 		09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInServiceHandler.swift; sourceTree = "<group>"; };
 		09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInSuccessController.swift; sourceTree = "<group>"; };
 		09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInDataManager.swift; sourceTree = "<group>"; };
+		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		09F76EB71B04D9B60050A594 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Classes/LocationData.swift; sourceTree = "<group>"; };
 		7470450BBA62FF8D8EC16BF1 /* Pods-altimeter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.debug.xcconfig"; sourceTree = "<group>"; };
 		88AA1DDFCE35C27562189375 /* libPods-altimeter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-altimeter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7379AAEB755A4B5D7483CBF /* Pods-altimeter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.release.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.release.xcconfig"; sourceTree = "<group>"; };
@@ -86,6 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */,
 				0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */,
 				092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */,
 				09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */,
@@ -133,6 +146,7 @@
 				09402F111B585E73007A136D /* Managers */,
 				0923423A1B1070E90028C7A9 /* Components */,
 				09F76EB91B04DA060050A594 /* Models */,
+				09F6E1C71B64D46900E25FBB /* Database */,
 				092342321B103F710028C7A9 /* Resources */,
 				0908871E1B022D53003E9A60 /* Supporting Files */,
 			);
@@ -180,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				090887271B022D53003E9A60 /* Images.xcassets */,
+				0954E4991B6449D80020CE6F /* example-image.jpeg */,
 				092342311B103F4B0028C7A9 /* Fonts */,
 			);
 			name = Resources;
@@ -214,6 +229,16 @@
 			name = Handlers;
 			sourceTree = "<group>";
 		};
+		09F6E1C71B64D46900E25FBB /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */,
+				096FA0BA1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift */,
+				096FA0BB1B64DF7200F6E566 /* SavedCheckIn.swift */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
 		09F76EB51B04CFED0050A594 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,7 +250,8 @@
 		09F76EB91B04DA060050A594 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				09F76EB71B04D9B60050A594 /* LocationData.swift */,
+				096FA0B81B64DE5700F6E566 /* CheckIn.swift */,
+				096FA0B61B64DE4100F6E566 /* LocationData.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -246,6 +272,7 @@
 		1DA91F4EC8252B703B0CB9AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09F6E1C21B64D2A800E25FBB /* CoreData.framework */,
 				0978A17E1B5A111C002FB5FE /* MapKit.framework */,
 				092342361B1046380028C7A9 /* CoreMotion.framework */,
 				88AA1DDFCE35C27562189375 /* libPods-altimeter.a */,
@@ -345,6 +372,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0954E49A1B6449D80020CE6F /* example-image.jpeg in Resources */,
 				092342331B1040640028C7A9 /* Lato-Bold.ttf in Resources */,
 				092342341B1040640028C7A9 /* Lato-Light.ttf in Resources */,
 				092342351B1040640028C7A9 /* Lato-Regular.ttf in Resources */,
@@ -400,8 +428,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
+				096FA0B91B64DE5700F6E566 /* CheckIn.swift in Sources */,
+				096FA0BD1B64DF7200F6E566 /* SavedCheckIn.swift in Sources */,
 				0978A1811B5A1CB1002FB5FE /* CounterButton.swift in Sources */,
-				09F76EB81B04D9B60050A594 /* LocationData.swift in Sources */,
 				09402F101B585E58007A136D /* InformationDetailView.swift in Sources */,
 				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
 				090887231B022D53003E9A60 /* MainController.swift in Sources */,
@@ -410,8 +439,11 @@
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 				090E19381B29C3E000D19B0B /* ListControl.swift in Sources */,
 				09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */,
+				096FA0BC1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift in Sources */,
 				0978A1851B5A2FD1002FB5FE /* ListCell.swift in Sources */,
+				096FA0B71B64DE4100F6E566 /* LocationData.swift in Sources */,
 				093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */,
+				09F6E1C61B64D44A00E25FBB /* DataModel.xcdatamodeld in Sources */,
 				09ADC4AA1B57B5E40087D24B /* CheckInDataManager.swift in Sources */,
 				09ADC4A81B57AE680087D24B /* CheckInSuccessController.swift in Sources */,
 				09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */,
@@ -619,6 +651,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 090887131B022D53003E9A60 /* Project object */;
 }

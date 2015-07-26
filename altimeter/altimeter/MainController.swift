@@ -316,8 +316,11 @@ class MainController: UIViewController {
   
   func checkInController() {
     print("Action: Check-In Controller")
-    CheckInDataManager.sharedManager.locationData = locationData
-    CheckInDataManager.sharedManager.timestamp = NSDate()
+    let checkIn = CheckIn()
+    checkIn.locationData = locationData
+    checkIn.timestamp = NSDate()
+    
+    CheckInDataManager.sharedManager.checkIn = checkIn
     let checkInController = CheckInController()
     navigationController?.pushViewController(checkInController, animated: true)
   }
