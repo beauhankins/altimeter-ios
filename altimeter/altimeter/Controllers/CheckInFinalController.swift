@@ -40,6 +40,16 @@ class CheckInFinalController: UIViewController {
     return view
     }()
   
+  lazy var photoThumbnailView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    if let data = CheckInDataManager.sharedManager.checkIn!.image {
+      imageView.image = UIImage(data: data)
+    }
+    imageView.contentMode = .ScaleAspectFit
+    return imageView
+    }()
+  
   lazy var addPhotoButton: ListControl = {
     let listControl = ListControl()
     listControl.translatesAutoresizingMaskIntoConstraints = false
@@ -99,6 +109,7 @@ class CheckInFinalController: UIViewController {
     view.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(self.informationDetailView)
+    view.addSubview(self.photoThumbnailView)
     view.addSubview(self.addPhotoButton)
     view.addSubview(self.socialView)
     
@@ -107,7 +118,12 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+
+    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: self.photoThumbnailView, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
@@ -124,12 +140,12 @@ class CheckInFinalController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     configureInterface()
   }
   
   override func viewWillAppear(animated: Bool) {
-    
+    updateThumbnail()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -157,6 +173,28 @@ class CheckInFinalController: UIViewController {
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
+  func updateThumbnail() {
+    if let data = CheckInDataManager.sharedManager.checkIn!.image {
+      photoThumbnailView.image = UIImage(data: data)
+      for constraint in contentView.constraints where constraint.firstAttribute == .Width {
+        constraint.constant = 64
+      }
+      
+      self.addPhotoButton.text = "Remove Photo"
+      self.addPhotoButton.icon = nil
+      self.addPhotoButton.textIndent = 20.0
+    } else {
+      photoThumbnailView.image = nil
+      for constraint in contentView.constraints where constraint.firstAttribute == .Width {
+        constraint.constant = 0
+      }
+      
+      self.addPhotoButton.text = "Add Photo"
+      self.addPhotoButton.icon = UIImage(named: "icon-plus")!
+      self.addPhotoButton.textIndent = 0.0
+    }
+  }
+  
   // MARK: - Actions
   
   func prevController() {
@@ -180,9 +218,14 @@ class CheckInFinalController: UIViewController {
   }
   
   func addPhoto(sender: AnyObject) {
-    let photoGridController = PhotoGridController()
-    photoGridController.modalTransitionStyle = .CoverVertical
-    presentViewController(photoGridController, animated: true, completion: nil)
+    if let _ = CheckInDataManager.sharedManager.checkIn!.image {
+      CheckInDataManager.sharedManager.checkIn!.image = nil
+      updateThumbnail()
+    } else {
+      let photoGridController = PhotoGridController()
+      photoGridController.modalTransitionStyle = .CoverVertical
+      presentViewController(photoGridController, animated: true, completion: nil)
+    }
   }
   
   func checkBoxPressed(sender: AnyObject) {

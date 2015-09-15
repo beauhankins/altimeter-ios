@@ -10,7 +10,11 @@ import Foundation
 import UIKit
 
 class ListControl: UIControl {
-  var text: String?
+  var text: String? {
+    didSet {
+      textLabel.text = text
+    }
+  }
   var icon: UIImage? {
     didSet {
       iconView.image = icon
