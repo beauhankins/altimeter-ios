@@ -9,14 +9,12 @@
 import Foundation
 import UIKit
 import CoreLocation
-import CoreMotion
 
 class MainController: UIViewController {
   
   // MARK: - Variables & Constants
   
   let locationManager = CLLocationManager()
-  let barometerManager = CMAltimeter()
   lazy var locationData = LocationData()
   lazy var altitudeStore = NSMutableArray()
   lazy var altitudeAccuracyStore = NSMutableArray()
@@ -199,6 +197,7 @@ class MainController: UIViewController {
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
     startLocationServices()
+    updateWeatherData()
     
     configureInterface()
   }
@@ -241,14 +240,14 @@ class MainController: UIViewController {
   func updateInterfaceData(data: LocationData) {
     let altitude = round(data.altitude)
     let altitudeAccuracy = round(data.altitudeAccuracy)
-    let temperature = UserSettings.sharedSettings.unit.convertDegrees(77.0)
+    let temperature = UserSettings.sharedSettings.unit.convertDegrees(data.temperature)
     let latitude = fabs(data.latitude)
     let longitude = fabs(data.longitude)
     
     let altitudeString = String(format: "%.0f", altitude)
     let accuracyString = String(format: "~%.0f' ACCURACY", altitudeAccuracy)
     let psiAndTemperatureString = data.psi > 0 ?
-      String(format: "%.2f PSI %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, temperature) :
+      String(format: "%.0f PSI %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, temperature) :
       String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", temperature)
     let latitudeString = String(format: "%.4f %@", latitude, data.latitude > 0 ? "S" : "N")
     let formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
@@ -294,21 +293,14 @@ class MainController: UIViewController {
   
   func startUpdatingLocation() {
     locationManager.startUpdatingLocation()
-//    startUpdatingAltimeter()
   }
   
-  // MARK: - Barometer
-  
-  func startUpdatingAltimeter() {
-    if CMAltimeter.isRelativeAltitudeAvailable() {
-      barometerManager.startRelativeAltitudeUpdatesToQueue(NSOperationQueue.mainQueue(), withHandler: { data, error in
-        if error != nil {
-          self.locationData.psi = Double((data as CMAltitudeData?)!.pressure)
-          print("Relative Altitude: \(data!.relativeAltitude)")
-        } else {
-          print("Relative Altitude: \(error!.localizedDescription)")
-        }
-      })
+  func updateWeatherData() {
+    WeatherHandler().getWeatherData(lat: locationData.latitude, lon: locationData.longitude) { (weatherData:[String : Double]) -> Void in
+      self.locationData.temperature = weatherData["temp"]! * (9/5) - 459.67
+      self.locationData.psi = weatherData["pressure"]!
+      
+      self.updateInterfaceData(self.locationData)
     }
   }
   
@@ -365,8 +357,14 @@ extension MainController: CLLocationManagerDelegate {
     
     locationData.altitude = avAltitude
     locationData.altitudeAccuracy = avAltitudeAccuracy
-    locationData.latitude = locationManager.location!.coordinate.latitude
-    locationData.longitude = locationManager.location!.coordinate.longitude
+    
+    let latitude = locationManager.location!.coordinate.latitude
+    let longitude = locationManager.location!.coordinate.longitude
+    
+    locationData.latitude = latitude
+    locationData.longitude = longitude
+    
+    updateWeatherData()
     
     updateInterfaceData(locationData)
   }

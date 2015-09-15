@@ -8,38 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		090887211B022D53003E9A60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887201B022D53003E9A60 /* AppDelegate.swift */; };
-		090887231B022D53003E9A60 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887221B022D53003E9A60 /* MainController.swift */; };
 		090887281B022D53003E9A60 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 090887271B022D53003E9A60 /* Images.xcassets */; };
 		090887371B022D53003E9A60 /* altimeterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090887361B022D53003E9A60 /* altimeterTests.swift */; };
-		090E19381B29C3E000D19B0B /* ListControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 090E19371B29C3E000D19B0B /* ListControl.swift */; };
-		092342281B1030480028C7A9 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342271B1030480028C7A9 /* SettingsController.swift */; };
+		091C4B8F1BA7A36700DB5F07 /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B881BA7A36700DB5F07 /* CheckInController.swift */; };
+		091C4B901BA7A36700DB5F07 /* CheckInFinalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B891BA7A36700DB5F07 /* CheckInFinalController.swift */; };
+		091C4B911BA7A36700DB5F07 /* CheckInSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8A1BA7A36700DB5F07 /* CheckInSuccessController.swift */; };
+		091C4B921BA7A36700DB5F07 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8B1BA7A36700DB5F07 /* MainController.swift */; };
+		091C4B931BA7A36700DB5F07 /* PhotoGridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8C1BA7A36700DB5F07 /* PhotoGridController.swift */; };
+		091C4B941BA7A36700DB5F07 /* SavedCheckInsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8D1BA7A36700DB5F07 /* SavedCheckInsController.swift */; };
+		091C4B951BA7A36700DB5F07 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8E1BA7A36700DB5F07 /* SettingsController.swift */; };
+		091C4B991BA7A39000DB5F07 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B961BA7A39000DB5F07 /* DataModel.xcdatamodeld */; };
+		091C4B9A1BA7A39000DB5F07 /* SavedCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B981BA7A39000DB5F07 /* SavedCheckIn.swift */; };
+		091C4BA01BA7A3A200DB5F07 /* CounterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9B1BA7A3A200DB5F07 /* CounterButton.swift */; };
+		091C4BA11BA7A3A200DB5F07 /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9C1BA7A3A200DB5F07 /* InformationDetailView.swift */; };
+		091C4BA21BA7A3A200DB5F07 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9D1BA7A3A200DB5F07 /* ListCell.swift */; };
+		091C4BA31BA7A3A200DB5F07 /* ListControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9E1BA7A3A200DB5F07 /* ListControl.swift */; };
+		091C4BA41BA7A3A200DB5F07 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9F1BA7A3A200DB5F07 /* NavigationBar.swift */; };
+		091C4BA81BA7A3AB00DB5F07 /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */; };
+		091C4BA91BA7A3AB00DB5F07 /* SavedCheckInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */; };
+		091C4BAA1BA7A3AB00DB5F07 /* WeatherHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */; };
+		091C4BAD1BA7A3B600DB5F07 /* CheckInDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAB1BA7A3B600DB5F07 /* CheckInDataManager.swift */; };
+		091C4BAE1BA7A3B600DB5F07 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */; };
+		091C4BB11BA7A3BD00DB5F07 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */; };
+		091C4BB21BA7A3BD00DB5F07 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */; };
+		091C4BB71BA7A3DA00DB5F07 /* example-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB61BA7A3DA00DB5F07 /* example-image.jpeg */; };
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
-		092342331B1040640028C7A9 /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0923422E1B103F480028C7A9 /* Lato-Bold.ttf */; };
-		092342341B1040640028C7A9 /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0923422F1B103F480028C7A9 /* Lato-Light.ttf */; };
-		092342351B1040640028C7A9 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 092342301B103F480028C7A9 /* Lato-Regular.ttf */; };
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
-		092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 092342381B106CDC0028C7A9 /* NavigationBar.swift */; };
-		093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 093AB9E11B11A3B9006FD4BE /* CheckInController.swift */; };
-		09402F101B585E58007A136D /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09402F0F1B585E58007A136D /* InformationDetailView.swift */; };
-		0954E49A1B6449D80020CE6F /* example-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0954E4991B6449D80020CE6F /* example-image.jpeg */; };
-		096FA0B71B64DE4100F6E566 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0B61B64DE4100F6E566 /* LocationData.swift */; };
-		096FA0B91B64DE5700F6E566 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0B81B64DE5700F6E566 /* CheckIn.swift */; };
-		096FA0BC1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0BA1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift */; };
-		096FA0BD1B64DF7200F6E566 /* SavedCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096FA0BB1B64DF7200F6E566 /* SavedCheckIn.swift */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
-		0978A1811B5A1CB1002FB5FE /* CounterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1801B5A1CB1002FB5FE /* CounterButton.swift */; };
-		0978A1831B5A26C6002FB5FE /* SavedCheckInsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */; };
-		0978A1851B5A2FD1002FB5FE /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0978A1841B5A2FD1002FB5FE /* ListCell.swift */; };
-		0982577D1B57D66900E82295 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0982577C1B57D66900E82295 /* UserSettings.swift */; };
-		09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A21B5795250087D24B /* CheckInFinalController.swift */; };
-		09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */; };
-		09ADC4A81B57AE680087D24B /* CheckInSuccessController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */; };
-		09ADC4AA1B57B5E40087D24B /* CheckInDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */; };
-		09BE03E71B64FDA70027EA86 /* SavedCheckInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09BE03E61B64FDA70027EA86 /* SavedCheckInHandler.swift */; };
 		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
-		09F6E1C61B64D44A00E25FBB /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
-		D60E7EE17F4429D4FD2A10CE /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA1DDFCE35C27562189375 /* libPods-altimeter.a */; };
+		4F5D1190B6DA9B00E9B3B6FD /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1875E6743942CA94342723 /* libPods-altimeter.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,42 +54,43 @@
 		0908871B1B022D53003E9A60 /* Altimeter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Altimeter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0908871F1B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		090887201B022D53003E9A60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		090887221B022D53003E9A60 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		090887271B022D53003E9A60 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		090887301B022D53003E9A60 /* altimeterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = altimeterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		090887351B022D53003E9A60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		090887361B022D53003E9A60 /* altimeterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = altimeterTests.swift; sourceTree = "<group>"; };
-		090E19371B29C3E000D19B0B /* ListControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListControl.swift; path = Classes/ListControl.swift; sourceTree = "<group>"; };
-		092342271B1030480028C7A9 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		091C4B881BA7A36700DB5F07 /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInController.swift; path = Controllers/CheckInController.swift; sourceTree = "<group>"; };
+		091C4B891BA7A36700DB5F07 /* CheckInFinalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInFinalController.swift; path = Controllers/CheckInFinalController.swift; sourceTree = "<group>"; };
+		091C4B8A1BA7A36700DB5F07 /* CheckInSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInSuccessController.swift; path = Controllers/CheckInSuccessController.swift; sourceTree = "<group>"; };
+		091C4B8B1BA7A36700DB5F07 /* MainController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainController.swift; path = Controllers/MainController.swift; sourceTree = "<group>"; };
+		091C4B8C1BA7A36700DB5F07 /* PhotoGridController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridController.swift; path = Controllers/PhotoGridController.swift; sourceTree = "<group>"; };
+		091C4B8D1BA7A36700DB5F07 /* SavedCheckInsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavedCheckInsController.swift; path = Controllers/SavedCheckInsController.swift; sourceTree = "<group>"; };
+		091C4B8E1BA7A36700DB5F07 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = Controllers/SettingsController.swift; sourceTree = "<group>"; };
+		091C4B971BA7A39000DB5F07 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		091C4B981BA7A39000DB5F07 /* SavedCheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavedCheckIn.swift; path = Database/SavedCheckIn.swift; sourceTree = "<group>"; };
+		091C4B9B1BA7A3A200DB5F07 /* CounterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CounterButton.swift; path = Components/CounterButton.swift; sourceTree = "<group>"; };
+		091C4B9C1BA7A3A200DB5F07 /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InformationDetailView.swift; path = Components/InformationDetailView.swift; sourceTree = "<group>"; };
+		091C4B9D1BA7A3A200DB5F07 /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListCell.swift; path = Components/ListCell.swift; sourceTree = "<group>"; };
+		091C4B9E1BA7A3A200DB5F07 /* ListControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListControl.swift; path = Components/ListControl.swift; sourceTree = "<group>"; };
+		091C4B9F1BA7A3A200DB5F07 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBar.swift; path = Components/NavigationBar.swift; sourceTree = "<group>"; };
+		091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInServiceHandler.swift; path = Handlers/CheckInServiceHandler.swift; sourceTree = "<group>"; };
+		091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavedCheckInHandler.swift; path = Handlers/SavedCheckInHandler.swift; sourceTree = "<group>"; };
+		091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherHandler.swift; path = Handlers/WeatherHandler.swift; sourceTree = "<group>"; };
+		091C4BAB1BA7A3B600DB5F07 /* CheckInDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInDataManager.swift; path = Managers/CheckInDataManager.swift; sourceTree = "<group>"; };
+		091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSettings.swift; path = Managers/UserSettings.swift; sourceTree = "<group>"; };
+		091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckIn.swift; path = Models/CheckIn.swift; sourceTree = "<group>"; };
+		091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Models/LocationData.swift; sourceTree = "<group>"; };
+		091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "Resources/Fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
+		091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "Resources/Fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
+		091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "Resources/Fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
+		091C4BB61BA7A3DA00DB5F07 /* example-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "example-image.jpeg"; path = "Resources/example-image.jpeg"; sourceTree = "<group>"; };
 		0923422C1B1031150028C7A9 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		0923422E1B103F480028C7A9 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Bold.ttf"; sourceTree = "<group>"; };
-		0923422F1B103F480028C7A9 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Light.ttf"; sourceTree = "<group>"; };
-		092342301B103F480028C7A9 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lato-Regular.ttf"; sourceTree = "<group>"; };
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
-		092342381B106CDC0028C7A9 /* NavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NavigationBar.swift; path = Classes/NavigationBar.swift; sourceTree = "<group>"; };
-		093AB9E11B11A3B9006FD4BE /* CheckInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInController.swift; sourceTree = "<group>"; };
-		09402F0F1B585E58007A136D /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationDetailView.swift; sourceTree = "<group>"; };
-		0954E4991B6449D80020CE6F /* example-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "example-image.jpeg"; sourceTree = "<group>"; };
-		096FA0B61B64DE4100F6E566 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
-		096FA0B81B64DE5700F6E566 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckIn.swift; sourceTree = "<group>"; };
-		096FA0BA1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SavedCheckIn+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		096FA0BB1B64DF7200F6E566 /* SavedCheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckIn.swift; sourceTree = "<group>"; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		0978A1801B5A1CB1002FB5FE /* CounterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CounterButton.swift; sourceTree = "<group>"; };
-		0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckInsController.swift; sourceTree = "<group>"; };
-		0978A1841B5A2FD1002FB5FE /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
-		0982577C1B57D66900E82295 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
-		09ADC4A21B5795250087D24B /* CheckInFinalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInFinalController.swift; sourceTree = "<group>"; };
-		09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInServiceHandler.swift; sourceTree = "<group>"; };
-		09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInSuccessController.swift; sourceTree = "<group>"; };
-		09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInDataManager.swift; sourceTree = "<group>"; };
-		09BE03E61B64FDA70027EA86 /* SavedCheckInHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavedCheckInHandler.swift; sourceTree = "<group>"; };
 		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		3B1875E6743942CA94342723 /* libPods-altimeter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-altimeter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7470450BBA62FF8D8EC16BF1 /* Pods-altimeter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.debug.xcconfig"; sourceTree = "<group>"; };
-		88AA1DDFCE35C27562189375 /* libPods-altimeter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-altimeter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7379AAEB755A4B5D7483CBF /* Pods-altimeter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.release.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,7 +103,7 @@
 				0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */,
 				092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */,
 				09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */,
-				D60E7EE17F4429D4FD2A10CE /* libPods-altimeter.a in Frameworks */,
+				4F5D1190B6DA9B00E9B3B6FD /* libPods-altimeter.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,9 +184,9 @@
 		092342311B103F4B0028C7A9 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				0923422E1B103F480028C7A9 /* Lato-Bold.ttf */,
-				0923422F1B103F480028C7A9 /* Lato-Light.ttf */,
-				092342301B103F480028C7A9 /* Lato-Regular.ttf */,
+				091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */,
+				091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */,
+				091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */,
 			);
 			name = Fonts;
 			sourceTree = "<group>";
@@ -196,7 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				090887271B022D53003E9A60 /* Images.xcassets */,
-				0954E4991B6449D80020CE6F /* example-image.jpeg */,
+				091C4BB61BA7A3DA00DB5F07 /* example-image.jpeg */,
 				092342311B103F4B0028C7A9 /* Fonts */,
 			);
 			name = Resources;
@@ -205,11 +204,11 @@
 		0923423A1B1070E90028C7A9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				09402F0F1B585E58007A136D /* InformationDetailView.swift */,
-				090E19371B29C3E000D19B0B /* ListControl.swift */,
-				092342381B106CDC0028C7A9 /* NavigationBar.swift */,
-				0978A1801B5A1CB1002FB5FE /* CounterButton.swift */,
-				0978A1841B5A2FD1002FB5FE /* ListCell.swift */,
+				091C4B9B1BA7A3A200DB5F07 /* CounterButton.swift */,
+				091C4B9C1BA7A3A200DB5F07 /* InformationDetailView.swift */,
+				091C4B9D1BA7A3A200DB5F07 /* ListCell.swift */,
+				091C4B9E1BA7A3A200DB5F07 /* ListControl.swift */,
+				091C4B9F1BA7A3A200DB5F07 /* NavigationBar.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -217,8 +216,8 @@
 		09402F111B585E73007A136D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				0982577C1B57D66900E82295 /* UserSettings.swift */,
-				09ADC4A91B57B5E40087D24B /* CheckInDataManager.swift */,
+				091C4BAB1BA7A3B600DB5F07 /* CheckInDataManager.swift */,
+				091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -226,8 +225,9 @@
 		09ADC4A41B5797FD0087D24B /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				09ADC4A51B57984B0087D24B /* CheckInServiceHandler.swift */,
-				09BE03E61B64FDA70027EA86 /* SavedCheckInHandler.swift */,
+				091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */,
+				091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */,
+				091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -235,9 +235,8 @@
 		09F6E1C71B64D46900E25FBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */,
-				096FA0BA1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift */,
-				096FA0BB1B64DF7200F6E566 /* SavedCheckIn.swift */,
+				091C4B961BA7A39000DB5F07 /* DataModel.xcdatamodeld */,
+				091C4B981BA7A39000DB5F07 /* SavedCheckIn.swift */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -253,8 +252,8 @@
 		09F76EB91B04DA060050A594 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				096FA0B81B64DE5700F6E566 /* CheckIn.swift */,
-				096FA0B61B64DE4100F6E566 /* LocationData.swift */,
+				091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */,
+				091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -262,12 +261,13 @@
 		09F76EBA1B04DA180050A594 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				090887221B022D53003E9A60 /* MainController.swift */,
-				092342271B1030480028C7A9 /* SettingsController.swift */,
-				093AB9E11B11A3B9006FD4BE /* CheckInController.swift */,
-				0978A1821B5A26C6002FB5FE /* SavedCheckInsController.swift */,
-				09ADC4A21B5795250087D24B /* CheckInFinalController.swift */,
-				09ADC4A71B57AE680087D24B /* CheckInSuccessController.swift */,
+				091C4B881BA7A36700DB5F07 /* CheckInController.swift */,
+				091C4B891BA7A36700DB5F07 /* CheckInFinalController.swift */,
+				091C4B8A1BA7A36700DB5F07 /* CheckInSuccessController.swift */,
+				091C4B8B1BA7A36700DB5F07 /* MainController.swift */,
+				091C4B8C1BA7A36700DB5F07 /* PhotoGridController.swift */,
+				091C4B8D1BA7A36700DB5F07 /* SavedCheckInsController.swift */,
+				091C4B8E1BA7A36700DB5F07 /* SettingsController.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -278,7 +278,7 @@
 				09F6E1C21B64D2A800E25FBB /* CoreData.framework */,
 				0978A17E1B5A111C002FB5FE /* MapKit.framework */,
 				092342361B1046380028C7A9 /* CoreMotion.framework */,
-				88AA1DDFCE35C27562189375 /* libPods-altimeter.a */,
+				3B1875E6743942CA94342723 /* libPods-altimeter.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -338,6 +338,7 @@
 		090887131B022D53003E9A60 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Beau Hankins";
@@ -375,11 +376,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0954E49A1B6449D80020CE6F /* example-image.jpeg in Resources */,
-				092342331B1040640028C7A9 /* Lato-Bold.ttf in Resources */,
-				092342341B1040640028C7A9 /* Lato-Light.ttf in Resources */,
-				092342351B1040640028C7A9 /* Lato-Regular.ttf in Resources */,
 				090887281B022D53003E9A60 /* Images.xcassets in Resources */,
+				091C4BB71BA7A3DA00DB5F07 /* example-image.jpeg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,27 +429,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
-				096FA0B91B64DE5700F6E566 /* CheckIn.swift in Sources */,
-				096FA0BD1B64DF7200F6E566 /* SavedCheckIn.swift in Sources */,
-				0978A1811B5A1CB1002FB5FE /* CounterButton.swift in Sources */,
-				09402F101B585E58007A136D /* InformationDetailView.swift in Sources */,
-				092342281B1030480028C7A9 /* SettingsController.swift in Sources */,
-				090887231B022D53003E9A60 /* MainController.swift in Sources */,
-				0982577D1B57D66900E82295 /* UserSettings.swift in Sources */,
-				09BE03E71B64FDA70027EA86 /* SavedCheckInHandler.swift in Sources */,
-				0978A1831B5A26C6002FB5FE /* SavedCheckInsController.swift in Sources */,
+				091C4BA81BA7A3AB00DB5F07 /* CheckInServiceHandler.swift in Sources */,
+				091C4B951BA7A36700DB5F07 /* SettingsController.swift in Sources */,
+				091C4BA21BA7A3A200DB5F07 /* ListCell.swift in Sources */,
+				091C4BA41BA7A3A200DB5F07 /* NavigationBar.swift in Sources */,
+				091C4B991BA7A39000DB5F07 /* DataModel.xcdatamodeld in Sources */,
+				091C4B8F1BA7A36700DB5F07 /* CheckInController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
-				090E19381B29C3E000D19B0B /* ListControl.swift in Sources */,
-				09ADC4A31B5795250087D24B /* CheckInFinalController.swift in Sources */,
-				096FA0BC1B64DF7200F6E566 /* SavedCheckIn+CoreDataProperties.swift in Sources */,
-				0978A1851B5A2FD1002FB5FE /* ListCell.swift in Sources */,
-				096FA0B71B64DE4100F6E566 /* LocationData.swift in Sources */,
-				093AB9E21B11A3B9006FD4BE /* CheckInController.swift in Sources */,
-				09F6E1C61B64D44A00E25FBB /* DataModel.xcdatamodeld in Sources */,
-				09ADC4AA1B57B5E40087D24B /* CheckInDataManager.swift in Sources */,
-				09ADC4A81B57AE680087D24B /* CheckInSuccessController.swift in Sources */,
-				09ADC4A61B57984B0087D24B /* CheckInServiceHandler.swift in Sources */,
-				092342391B106CDD0028C7A9 /* NavigationBar.swift in Sources */,
+				091C4B921BA7A36700DB5F07 /* MainController.swift in Sources */,
+				091C4BA31BA7A3A200DB5F07 /* ListControl.swift in Sources */,
+				091C4B911BA7A36700DB5F07 /* CheckInSuccessController.swift in Sources */,
+				091C4BA91BA7A3AB00DB5F07 /* SavedCheckInHandler.swift in Sources */,
+				091C4BB11BA7A3BD00DB5F07 /* CheckIn.swift in Sources */,
+				091C4BA01BA7A3A200DB5F07 /* CounterButton.swift in Sources */,
+				091C4B941BA7A36700DB5F07 /* SavedCheckInsController.swift in Sources */,
+				091C4BAA1BA7A3AB00DB5F07 /* WeatherHandler.swift in Sources */,
+				091C4B901BA7A36700DB5F07 /* CheckInFinalController.swift in Sources */,
+				091C4B931BA7A36700DB5F07 /* PhotoGridController.swift in Sources */,
+				091C4BB21BA7A3BD00DB5F07 /* LocationData.swift in Sources */,
+				091C4B9A1BA7A39000DB5F07 /* SavedCheckIn.swift in Sources */,
+				091C4BA11BA7A3A200DB5F07 /* InformationDetailView.swift in Sources */,
+				091C4BAE1BA7A3B600DB5F07 /* UserSettings.swift in Sources */,
+				091C4BAD1BA7A3B600DB5F07 /* CheckInDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -657,13 +656,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		09F6E1C41B64D44A00E25FBB /* DataModel.xcdatamodeld */ = {
+		091C4B961BA7A39000DB5F07 /* DataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */,
+				091C4B971BA7A39000DB5F07 /* DataModel.xcdatamodel */,
 			);
-			currentVersion = 09F6E1C51B64D44A00E25FBB /* DataModel.xcdatamodel */;
-			path = DataModel.xcdatamodeld;
+			currentVersion = 091C4B971BA7A39000DB5F07 /* DataModel.xcdatamodel */;
+			name = DataModel.xcdatamodeld;
+			path = Database/DataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

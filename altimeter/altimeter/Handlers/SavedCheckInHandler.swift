@@ -10,9 +10,13 @@ import Foundation
 
 class SavedCheckInHandler {
   func save(checkIn: CheckIn) {
+    let alreadyExists = SavedCheckIn.MR_findByAttribute("timestamp", withValue: checkIn.timestamp).count > 0
+    if (alreadyExists) { return; }
+    
     let savedCheckIn = SavedCheckIn.MR_createEntity()
     savedCheckIn.timestamp = checkIn.timestamp
     savedCheckIn.image = checkIn.image
+//    savedCheckIn.image = UIImageJPEGRepresentation(UIImage(named: "example-image.jpeg")!, 0.5)
     savedCheckIn.locationData = NSKeyedArchiver.archivedDataWithRootObject(checkIn.locationData!)
     savedCheckIn.locationName = checkIn.locationName
     

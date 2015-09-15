@@ -11,7 +11,8 @@ import CoreData
 
 @objc(SavedCheckIn)
 class SavedCheckIn: NSManagedObject {
-
-// Insert code here to add functionality to your managed object subclass
-
+  @NSManaged var locationData: NSData?
+  @NSManaged var timestamp: NSDate?
+  @NSManaged var image: NSData?
+  @NSManaged var locationName: String?
 }
