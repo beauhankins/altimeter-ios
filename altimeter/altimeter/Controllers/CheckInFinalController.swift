@@ -40,16 +40,6 @@ class CheckInFinalController: UIViewController {
     return view
     }()
   
-  lazy var photoThumbnailView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    if let data = CheckInDataManager.sharedManager.checkIn!.image {
-      imageView.image = UIImage(data: data)
-    }
-    imageView.contentMode = .ScaleAspectFit
-    return imageView
-    }()
-  
   lazy var addPhotoButton: ListControl = {
     let listControl = ListControl()
     listControl.translatesAutoresizingMaskIntoConstraints = false
@@ -57,6 +47,9 @@ class CheckInFinalController: UIViewController {
     listControl.textLabel.font = Fonts().Heading
     listControl.textColor = Colors().Primary
     listControl.icon = UIImage(named: "icon-plus")!
+    if let data = CheckInDataManager.sharedManager.checkIn!.image {
+      listControl.image = UIImage(data: data)
+    }
     listControl.addTarget(self, action: Selector("addPhoto:"), forControlEvents: .TouchUpInside)
     return listControl
     }()
@@ -109,7 +102,6 @@ class CheckInFinalController: UIViewController {
     view.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(self.informationDetailView)
-    view.addSubview(self.photoThumbnailView)
     view.addSubview(self.addPhotoButton)
     view.addSubview(self.socialView)
     
@@ -117,13 +109,8 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
-    
-    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
-    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.photoThumbnailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
 
-    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: self.photoThumbnailView, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
@@ -175,19 +162,13 @@ class CheckInFinalController: UIViewController {
   
   func updateThumbnail() {
     if let data = CheckInDataManager.sharedManager.checkIn!.image {
-      photoThumbnailView.image = UIImage(data: data)
-      for constraint in contentView.constraints where constraint.firstAttribute == .Width {
-        constraint.constant = 64
-      }
+      self.addPhotoButton.image = UIImage(data: data)
       
       self.addPhotoButton.text = "Remove Photo"
       self.addPhotoButton.icon = nil
-      self.addPhotoButton.textIndent = 20.0
+      self.addPhotoButton.textIndent = 10.0
     } else {
-      photoThumbnailView.image = nil
-      for constraint in contentView.constraints where constraint.firstAttribute == .Width {
-        constraint.constant = 0
-      }
+      self.addPhotoButton.image = nil
       
       self.addPhotoButton.text = "Add Photo"
       self.addPhotoButton.icon = UIImage(named: "icon-plus")!

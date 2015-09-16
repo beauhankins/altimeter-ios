@@ -10,9 +10,21 @@ import Foundation
 import UIKit
 
 class ListControl: UIControl {
+  
   var text: String? {
     didSet {
       textLabel.text = text
+    }
+  }
+  var textColor: UIColor? = Colors().Black {
+    didSet {
+      textLabel.textColor = textColor
+    }
+  }
+  var subtext: String? {
+    didSet {
+      subtextLabel.text = subtext
+      subtextLabel.hidden = false
     }
   }
   var icon: UIImage? {
@@ -20,24 +32,22 @@ class ListControl: UIControl {
       iconView.image = icon
     }
   }
-  var textColor: UIColor = Colors().Black {
+  var image: UIImage? {
     didSet {
-      textLabel.textColor = textColor
+      imageView.image = image
+      imageView.hidden = false
     }
   }
-  
   var checkboxImage: UIImage = UIImage(named: "radio-default")! {
     didSet {
       checkboxView.image = checkboxImage
     }
   }
-  
   var showCheckBox: Bool = false {
     didSet {
       checkboxView.hidden = !showCheckBox
     }
   }
-  
   var textIndent: CGFloat = 0.0 {
     didSet {
       setNeedsDisplay()
@@ -54,10 +64,31 @@ class ListControl: UIControl {
     return label
     }()
   
+  private lazy var subtextLabel: UILabel = {
+    var label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = Fonts().Caption
+    label.textAlignment = .Left
+    if let textColor = self.textColor { label.textColor = textColor }
+    label.alpha = 0.2
+    label.text = self.subtext
+    label.hidden = true
+    return label
+    }()
+  
   private lazy var checkboxView: UIImageView = {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.checkboxImage
+    imageView.contentMode = .ScaleAspectFit
+    imageView.hidden = true
+    return imageView
+    }()
+  
+  private lazy var imageView: UIImageView = {
+    var imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.image = self.image
     imageView.contentMode = .ScaleAspectFit
     imageView.hidden = true
     return imageView
@@ -73,21 +104,35 @@ class ListControl: UIControl {
   
   override func layoutSubviews() {
     layer.sublayers?.removeAll()
+    removeConstraints(constraints)
     
-    addSubview(textLabel)
-    addSubview(checkboxView)
+    addSubview(imageView)
     addSubview(iconView)
-    
-    if (icon != nil) { textIndent += 15 }
+    addSubview(textLabel)
+    addSubview(subtextLabel)
+    addSubview(checkboxView)
     
     addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: image != nil ? 64 : 0))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
+    
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: imageView, attribute: .Right, multiplier: 1, constant: image != nil ? 10 : 0))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
     
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: textIndent))
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
+    print(textIndent)
+    if subtextLabel.hidden == false {
+      addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    } else {
+      addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    }
+    
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 6))
     
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
@@ -97,7 +142,7 @@ class ListControl: UIControl {
       let layer = CALayer()
       layer.frame = CGRectMake(0, 64, self.frame.width, 1)
       layer.opacity = 0.1
-      layer.backgroundColor = textColor == Colors().White ? Colors().White.CGColor : Colors().Black.CGColor
+      if let textColor = self.textColor { layer.backgroundColor = textColor.CGColor }
       return layer
       }()
     
@@ -105,7 +150,7 @@ class ListControl: UIControl {
       let layer = CALayer()
       layer.frame = CGRectMake(self.frame.width, 0, 1, 64)
       layer.opacity = 0.1
-      layer.backgroundColor = textColor == Colors().White ? Colors().White.CGColor : Colors().Black.CGColor
+      if let textColor = self.textColor { layer.backgroundColor = textColor.CGColor }
       return layer
       }()
     
