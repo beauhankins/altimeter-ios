@@ -142,7 +142,7 @@ class ListControl: UIControl {
       let layer = CALayer()
       layer.frame = CGRectMake(0, 64, self.frame.width, 1)
       layer.opacity = 0.1
-      if let textColor = self.textColor { layer.backgroundColor = textColor.CGColor }
+      if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
       return layer
       }()
     
@@ -150,7 +150,7 @@ class ListControl: UIControl {
       let layer = CALayer()
       layer.frame = CGRectMake(self.frame.width, 0, 1, 64)
       layer.opacity = 0.1
-      if let textColor = self.textColor { layer.backgroundColor = textColor.CGColor }
+      if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
       return layer
       }()
     

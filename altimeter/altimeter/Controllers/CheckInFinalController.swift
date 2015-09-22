@@ -40,6 +40,13 @@ class CheckInFinalController: UIViewController {
     return view
     }()
   
+  lazy var locationDataDetailView: LocationDataDetailView = {
+    let view = LocationDataDetailView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.checkIn = CheckInDataManager.sharedManager.checkIn!
+    return view
+    }()
+  
   lazy var addPhotoButton: ListControl = {
     let listControl = ListControl()
     listControl.translatesAutoresizingMaskIntoConstraints = false
@@ -102,6 +109,7 @@ class CheckInFinalController: UIViewController {
     view.translatesAutoresizingMaskIntoConstraints = false
     
     view.addSubview(self.informationDetailView)
+    view.addSubview(self.locationDataDetailView)
     view.addSubview(self.addPhotoButton)
     view.addSubview(self.socialView)
     
@@ -109,10 +117,14 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
 
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.locationDataDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     
     view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))

@@ -142,9 +142,12 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
     if let timestamp = checkIn.timestamp {
       let dateFormatter = NSDateFormatter()
       dateFormatter.dateFormat = "EEEE dd/MM/yyyy"
+      let dateString = dateFormatter.stringFromDate(timestamp)
       let timeFormatter = NSDateFormatter()
       timeFormatter.dateFormat = "hh:mma"
-      cell.subtext = String("\(dateFormatter.stringFromDate(timestamp)) at \(timeFormatter.stringFromDate(timestamp))")
+      let timeString = timeFormatter.stringFromDate(timestamp)
+      
+      cell.subtext = String("\(timeString.substringToIndex(timeString.endIndex.predecessor())) at \(dateString)")
     }
     
     if let imageData = checkIn.image {
