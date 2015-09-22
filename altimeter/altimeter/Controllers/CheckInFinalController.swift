@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AssetsLibrary
 
 class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
@@ -141,6 +142,7 @@ class CheckInFinalController: UIViewController {
     super.viewDidLoad()
 
     configureInterface()
+    requestPhotosPermissions()
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -202,6 +204,11 @@ class CheckInFinalController: UIViewController {
     if twitterCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Twitter) }
     let checkInSuccessController = CheckInSuccessController()
     navigationController?.pushViewController(checkInSuccessController, animated: true)
+  }
+  
+  func requestPhotosPermissions() {
+    let library = ALAssetsLibrary()
+    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { (group: ALAssetsGroup?, stop: UnsafeMutablePointer<ObjCBool>) -> Void in }) { (error: NSError!) -> Void in }
   }
   
   func saveCheckIn() {
