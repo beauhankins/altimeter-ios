@@ -98,12 +98,10 @@ class SavedCheckInsController: UIViewController {
   // MARK: - Actions
   
   func prevController() {
-    print("Action: Previous Controller")
     dismissViewControllerAnimated(true, completion: nil)
   }
   
   func nextController() {
-    print("Action: Next Controller")
     CheckInDataManager.sharedManager.checkIn = savedCheckIns[selectedRow!]
     let checkInFinalController = CheckInFinalController()
     navigationController?.pushViewController(checkInFinalController, animated: true)

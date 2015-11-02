@@ -193,12 +193,10 @@ class CheckInFinalController: UIViewController {
   // MARK: - Actions
   
   func prevController() {
-    print("Action: Previous Controller")
     navigationController?.popViewControllerAnimated(true)
   }
   
   func nextController() {
-    print("Action: Next Controller")
     saveCheckIn()
     if facebookCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Facebook) }
     if twitterCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Twitter) }

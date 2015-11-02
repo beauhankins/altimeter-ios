@@ -109,7 +109,6 @@ class PhotoGridController: UIViewController {
   // MARK: - Actions
   
   func closeController() {
-    print("Action: Close Controller")
     dismissViewControllerAnimated(true, completion: nil)
   }
   

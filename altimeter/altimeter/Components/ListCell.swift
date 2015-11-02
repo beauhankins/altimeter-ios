@@ -61,6 +61,7 @@ class ListCell: UICollectionViewCell {
     label.textAlignment = .Left
     if let textColor = self.textColor { label.textColor = textColor }
     label.text = self.text
+    label.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     return label
     }()
   
@@ -102,9 +103,8 @@ class ListCell: UICollectionViewCell {
     return imageView
     }()
   
-  override func layoutSubviews() {
-    layer.sublayers?.removeAll()
-    removeConstraints(constraints)
+  override init(frame: CGRect) {
+    super.init(frame: frame)
     
     addSubview(imageView)
     addSubview(iconView)
@@ -123,9 +123,14 @@ class ListCell: UICollectionViewCell {
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
     
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
+    
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: -65))
     addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
     addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
-    print(textIndent)
+    
     if subtextLabel.hidden == false {
       addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     } else {
@@ -134,17 +139,13 @@ class ListCell: UICollectionViewCell {
     
     addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 6))
     
-    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
-    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
-    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
-    
     let borderBottom: CALayer = {
       let layer = CALayer()
       layer.frame = CGRectMake(0, 64, self.frame.width, 1)
       layer.opacity = 0.1
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
       return layer
-      }()
+    }()
     
     let borderRight: CALayer = {
       let layer = CALayer()
@@ -152,7 +153,7 @@ class ListCell: UICollectionViewCell {
       layer.opacity = 0.1
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
       return layer
-      }()
+    }()
     
     layer.insertSublayer(borderBottom, atIndex: 0)
     layer.insertSublayer(borderRight, atIndex: 0)
@@ -166,10 +167,6 @@ class ListCell: UICollectionViewCell {
         checkboxView.image = UIImage(named: "radio-checked")!
       }
     }
-  }
-  
-  override init(frame: CGRect) {
-    super.init(frame: frame)
   }
 
   required init(coder aDecoder: NSCoder) {

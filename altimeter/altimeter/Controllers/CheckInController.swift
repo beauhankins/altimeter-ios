@@ -14,28 +14,8 @@ import CoreLocation
 class CheckInController: UIViewController {
   // MARK: - Variables & Constants
   
-  let locationManager = CLLocationManager()
-  var userLocation: CLLocation?
-  
-  let dummySearchResults: [[String:AnyObject]] = [
-      [
-        "location":"Lair O\' The Bear Park",
-        "latitude":38.898556,
-        "longitude":-77.037852
-      ],
-      [
-        "location":"Deer Creek Canyon",
-        "latitude":37.898556,
-        "longitude":-76.037852
-      ],
-      [
-        "location":"Lookout Mountain",
-        "latitude":36.898556,
-        "longitude":-75.037852
-      ],
-    ]
-  
-  var searchResults:[[String:AnyObject]] = []
+  var locations:[MKMapItem] = []
+  var localSearch: MKLocalSearch?
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -63,7 +43,7 @@ class CheckInController: UIViewController {
     return listField
     }()
   
-  lazy var searchResultsListView: UICollectionView = {
+  lazy var locationsListView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
     layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
@@ -80,17 +60,17 @@ class CheckInController: UIViewController {
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(self.searchResultsListView)
+    view.addSubview(self.locationsListView)
     view.addSubview(self.searchField)
     
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Top, relatedBy: .Equal, toItem: self.searchField, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Top, relatedBy: .Equal, toItem: self.searchField, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     
     return view
     }()
@@ -109,13 +89,7 @@ class CheckInController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    searchResults = dummySearchResults
-    
     layoutInterface()
-  }
-  
-  override func viewWillAppear(animated: Bool) {
-    locationManager.delegate = self
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -152,24 +126,44 @@ class CheckInController: UIViewController {
   // MARK: - Search Filter
   
   func queryDidChange(query: String) {
+    let request = MKLocalSearchRequest()
+    request.naturalLanguageQuery = query
     
+    if let locationData = CheckInDataManager.sharedManager.checkIn?.locationData {
+      request.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude), MKCoordinateSpan(latitudeDelta: 0.112872, longitudeDelta: 0.109863))
+    }
+    
+    localSearch = nil
+    localSearch = MKLocalSearch(request: request)
+    
+    if let search = localSearch {
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+      search.startWithCompletionHandler({ (response: MKLocalSearchResponse?, error: NSError?) -> Void in
+        if let error = error {
+          print(error)
+        } else {
+          if let response = response {
+            self.locations = response.mapItems
+            self.locationsListView.reloadData()
+          }
+        }
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      })
+    }
   }
   
   // MARK: - Actions
   
   func closeController() {
-    print("Action: Close Controller")
     navigationController?.popViewControllerAnimated(true)
   }
   
   func nextController() {
-    print("Action: Next Controller")
     let checkInFinalController = CheckInFinalController()
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
   
   func savedCheckInsController() {
-    print("Action: Saved Check-In's Controller")
     let savedCheckInsController = UINavigationController(rootViewController: SavedCheckInsController())
     savedCheckInsController.navigationBarHidden = true
     
@@ -225,7 +219,7 @@ extension CheckInController: UICollectionViewDelegateFlowLayout {
 
 extension CheckInController: UICollectionViewDataSource {
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return searchResults.count
+    return locations.count
   }
   
   func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -239,15 +233,15 @@ extension CheckInController: UICollectionViewDataSource {
     cell.showCheckBox = true
     cell.textColor = Colors().Black
     
-    if let locationName = searchResults[row]["location"] {
+    if let locationName = locations[row].name {
       cell.text = String(locationName)
     }
-    if (userLocation != nil) {
-      if let latitude = searchResults[row]["latitude"] as? Double, longitude = searchResults[row]["longitude"] as? Double  {
-        let location = CLLocation(latitude: latitude, longitude: longitude)
-        let distance = location.distanceFromLocation(userLocation!)
-        cell.subtext = "\(Double(UserSettings.sharedSettings.unit.convertDistance(distance)))\(UserSettings.sharedSettings.unit.distanceAbbreviation()))"
-      }
+    if let locationData = CheckInDataManager.sharedManager.checkIn?.locationData {
+      let coordinate = locations[row].placemark.coordinate
+      
+      let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+      let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))
+      cell.subtext = "\(Int(UserSettings.sharedSettings.unit.convertDistance(distance)))\(UserSettings.sharedSettings.unit.distanceAbbreviation())"
     }
     
     return cell
@@ -258,20 +252,5 @@ extension CheckInController: UITextFieldDelegate {
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     if let text = textField.text { queryDidChange(text) }
     return true
-  }
-}
-
-// MARK: - CLLocationManagerDelegate
-
-extension CheckInController: CLLocationManagerDelegate {
-  
-  func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-    if status == .AuthorizedWhenInUse || status == .AuthorizedAlways {
-      locationManager.startUpdatingLocation()
-    }
-  }
-  
-  func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    userLocation = locations.last!
   }
 }

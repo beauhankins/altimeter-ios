@@ -126,7 +126,6 @@ class SettingsController: UIViewController {
   // MARK: - Actions
   
   func closeController() {
-    print("Action: Close Controller")
     dismissViewControllerAnimated(true, completion: nil)
     saveUserSettings()
   }

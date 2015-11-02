@@ -14,12 +14,7 @@ class MainController: UIViewController {
   
   // MARK: - Variables & Constants
   
-  lazy var locationManager: CLLocationManager = {
-    let locationManager = CLLocationManager()
-    locationManager.delegate = self
-    locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    return locationManager
-    }()
+  let locationManager = CLLocationManager()
   lazy var locationData = LocationData()
   lazy var altitudeStore = NSMutableArray()
   lazy var altitudeAccuracyStore = NSMutableArray()
@@ -199,6 +194,8 @@ class MainController: UIViewController {
   }
   
   override func viewWillAppear(animated: Bool) {
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest
     startLocationServices()
     updateWeatherData()
     
@@ -310,7 +307,6 @@ class MainController: UIViewController {
   // MARK: - Actions
   
   func settingsController() {
-    print("Action: Settings Controller")
     let settingsController = SettingsController()
     settingsController.modalTransitionStyle = .CrossDissolve
     settingsController.modalPresentationStyle = .Custom
@@ -318,7 +314,6 @@ class MainController: UIViewController {
   }
   
   func checkInController() {
-    print("Action: Check-In Controller")
     let checkIn = CheckIn()
     checkIn.locationData = locationData
     checkIn.timestamp = NSDate()

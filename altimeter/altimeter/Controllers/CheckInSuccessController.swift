@@ -172,7 +172,6 @@ class CheckInSuccessController: UIViewController {
   // MARK: - Actions
   
   func closeController() {
-    print("Action: Close Controller")
     navigationController?.dismissViewControllerAnimated(true, completion: nil)
     navigationController?.popToRootViewControllerAnimated(true)
   }
