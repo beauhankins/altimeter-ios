@@ -11,14 +11,13 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class CheckInController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CheckInController: UIViewController {
   // MARK: - Variables & Constants
   
   let locationManager = CLLocationManager()
   var userLocation: CLLocation?
   
-  var searchResults: [[String:AnyObject]] {
-    return [
+  let dummySearchResults: [[String:AnyObject]] = [
       [
         "location":"Lair O\' The Bear Park",
         "latitude":38.898556,
@@ -35,7 +34,8 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
         "longitude":-75.037852
       ],
     ]
-  }
+  
+  var searchResults:[[String:AnyObject]] = []
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -50,6 +50,17 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
     nav.rightBarItem.color = Colors().Primary
     nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
+    }()
+  
+  lazy var searchField: ListField = {
+    let listField = ListField()
+    listField.translatesAutoresizingMaskIntoConstraints = false
+    listField.attributedPlaceholder = NSAttributedString(
+      string: "Search for places...",
+      attributes: [NSForegroundColorAttributeName: Colors().White])
+    listField.font = Fonts().Heading
+    listField.delegate = self
+    return listField
     }()
   
   lazy var searchResultsListView: UICollectionView = {
@@ -70,10 +81,15 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(self.searchResultsListView)
+    view.addSubview(self.searchField)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Top, relatedBy: .Equal, toItem: self.searchField, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchResultsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     
     return view
@@ -93,7 +109,9 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    configureInterface()
+    searchResults = dummySearchResults
+    
+    layoutInterface()
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -104,9 +122,9 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
     return UIStatusBarStyle.Default
   }
   
-  // MARK: - Configure Interface
+  // MARK: - Layout Interface
   
-  func configureInterface() {
+  func layoutInterface() {
     view.backgroundColor = Colors().White
     
     view.addSubview(navigationBar)
@@ -131,53 +149,10 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
-  // MARK: - CollectionView Delegate
+  // MARK: - Search Filter
   
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
-    cell.selected = true
-  }
-  
-  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
-    cell.selected = false
-  }
-  
-  // MARK: - CollectionView Delegate Flow Layout
-  
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-    return 0
-  }
-  
-  // MARK: - CollectionView Data Source
-  
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return searchResults.count
-  }
-  
-  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-    return 1
-  }
-  
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SearchListCell", forIndexPath: indexPath) as! ListCell
-    let row = indexPath.row
+  func queryDidChange(query: String) {
     
-    cell.showCheckBox = true
-    cell.textColor = Colors().Black
-    
-    if let locationName = searchResults[row]["location"] {
-      cell.text = String(locationName)
-    }
-    if (userLocation != nil) {
-      if let latitude = searchResults[row]["latitude"] as? Double, longitude = searchResults[row]["longitude"] as? Double  {
-        let location = CLLocation(latitude: latitude, longitude: longitude)
-        let distance = location.distanceFromLocation(userLocation!)
-        cell.subtext = "\(Double(UserSettings.sharedSettings.unit.convertDistance(distance)))\(UserSettings.sharedSettings.unit.distanceAbbreviation()))"
-      }
-    }
-    
-    return cell
   }
   
   // MARK: - Actions
@@ -220,6 +195,68 @@ class CheckInController: UIViewController, UICollectionViewDelegate, UICollectio
   }
   
   func canContinue() -> Bool {
+    return true
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension CheckInController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    cell.selected = true
+  }
+  
+  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    cell.selected = false
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension CheckInController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 0
+  }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension CheckInController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return searchResults.count
+  }
+  
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SearchListCell", forIndexPath: indexPath) as! ListCell
+    let row = indexPath.row
+    
+    cell.showCheckBox = true
+    cell.textColor = Colors().Black
+    
+    if let locationName = searchResults[row]["location"] {
+      cell.text = String(locationName)
+    }
+    if (userLocation != nil) {
+      if let latitude = searchResults[row]["latitude"] as? Double, longitude = searchResults[row]["longitude"] as? Double  {
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let distance = location.distanceFromLocation(userLocation!)
+        cell.subtext = "\(Double(UserSettings.sharedSettings.unit.convertDistance(distance)))\(UserSettings.sharedSettings.unit.distanceAbbreviation()))"
+      }
+    }
+    
+    return cell
+  }
+}
+
+extension CheckInController: UITextFieldDelegate {
+  func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+    if let text = textField.text { queryDidChange(text) }
     return true
   }
 }

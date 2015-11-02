@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SettingsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SettingsController: UIViewController {
   // MARK: - Variables & Constants
   
   var unit: Unit = UserSettings.sharedSettings.unit
@@ -80,7 +80,7 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
   }
   
   override func viewWillAppear(animated: Bool) {
-    configureInterface()
+    layoutInterface()
     settingsListView.reloadData()
   }
   
@@ -88,9 +88,9 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
     return UIStatusBarStyle.LightContent
   }
   
-  // MARK: - Configure Interface
+  // MARK: - Layout Interface
   
-  func configureInterface() {
+  func layoutInterface() {
     view.backgroundColor = Colors().Black.colorWithAlphaComponent(0.9)
     
     view.addSubview(navigationBar)
@@ -123,55 +123,6 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
     
   }
   
-  // MARK: - CollectionView Delegate
-  
-  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let row = indexPath.row
-    
-    if let action = settingsListItems[row]["action"] {
-      NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: Selector(action), userInfo: nil, repeats: false)
-    }
-  }
-  
-  func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
-    
-    cell.textColor = Colors().Primary
-  }
-  
-  func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
-    
-    cell.textColor = Colors().White
-  }
-  
-  // MARK: - CollectionView Delegate Flow Layout
-  
-  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-    return 0
-  }
-  
-  // MARK: - CollectionView Data Source
-  
-  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return settingsListItems.count
-  }
-  
-  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-    return 1
-  }
-  
-  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SettingsListCell", forIndexPath: indexPath) as! ListCell
-    let row = indexPath.row
-    
-    cell.textColor = Colors().White
-    
-    if let text = settingsListItems[row]["text"] { cell.text = text }
-    
-    return cell
-  }
-  
   // MARK: - Actions
   
   func closeController() {
@@ -200,5 +151,60 @@ class SettingsController: UIViewController, UICollectionViewDelegate, UICollecti
     let defaults = NSUserDefaults.standardUserDefaults()
     
     defaults.setInteger(UserSettings.sharedSettings.unit.rawValue, forKey: "settings_unit")
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension SettingsController: UICollectionViewDelegate {
+  func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    let row = indexPath.row
+    
+    if let action = settingsListItems[row]["action"] {
+      NSTimer.scheduledTimerWithTimeInterval(0, target: self, selector: Selector(action), userInfo: nil, repeats: false)
+    }
+  }
+  
+  func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    
+    cell.textColor = Colors().Primary
+  }
+  
+  func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {
+    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    
+    cell.textColor = Colors().White
+  }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension SettingsController: UICollectionViewDelegateFlowLayout {
+  func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+    return 0
+  }
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension SettingsController: UICollectionViewDataSource {
+  func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return settingsListItems.count
+  }
+  
+  func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    return 1
+  }
+  
+  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SettingsListCell", forIndexPath: indexPath) as! ListCell
+    let row = indexPath.row
+    
+    cell.textColor = Colors().White
+    
+    if let text = settingsListItems[row]["text"] { cell.text = text }
+    
+    return cell
   }
 }

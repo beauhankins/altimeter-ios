@@ -113,7 +113,7 @@ class CheckInSuccessController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    configureInterface()
+    layoutInterface()
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -124,9 +124,9 @@ class CheckInSuccessController: UIViewController {
     return UIStatusBarStyle.LightContent
   }
   
-  // MARK: - Configure Interface
+  // MARK: - Layout Interface
   
-  func configureInterface() {
+  func layoutInterface() {
     view.backgroundColor = Colors().White
     
     view.addSubview(mapView)

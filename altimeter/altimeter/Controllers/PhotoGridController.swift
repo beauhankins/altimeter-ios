@@ -50,7 +50,7 @@ class PhotoGridController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    configureInterface()
+    layoutInterface()
     preparePhotos()
   }
   
@@ -85,9 +85,9 @@ class PhotoGridController: UIViewController {
     }
   }
   
-  // MARK: - Configure Interface
+  // MARK: - Layout Interface
   
-  func configureInterface() {
+  func layoutInterface() {
     view.backgroundColor = Colors().Black
     
     view.addSubview(navigationBar)
@@ -134,21 +134,25 @@ class PhotoGridController: UIViewController {
   }
 }
 
-extension PhotoGridController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDelegate
 
-  // MARK: - CollectionView Delegate
-  
+extension PhotoGridController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoGridCell
-
-    cell.selected = true
-    selectedPhotoURL = photos?.objectAtIndex(indexPath.row) as? NSURL
+    let row = indexPath.row
     
-    navigationBar.rightBarItem.enabled = canContinue()
+    if (row < 1) {
+      // Default camera
+      selectedPhotoURL = nil
+    } else {
+      selectedPhotoURL = photos?.objectAtIndex(row - 1) as? NSURL
+      navigationBar.rightBarItem.enabled = canContinue()
+    }
   }
-  
-  // MARK: - CollectionView Delegate Flow Layout
-  
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension PhotoGridController: UICollectionViewDelegateFlowLayout {
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
     return 3
   }
@@ -156,9 +160,11 @@ extension PhotoGridController: UICollectionViewDelegate, UICollectionViewDataSou
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat {
     return 3
   }
-  
-  // MARK: - CollectionView Data Source
-  
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension PhotoGridController: UICollectionViewDataSource {
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return photos!.count
   }
@@ -171,17 +177,21 @@ extension PhotoGridController: UICollectionViewDelegate, UICollectionViewDataSou
     let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoGridCell", forIndexPath: indexPath) as! PhotoGridCell
     let row = indexPath.row
     
-    cell.backgroundColor = Colors().White
-
-    let library = ALAssetsLibrary()
-    library.assetForURL(photos?.objectAtIndex(row) as! NSURL, resultBlock: { (asset: ALAsset?) -> Void in
-      if let photo = asset {
-        cell.image = UIImage(CGImage: photo.thumbnail().takeUnretainedValue())
+    if (row < 1) {
+      cell.image = UIImage(named: "icon-camera")
+      cell.imageMode = .Center
+    } else {
+      let library = ALAssetsLibrary()
+      let url = photos?.objectAtIndex(row - 1) as! NSURL
+      library.assetForURL(url, resultBlock: { (asset: ALAsset?) -> Void in
+        if let photo = asset {
+          cell.image = UIImage(CGImage: photo.thumbnail().takeUnretainedValue())
+        }
+        }) { (error: NSError!) -> Void in
+          NSException(name: "AssetNotFoundException", reason: "Error getting asset for URL: \(url)", userInfo: nil).raise()
       }
-    }) { (error: NSError!) -> Void in
-        
     }
-
+    
     return cell
   }
 }

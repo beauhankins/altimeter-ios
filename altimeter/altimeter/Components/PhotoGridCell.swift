@@ -16,6 +16,12 @@ class PhotoGridCell: UICollectionViewCell {
       imageView.image = image
     }
   }
+  
+  var imageMode: UIViewContentMode = .ScaleAspectFit {
+    didSet {
+      imageView.contentMode = imageMode
+    }
+  }
 
   override var selected: Bool {
     didSet {
@@ -28,7 +34,7 @@ class PhotoGridCell: UICollectionViewCell {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.image
-    imageView.contentMode = .ScaleAspectFit
+    imageView.contentMode = self.imageMode
     return imageView
     }()
 

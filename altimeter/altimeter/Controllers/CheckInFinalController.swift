@@ -141,7 +141,7 @@ class CheckInFinalController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    configureInterface()
+    layoutInterface()
     requestPhotosPermissions()
   }
   
@@ -153,9 +153,9 @@ class CheckInFinalController: UIViewController {
     return UIStatusBarStyle.Default
   }
   
-  // MARK: - Configure Interface
+  // MARK: - Layout Interface
   
-  func configureInterface() {
+  func layoutInterface() {
     view.backgroundColor = Colors().White
     
     view.addSubview(navigationBar)

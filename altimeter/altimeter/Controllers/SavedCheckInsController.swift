@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SavedCheckInsController: UIViewController {
   // MARK: - Variables & Constants
   
   let savedCheckIns = SavedCheckInHandler().allSavedCheckIns()
@@ -64,7 +64,7 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    configureInterface()
+    layoutInterface()
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -75,9 +75,9 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
     return UIStatusBarStyle.Default
   }
   
-  // MARK: - Configure Interface
+  // MARK: - Layout Interface
   
-  func configureInterface() {
+  func layoutInterface() {
     view.backgroundColor = Colors().White
     view.addSubview(navigationBar)
     view.addSubview(contentView)
@@ -95,8 +95,30 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
-  // MARK: - CollectionView Delegate
+  // MARK: - Actions
   
+  func prevController() {
+    print("Action: Previous Controller")
+    dismissViewControllerAnimated(true, completion: nil)
+  }
+  
+  func nextController() {
+    print("Action: Next Controller")
+    CheckInDataManager.sharedManager.checkIn = savedCheckIns[selectedRow!]
+    let checkInFinalController = CheckInFinalController()
+    navigationController?.pushViewController(checkInFinalController, animated: true)
+  }
+  
+  // MARK: - Validation
+  
+  func canContinue() -> Bool {
+    return selectedRow != nil
+  }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension SavedCheckInsController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
     let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
     
@@ -109,15 +131,19 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
     let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
     cell.selected = false
   }
-  
-  // MARK: - CollectionView Delegate Flow Layout
-  
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension SavedCheckInsController: UICollectionViewDelegateFlowLayout {
   func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
     return 0
   }
-  
-  // MARK: - CollectionView Data Source
-  
+}
+
+// MARK: - UICollectionViewDataSource
+
+extension SavedCheckInsController: UICollectionViewDataSource {
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return savedCheckIns.count
   }
@@ -155,25 +181,5 @@ class SavedCheckInsController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     return cell
-  }
-  
-  // MARK: - Actions
-  
-  func prevController() {
-    print("Action: Previous Controller")
-    dismissViewControllerAnimated(true, completion: nil)
-  }
-  
-  func nextController() {
-    print("Action: Next Controller")
-    CheckInDataManager.sharedManager.checkIn = savedCheckIns[selectedRow!]
-    let checkInFinalController = CheckInFinalController()
-    navigationController?.pushViewController(checkInFinalController, animated: true)
-  }
-  
-  // MARK: - Validation
-  
-  func canContinue() -> Bool {
-    return selectedRow != nil
   }
 }

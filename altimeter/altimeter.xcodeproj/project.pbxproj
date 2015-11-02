@@ -35,11 +35,12 @@
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
+		098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098A24C91BB621C8005FA3E2 /* ListField.swift */; };
 		09AF4AF51BA7A6470090059E /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */; };
 		09AF4AF61BA7A6470090059E /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */; };
 		09AF4AF71BA7A6470090059E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */; };
 		09AF4AF91BA7A8600090059E /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */; };
-		09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B394641BB159690082A98C /* LocationDataDetailView.swift */; settings = {ASSET_TAGS = (); }; };
+		09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B394641BB159690082A98C /* LocationDataDetailView.swift */; };
 		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
 		4F5D1190B6DA9B00E9B3B6FD /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1875E6743942CA94342723 /* libPods-altimeter.a */; };
@@ -92,6 +93,7 @@
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		098A24C91BB621C8005FA3E2 /* ListField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListField.swift; path = Components/ListField.swift; sourceTree = "<group>"; };
 		09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridCell.swift; path = Components/PhotoGridCell.swift; sourceTree = "<group>"; };
 		09B394641BB159690082A98C /* LocationDataDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDataDetailView.swift; path = Components/LocationDataDetailView.swift; sourceTree = "<group>"; };
 		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -218,6 +220,7 @@
 				091C4B9F1BA7A3A200DB5F07 /* NavigationBar.swift */,
 				09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */,
 				09B394641BB159690082A98C /* LocationDataDetailView.swift */,
+				098A24C91BB621C8005FA3E2 /* ListField.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 				091C4B991BA7A39000DB5F07 /* DataModel.xcdatamodeld in Sources */,
 				091C4B8F1BA7A36700DB5F07 /* CheckInController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
+				098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */,
 				091C4B921BA7A36700DB5F07 /* MainController.swift in Sources */,
 				09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */,
 				091C4BA31BA7A3A200DB5F07 /* ListControl.swift in Sources */,

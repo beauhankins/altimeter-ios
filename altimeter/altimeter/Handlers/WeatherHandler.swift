@@ -42,7 +42,7 @@ class WeatherHandler {
         ])
       
       }) { (error: NSError) -> Void in
-      print(error)
+      
     }
   }
 }
