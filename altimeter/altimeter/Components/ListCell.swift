@@ -105,7 +105,8 @@ class ListCell: UICollectionViewCell {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    
+  }
+  override func layoutSubviews() {
     addSubview(imageView)
     addSubview(iconView)
     addSubview(textLabel)
@@ -143,6 +144,7 @@ class ListCell: UICollectionViewCell {
       let layer = CALayer()
       layer.frame = CGRectMake(0, 64, self.frame.width, 1)
       layer.opacity = 0.1
+      layer.name = "border"
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
       return layer
     }()
@@ -151,9 +153,18 @@ class ListCell: UICollectionViewCell {
       let layer = CALayer()
       layer.frame = CGRectMake(self.frame.width, 0, 1, 64)
       layer.opacity = 0.1
+      layer.name = "border"
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
       return layer
     }()
+    
+    if let sublayers = layer.sublayers {
+      for var layer in sublayers {
+        if layer.name == "border" {
+          layer.removeFromSuperlayer()
+        }
+      }
+    }
     
     layer.insertSublayer(borderBottom, atIndex: 0)
     layer.insertSublayer(borderRight, atIndex: 0)

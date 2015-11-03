@@ -250,7 +250,9 @@ extension CheckInController: UICollectionViewDataSource {
 
 extension CheckInController: UITextFieldDelegate {
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-    if let text = textField.text { queryDidChange(text) }
+    let text = textField.text
+    NSObject.cancelPreviousPerformRequestsWithTarget(self)
+    performSelector("queryDidChange:", withObject: text, afterDelay: 0.3)
     return true
   }
 }
