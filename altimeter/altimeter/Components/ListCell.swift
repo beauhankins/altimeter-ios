@@ -30,6 +30,7 @@ class ListCell: UICollectionViewCell {
   var icon: UIImage? {
     didSet {
       iconView.image = icon
+      iconView.hidden = false
     }
   }
   var image: UIImage? {
@@ -100,6 +101,7 @@ class ListCell: UICollectionViewCell {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.icon
     imageView.contentMode = .ScaleAspectFit
+    imageView.hidden = true
     return imageView
     }()
   
@@ -121,23 +123,26 @@ class ListCell: UICollectionViewCell {
     addConstraint(NSLayoutConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
     
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: imageView, attribute: .Right, multiplier: 1, constant: image != nil ? 10 : 0))
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: iconView.hidden ? 0 : 1, constant: iconView.hidden ? 0 : -30))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
     
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: checkboxView.hidden ? 0 : 1, constant: checkboxView.hidden ? 0 : -30))
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
     
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Width, multiplier: 1, constant: -65))
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
-    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
     
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Right, relatedBy: .Equal, toItem: checkboxView, attribute: .Left, multiplier: 1, constant: -15))
     if subtextLabel.hidden == false {
       addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     } else {
       addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     }
     
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Right, relatedBy: .Equal, toItem: checkboxView, attribute: .Left, multiplier: 1, constant: -15))
     addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 6))
     
     let borderBottom: CALayer = {

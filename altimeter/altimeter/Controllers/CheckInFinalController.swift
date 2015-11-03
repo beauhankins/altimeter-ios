@@ -42,6 +42,7 @@ class CheckInFinalController: UIViewController {
       view.title = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     }
     
+    view.titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
     view.style = .Gradient
     view.icon = UIImage(named: "icon-location")
     return view

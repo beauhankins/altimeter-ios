@@ -59,7 +59,7 @@ class MainController: UIViewController {
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
     nav.translatesAutoresizingMaskIntoConstraints = false
-    nav.leftBarItem.icon = UIImage(named: "icon-gear")
+    nav.leftBarItem.icon = UIImage(named: "icon-menu")
     nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.icon = UIImage(named: "icon-location")
     nav.rightBarItem.addTarget(self, action: "checkInController", forControlEvents: UIControlEvents.TouchUpInside)
