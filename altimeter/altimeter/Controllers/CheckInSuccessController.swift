@@ -27,9 +27,15 @@ class CheckInSuccessController: UIViewController {
   lazy var informationDetailView: InformationDetailView = {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
+    
     let altitude = CheckInDataManager.sharedManager.checkIn!.locationData?.altitude
     let altitudeString = String(format: "%.0f", round(altitude!))
-    view.title = "\(altitudeString)\(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
+    if let locationName = CheckInDataManager.sharedManager.checkIn!.locationName {
+      view.title = "\(locationName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
+    } else {
+      view.title = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
+    }
+    
     view.style = .Gradient
     view.icon = UIImage(named: "icon-location")
     return view

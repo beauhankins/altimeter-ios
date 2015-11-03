@@ -319,6 +319,7 @@ class MainController: UIViewController {
     checkIn.timestamp = NSDate()
     
     CheckInDataManager.sharedManager.checkIn = checkIn
+    
     let checkInController = CheckInController()
     navigationController?.pushViewController(checkInController, animated: true)
   }

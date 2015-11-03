@@ -17,6 +17,8 @@ class CheckInController: UIViewController {
   var locations:[MKMapItem] = []
   var localSearch: MKLocalSearch?
   
+  var selectedLocation: MKMapItem?
+  
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
     nav.translatesAutoresizingMaskIntoConstraints = false
@@ -145,6 +147,7 @@ class CheckInController: UIViewController {
           if let response = response {
             self.locations = response.mapItems
             self.locationsListView.reloadData()
+            self.selectedLocation = nil
           }
         }
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
@@ -159,6 +162,10 @@ class CheckInController: UIViewController {
   }
   
   func nextController() {
+    if let location = selectedLocation {
+      CheckInDataManager.sharedManager.checkIn?.locationName = location.name
+    }
+    
     let checkInFinalController = CheckInFinalController()
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
@@ -199,6 +206,8 @@ extension CheckInController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
     let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
     cell.selected = true
+    
+    selectedLocation = locations[indexPath.row]
   }
   
   func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
