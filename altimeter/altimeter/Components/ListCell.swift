@@ -27,6 +27,12 @@ class ListCell: UICollectionViewCell {
       subtextLabel.hidden = false
     }
   }
+  var stateText: String? {
+    didSet {
+      stateLabel.text = stateText
+      stateLabel.hidden = false
+    }
+  }
   var icon: UIImage? {
     didSet {
       iconView.image = icon
@@ -55,7 +61,7 @@ class ListCell: UICollectionViewCell {
     }
   }
   
-  private lazy var textLabel: UILabel = {
+  lazy var textLabel: UILabel = {
     var label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Default
@@ -74,6 +80,17 @@ class ListCell: UICollectionViewCell {
     if let textColor = self.textColor { label.textColor = textColor }
     label.alpha = 0.2
     label.text = self.subtext
+    label.hidden = true
+    return label
+    }()
+  
+  private lazy var stateLabel: UILabel = {
+    var label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = Fonts().Default
+    label.textAlignment = .Right
+    label.textColor = Colors().Primary
+    label.text = self.stateText
     label.hidden = true
     return label
     }()
@@ -113,6 +130,7 @@ class ListCell: UICollectionViewCell {
     addSubview(iconView)
     addSubview(textLabel)
     addSubview(subtextLabel)
+    addSubview(stateLabel)
     addSubview(checkboxView)
     
     addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
@@ -131,6 +149,9 @@ class ListCell: UICollectionViewCell {
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: checkboxView.hidden ? 0 : 1, constant: checkboxView.hidden ? 0 : -30))
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
+    
+    addConstraint(NSLayoutConstraint(item: stateLabel, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
+    addConstraint(NSLayoutConstraint(item: stateLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     
     
     addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))

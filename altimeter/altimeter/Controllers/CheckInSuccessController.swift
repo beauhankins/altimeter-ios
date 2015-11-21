@@ -13,6 +13,8 @@ import MapKit
 class CheckInSuccessController: UIViewController {
   // MARK: - Variables & Constants
   
+  var isShared = false
+  
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
     nav.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +65,7 @@ class CheckInSuccessController: UIViewController {
   lazy var successView: InformationDetailView = {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.title = "Shared Successfully!"
+    view.title = self.successTitle()
     view.backgroundColor = Colors().Primary
     view.style = .Default
     view.textColor = Colors().White
@@ -174,6 +176,10 @@ class CheckInSuccessController: UIViewController {
       }()
     
     navigationBar.layer.insertSublayer(topBackgroundLayer, atIndex: 0)
+  }
+  
+  func successTitle() -> String {
+    return "\(self.isShared ? "Shared" : "Saved" ) Successfully!"
   }
   
   // MARK: - Actions

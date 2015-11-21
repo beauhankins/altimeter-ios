@@ -17,16 +17,17 @@ class SettingsController: UIViewController {
   var settingsListItems: [[String:String]] {
     return [
       [
-        "text":"Units: \(unit.description())",
-        "action":"toggleUnits"
+        "text": "Units",
+        "state": unit.description(),
+        "action": "toggleUnits"
       ],
       [
-        "text":"Send Feedback",
-        "action":"sendFeedback"
+        "text": "Send Feedback",
+        "action": "sendFeedback"
       ],
       [
-        "text":"Rate in the App Store",
-        "action":"openInAppStore"
+        "text": "Rate in the App Store",
+        "action": "openInAppStore"
       ],
     ]
   }
@@ -203,6 +204,8 @@ extension SettingsController: UICollectionViewDataSource {
     cell.textColor = Colors().White
     
     if let text = settingsListItems[row]["text"] { cell.text = text }
+    if let state = settingsListItems[row]["state"] { cell.stateText = state }
+    else { cell.stateText = "" }
     
     return cell
   }

@@ -41,6 +41,7 @@
 		09AF4AF71BA7A6470090059E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */; };
 		09AF4AF91BA7A8600090059E /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */; };
 		09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B394641BB159690082A98C /* LocationDataDetailView.swift */; };
+		09EF61E01BE96B590047D6CB /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF61DF1BE96B590047D6CB /* StatusBar.swift */; };
 		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
 		4F5D1190B6DA9B00E9B3B6FD /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1875E6743942CA94342723 /* libPods-altimeter.a */; };
@@ -96,6 +97,7 @@
 		098A24C91BB621C8005FA3E2 /* ListField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListField.swift; path = Components/ListField.swift; sourceTree = "<group>"; };
 		09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridCell.swift; path = Components/PhotoGridCell.swift; sourceTree = "<group>"; };
 		09B394641BB159690082A98C /* LocationDataDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDataDetailView.swift; path = Components/LocationDataDetailView.swift; sourceTree = "<group>"; };
+		09EF61DF1BE96B590047D6CB /* StatusBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusBar.swift; path = Components/StatusBar.swift; sourceTree = "<group>"; };
 		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		3B1875E6743942CA94342723 /* libPods-altimeter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-altimeter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,6 +223,7 @@
 				09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */,
 				09B394641BB159690082A98C /* LocationDataDetailView.swift */,
 				098A24C91BB621C8005FA3E2 /* ListField.swift */,
+				09EF61DF1BE96B590047D6CB /* StatusBar.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 				091C4B921BA7A36700DB5F07 /* MainController.swift in Sources */,
 				09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */,
 				091C4BA31BA7A3A200DB5F07 /* ListControl.swift in Sources */,
+				09EF61E01BE96B590047D6CB /* StatusBar.swift in Sources */,
 				091C4B911BA7A36700DB5F07 /* CheckInSuccessController.swift in Sources */,
 				091C4BA91BA7A3AB00DB5F07 /* SavedCheckInHandler.swift in Sources */,
 				091C4BB11BA7A3BD00DB5F07 /* CheckIn.swift in Sources */,

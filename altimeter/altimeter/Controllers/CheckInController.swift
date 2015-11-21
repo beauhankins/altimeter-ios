@@ -34,17 +34,6 @@ class CheckInController: UIViewController {
     return nav
     }()
   
-  lazy var searchField: ListField = {
-    let listField = ListField()
-    listField.translatesAutoresizingMaskIntoConstraints = false
-    listField.attributedPlaceholder = NSAttributedString(
-      string: "Search for places...",
-      attributes: [NSForegroundColorAttributeName: Colors().White])
-    listField.font = Fonts().Heading
-    listField.delegate = self
-    return listField
-    }()
-  
   lazy var locationsListView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
     layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
@@ -57,6 +46,17 @@ class CheckInController: UIViewController {
     collectionView.delegate = self
     collectionView.backgroundColor = UIColor.clearColor()
     return collectionView
+    }()
+  
+  lazy var searchField: ListField = {
+    let listField = ListField()
+    listField.translatesAutoresizingMaskIntoConstraints = false
+    listField.attributedPlaceholder = NSAttributedString(
+      string: "Search for places...",
+      attributes: [NSForegroundColorAttributeName: Colors().White])
+    listField.font = Fonts().Heading
+    listField.delegate = self
+    return listField
     }()
   
   lazy var contentView: UIView = {
@@ -250,7 +250,7 @@ extension CheckInController: UICollectionViewDataSource {
       
       let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
       let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))
-      cell.subtext = "\(Int(UserSettings.sharedSettings.unit.convertDistance(distance)))\(UserSettings.sharedSettings.unit.distanceAbbreviation())"
+      cell.subtext = "\(Int(UserSettings.sharedSettings.unit.convertDistance(distance))) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     }
     
     return cell

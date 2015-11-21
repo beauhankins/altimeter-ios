@@ -26,8 +26,16 @@ class CheckInFinalController: UIViewController {
     nav.rightBarItem.text = "Share"
     nav.rightBarItem.type = .Emphasis
     nav.rightBarItem.color = Colors().Primary
-    nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: "nextControllerShared", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
+    }()
+  
+  lazy var serviceStatusBar: StatusBar = {
+    let statusBar = StatusBar()
+    statusBar.translatesAutoresizingMaskIntoConstraints = false
+    statusBar.text = "NO SERVICE"
+    statusBar.hidden = self.serviceIsAvailable()
+    return statusBar
     }()
   
   lazy var informationDetailView: InformationDetailView = {
@@ -77,6 +85,7 @@ class CheckInFinalController: UIViewController {
     listControl.checkboxImage = UIImage(named: "radio-facebook")!
     listControl.showCheckBox = true
     listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
+    listControl.hidden = !self.serviceIsAvailable()
     return listControl
     }()
   
@@ -89,42 +98,38 @@ class CheckInFinalController: UIViewController {
     listControl.showCheckBox = true
     listControl.textIndent = 20.0
     listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
+    listControl.hidden = !self.serviceIsAvailable()
     return listControl
     }()
   
-  lazy var socialView: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    
-    view.addSubview(self.facebookCheckBox)
-    view.addSubview(self.twitterCheckBox)
-    
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 0.5, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
-    
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Left, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
-    
-    return view
-    }()
+  lazy var saveButton: ListControl = {
+    let listControl = ListControl()
+    listControl.translatesAutoresizingMaskIntoConstraints = false
+    listControl.stateText = "Save Check-In"
+    listControl.addTarget(self, action: Selector("nextController"), forControlEvents: .TouchUpInside)
+    return listControl
+  }()
   
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
+    view.addSubview(self.serviceStatusBar)
     view.addSubview(self.informationDetailView)
     view.addSubview(self.locationDataDetailView)
     view.addSubview(self.addPhotoButton)
-    view.addSubview(self.socialView)
+    view.addSubview(self.facebookCheckBox)
+    view.addSubview(self.twitterCheckBox)
+    view.addSubview(self.saveButton)
+    
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.serviceStatusBar, attribute: .Bottom, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
@@ -133,12 +138,18 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.locationDataDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     
-    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
-    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.socialView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 10))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 10))
+    view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Top, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Bottom, multiplier: 1, constant: 0))
     
     return view
     }()
@@ -147,9 +158,10 @@ class CheckInFinalController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    
     layoutInterface()
     requestPhotosPermissions()
+    monitorReachability()
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -179,6 +191,7 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     
     navigationBar.rightBarItem.enabled = canContinue()
+    serviceDidChange(serviceIsAvailable())
   }
   
   func updateThumbnail() {
@@ -187,14 +200,33 @@ class CheckInFinalController: UIViewController {
       
       self.addPhotoButton.text = "Remove Photo"
       self.addPhotoButton.icon = nil
-      self.addPhotoButton.textIndent = 10.0
+      self.addPhotoButton.setNeedsLayout()
+      self.addPhotoButton.layoutIfNeeded()
     } else {
       self.addPhotoButton.image = nil
       
       self.addPhotoButton.text = "Add Photo"
       self.addPhotoButton.icon = UIImage(named: "icon-plus")!
-      self.addPhotoButton.textIndent = 0.0
+      self.addPhotoButton.setNeedsLayout()
+      self.addPhotoButton.layoutIfNeeded()
     }
+  }
+  
+  func serviceDidChange(serviceIsAvailable: Bool) {
+    self.serviceStatusBar.hidden = serviceIsAvailable
+    self.facebookCheckBox.hidden = !serviceIsAvailable
+    self.twitterCheckBox.hidden = !serviceIsAvailable
+    self.saveButton.hidden = serviceIsAvailable
+    
+    self.serviceStatusBar.setNeedsLayout()
+    self.facebookCheckBox.setNeedsLayout()
+    self.twitterCheckBox.setNeedsLayout()
+    self.saveButton.setNeedsLayout()
+    
+    self.serviceStatusBar.layoutIfNeeded()
+    self.facebookCheckBox.layoutIfNeeded()
+    self.twitterCheckBox.layoutIfNeeded()
+    self.saveButton.layoutIfNeeded()
   }
   
   // MARK: - Actions
@@ -203,10 +235,17 @@ class CheckInFinalController: UIViewController {
     navigationController?.popViewControllerAnimated(true)
   }
   
-  func nextController() {
+  func nextControllerShared() {
     saveCheckIn()
     if facebookCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Facebook) }
     if twitterCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Twitter) }
+    let checkInSuccessController = CheckInSuccessController()
+    checkInSuccessController.isShared = true;
+    navigationController?.pushViewController(checkInSuccessController, animated: true)
+  }
+  
+  func nextController() {
+    saveCheckIn()
     let checkInSuccessController = CheckInSuccessController()
     navigationController?.pushViewController(checkInSuccessController, animated: true)
   }
@@ -243,5 +282,16 @@ class CheckInFinalController: UIViewController {
   
   func canContinue() -> Bool {
     return (facebookCheckBox.selected || twitterCheckBox.selected)
+  }
+  
+  func serviceIsAvailable() -> Bool {
+    return AFNetworkReachabilityManager.sharedManager().reachable
+  }
+  
+  func monitorReachability() {
+    AFNetworkReachabilityManager.sharedManager().setReachabilityStatusChangeBlock { (status: AFNetworkReachabilityStatus) -> Void in
+      self.serviceDidChange(self.serviceIsAvailable())
+    }
+    AFNetworkReachabilityManager.sharedManager().startMonitoring()
   }
 }

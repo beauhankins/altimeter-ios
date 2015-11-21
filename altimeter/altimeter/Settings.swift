@@ -36,4 +36,5 @@ struct Fonts {
   
   let Coordinate = UIFont(name: "Lato-Bold", size: 16.0)
   let Unit = UIFont(name: "Lato-Bold", size: 14.0)
+  let Status = UIFont(name: "Lato-Bold", size: 13.0)
 }

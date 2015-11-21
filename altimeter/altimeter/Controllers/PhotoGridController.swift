@@ -31,12 +31,15 @@ class PhotoGridController: UIViewController {
     return nav
     }()
   
-  lazy var photoGridView: UICollectionView = {
+  lazy var photoGridViewLayout: UICollectionViewFlowLayout = {
     let layout = UICollectionViewFlowLayout()
     layout.sectionInset = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
     layout.itemSize = CGSizeMake((self.view.bounds.width - 12) / 3, (self.view.bounds.width - 12) / 3)
-    
-    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
+    return layout
+    }()
+  
+  lazy var photoGridView: UICollectionView = {
+    let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: self.photoGridViewLayout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.registerClass(PhotoGridCell.self, forCellWithReuseIdentifier: "PhotoGridCell")
     collectionView.dataSource = self
@@ -54,10 +57,6 @@ class PhotoGridController: UIViewController {
     preparePhotos()
   }
   
-  override func viewWillAppear(animated: Bool) {
-    
-  }
-  
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return UIStatusBarStyle.LightContent
   }
@@ -71,12 +70,12 @@ class PhotoGridController: UIViewController {
       if let assets = group {
         assets.enumerateAssetsUsingBlock({ (result: ALAsset?, index: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
           if let photo = result {
-            self.photos?.addObject(photo.defaultRepresentation().url())
+            self.photos?.insertObject(UIImage(CGImage: photo.thumbnail().takeUnretainedValue()), atIndex: 0)
           }
         })
       }
       
-      if ( stop.memory.boolValue ) {
+      if stop.memory.boolValue {
         self.photoGridView.reloadData()
       }
       
@@ -131,6 +130,16 @@ class PhotoGridController: UIViewController {
   func canContinue() -> Bool {
     return selectedPhotoURL != nil
   }
+  
+  func takePhoto() {
+    let picker = UIImagePickerController()
+    picker.sourceType = .Camera
+    picker.cameraCaptureMode = .Photo
+    picker.cameraDevice = .Rear
+    picker.delegate = self
+    picker.mediaTypes = [kUTTypeImage as String]
+    self.presentViewController(picker, animated: true, completion: nil)
+  }
 }
 
 // MARK: - UICollectionViewDelegate
@@ -142,6 +151,7 @@ extension PhotoGridController: UICollectionViewDelegate {
     if (row < 1) {
       // Default camera
       selectedPhotoURL = nil
+      takePhoto()
     } else {
       selectedPhotoURL = photos?.objectAtIndex(row - 1) as? NSURL
       navigationBar.rightBarItem.enabled = canContinue()
@@ -174,23 +184,34 @@ extension PhotoGridController: UICollectionViewDataSource {
   
   func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
     let cell = collectionView.dequeueReusableCellWithReuseIdentifier("PhotoGridCell", forIndexPath: indexPath) as! PhotoGridCell
-    let row = indexPath.row
+    let relativeRow = indexPath.row - 1
     
-    if (row < 1) {
+    if (relativeRow < 0) {
       cell.image = UIImage(named: "icon-camera")
       cell.imageMode = .Center
     } else {
-      let library = ALAssetsLibrary()
-      let url = photos?.objectAtIndex(row - 1) as! NSURL
-      library.assetForURL(url, resultBlock: { (asset: ALAsset?) -> Void in
-        if let photo = asset {
-          cell.image = UIImage(CGImage: photo.thumbnail().takeUnretainedValue())
-        }
-        }) { (error: NSError!) -> Void in
-          NSException(name: "AssetNotFoundException", reason: "Error getting asset for URL: \(url)", userInfo: nil).raise()
+      if let photos = photos {
+        cell.image = photos.objectAtIndex(relativeRow) as? UIImage
       }
     }
     
     return cell
+  }
+}
+
+// MARK: - UIImagePickerControllerDelegate
+
+extension PhotoGridController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+  func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    dismissViewControllerAnimated(true, completion: nil)
+    
+    let mediaType = info[UIImagePickerControllerMediaType] as! String
+    
+    if mediaType == kUTTypeImage as String {
+      let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+      
+      UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+      preparePhotos()
+    }
   }
 }
