@@ -77,14 +77,24 @@ class CheckInController: UIViewController {
     return view
     }()
   
-  lazy var savedButton: CounterButton = {
-    let counterButton = CounterButton()
-    counterButton.translatesAutoresizingMaskIntoConstraints = false
-    counterButton.text = "View Saved Check-In's"
-    counterButton.counterValue = SavedCheckIn.MR_findAll().count
-    counterButton.addTarget(self, action: Selector("savedCheckInsController"), forControlEvents: .TouchUpInside)
-    return counterButton
+  lazy var savedButton: ListControl = {
+    return self.newSavedButton()
     }()
+  
+  func newSavedButton() -> ListControl {
+    let listControl = ListControl()
+    listControl.translatesAutoresizingMaskIntoConstraints = false
+    listControl.text = "View Saved Check-Ins"
+    listControl.textLabel.font = Fonts().Heading
+    listControl.textColor = Colors().Primary
+    listControl.icon = UIImage(named: "icon-location")!
+    listControl.stateText = "\(SavedCheckIn.MR_findAll().count)"
+    listControl.stateTextColor = Colors().Black.colorWithAlphaComponent(0.5)
+    listControl.topBorder = true
+    listControl.backgroundColor = Colors().White
+    listControl.addTarget(self, action: Selector("savedCheckInsController"), forControlEvents: .TouchUpInside)
+    return listControl
+  }
   
   // MARK: - View Lifecycle
   
@@ -114,7 +124,7 @@ class CheckInController: UIViewController {
     
     view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
     view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
@@ -177,19 +187,13 @@ class CheckInController: UIViewController {
     savedCheckInsController.modalTransitionStyle = .CoverVertical
     savedCheckInsController.modalPresentationStyle = .Custom
     
-    let savedButton_copy: CounterButton = {
-      let counterButton = CounterButton()
-      counterButton.translatesAutoresizingMaskIntoConstraints = false
-      counterButton.text = savedButton.text
-      counterButton.counterValue = savedButton.counterValue
-      return counterButton
-      }()
+    let savedButton_copy = newSavedButton()
     
     savedCheckInsController.view.addSubview(savedButton_copy)
     
     savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Bottom, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Top, multiplier: 1, constant: 0))
     savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Left, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Left, multiplier: 1, constant: 0))
+    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Left, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Left, multiplier: 1, constant: 20))
     savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Right, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Right, multiplier: 1, constant: 0))
     
     presentViewController(savedCheckInsController, animated: true, completion: nil)

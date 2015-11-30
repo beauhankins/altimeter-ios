@@ -52,7 +52,7 @@ class CheckInFinalController: UIViewController {
     
     view.titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
     view.style = .Gradient
-    view.icon = UIImage(named: "icon-location")
+    view.icon = UIImage(named: "icon-location-white")
     return view
     }()
   
@@ -82,6 +82,7 @@ class CheckInFinalController: UIViewController {
     listControl.translatesAutoresizingMaskIntoConstraints = false
     listControl.text = "Facebook"
     listControl.textLabel.font = Fonts().Heading
+    listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-facebook")!
     listControl.showCheckBox = true
     listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
@@ -94,6 +95,7 @@ class CheckInFinalController: UIViewController {
     listControl.translatesAutoresizingMaskIntoConstraints = false
     listControl.text = "Twitter"
     listControl.textLabel.font = Fonts().Heading
+    listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-twitter")!
     listControl.showCheckBox = true
     listControl.textIndent = 20.0

@@ -57,12 +57,12 @@ class NavigationBar: UIView {
 
 // MARK: - NavigationBarItem
 
-enum NavigationBarItemAlignment : Int {
+enum NavigationBarItemAlignment: Int {
   case Left
   case Right
 }
 
-enum NavigationBarItemType : Int {
+enum NavigationBarItemType: Int {
   case Default
   case Emphasis
 }
@@ -107,13 +107,23 @@ class NavigationBarItem: UIControl {
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
   }
   
-  override var enabled:Bool {
+  override var enabled: Bool {
     didSet {
-      if !enabled {
+      if enabled {
+        textLabel.textColor = self.color
+        alpha = 1.0
+      } else {
         textLabel.textColor = Colors().Black
         alpha = 0.3
+      }
+    }
+  }
+  
+  override var highlighted: Bool {
+    didSet {
+      if highlighted {
+        alpha = 0.5
       } else {
-        textLabel.textColor = self.color
         alpha = 1.0
       }
     }

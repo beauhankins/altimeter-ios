@@ -61,7 +61,7 @@ class MainController: UIViewController {
     nav.translatesAutoresizingMaskIntoConstraints = false
     nav.leftBarItem.icon = UIImage(named: "icon-menu")
     nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
-    nav.rightBarItem.icon = UIImage(named: "icon-location")
+    nav.rightBarItem.icon = UIImage(named: "icon-location-white")
     nav.rightBarItem.addTarget(self, action: "checkInController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()

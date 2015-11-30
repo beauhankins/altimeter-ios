@@ -16,45 +16,67 @@ class ListCell: UICollectionViewCell {
       textLabel.text = text
     }
   }
+  
   var textColor: UIColor? {
     didSet {
       textLabel.textColor = textColor
     }
   }
+  
+  var stateTextColor: UIColor? {
+    didSet {
+      stateLabel.textColor = stateTextColor
+    }
+  }
+  
   var subtext: String? {
     didSet {
       subtextLabel.text = subtext
       subtextLabel.hidden = false
     }
   }
+  
   var stateText: String? {
     didSet {
       stateLabel.text = stateText
       stateLabel.hidden = false
     }
   }
+  
   var icon: UIImage? {
     didSet {
-      iconView.image = icon
-      iconView.hidden = false
+      if let icon = icon {
+        iconView.image = icon
+      } else {
+        iconView.image = nil
+      }
     }
   }
+  
   var image: UIImage? {
     didSet {
-      imageView.image = image
-      imageView.hidden = false
+      if let image = image {
+        imageView.image = image
+      } else {
+        imageView.image = nil
+      }
     }
   }
+  
   var checkboxImage: UIImage = UIImage(named: "radio-default")! {
     didSet {
       checkboxView.image = checkboxImage
     }
   }
+  
   var showCheckBox: Bool = false {
     didSet {
       checkboxView.hidden = !showCheckBox
     }
   }
+  
+  var topBorder: Bool = false
+  
   var textIndent: CGFloat = 0.0 {
     didSet {
       setNeedsDisplay()
@@ -70,7 +92,7 @@ class ListCell: UICollectionViewCell {
     label.text = self.text
     label.lineBreakMode = NSLineBreakMode.ByTruncatingTail
     return label
-    }()
+  }()
   
   private lazy var subtextLabel: UILabel = {
     var label = UILabel()
@@ -82,7 +104,7 @@ class ListCell: UICollectionViewCell {
     label.text = self.subtext
     label.hidden = true
     return label
-    }()
+  }()
   
   private lazy var stateLabel: UILabel = {
     var label = UILabel()
@@ -93,7 +115,7 @@ class ListCell: UICollectionViewCell {
     label.text = self.stateText
     label.hidden = true
     return label
-    }()
+  }()
   
   private lazy var checkboxView: UIImageView = {
     var imageView = UIImageView()
@@ -102,30 +124,29 @@ class ListCell: UICollectionViewCell {
     imageView.contentMode = .ScaleAspectFit
     imageView.hidden = true
     return imageView
-    }()
+  }()
   
   private lazy var imageView: UIImageView = {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.image
     imageView.contentMode = .ScaleAspectFit
-    imageView.hidden = true
     return imageView
-    }()
+  }()
   
   private lazy var iconView: UIImageView = {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.icon
     imageView.contentMode = .ScaleAspectFit
-    imageView.hidden = true
     return imageView
-    }()
+  }()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
   }
-  override func layoutSubviews() {
+  
+  override func layoutSubviews() {    
     addSubview(imageView)
     addSubview(iconView)
     addSubview(textLabel)
@@ -133,42 +154,49 @@ class ListCell: UICollectionViewCell {
     addSubview(stateLabel)
     addSubview(checkboxView)
     
-    addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+    let HEIGHT: CGFloat = 64
+    
+    if (!hidden) {
+      addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: HEIGHT))
+    } else {
+      addConstraint(NSLayoutConstraint(item: self, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 0))
+      return
+    }
     
     addConstraint(NSLayoutConstraint(item: imageView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
-    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: image != nil ? 64 : 0))
-    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: image == nil ? 0 : HEIGHT))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: HEIGHT))
     addConstraint(NSLayoutConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
     
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: imageView, attribute: .Right, multiplier: 1, constant: image != nil ? 10 : 0))
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: iconView.hidden ? 0 : 1, constant: iconView.hidden ? 0 : -30))
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
-    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: imageView, attribute: .Right, multiplier: 1, constant: image == nil ? 0 : 10))
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: icon == nil ? 0 : 1, constant: icon == nil ? 0 : -32))
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 16))
+    addConstraint(NSLayoutConstraint(item: iconView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -16))
     
     addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
-    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: checkboxView.hidden ? 0 : 1, constant: checkboxView.hidden ? 0 : -30))
-    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 15))
-    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -15))
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: checkboxView.hidden ? 0 : 1, constant: checkboxView.hidden ? 0 : -32))
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 16))
+    addConstraint(NSLayoutConstraint(item: checkboxView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: -16))
     
     addConstraint(NSLayoutConstraint(item: stateLabel, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -20))
     addConstraint(NSLayoutConstraint(item: stateLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     
     
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
-    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Right, relatedBy: .Equal, toItem: checkboxView, attribute: .Left, multiplier: 1, constant: -15))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon == nil && image == nil ? textIndent : textIndent+20))
+    addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Right, relatedBy: .Equal, toItem: checkboxView, attribute: .Left, multiplier: 1, constant: -16))
     if subtextLabel.hidden == false {
       addConstraint(NSLayoutConstraint(item: textLabel, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     } else {
       addConstraint(NSLayoutConstraint(item: textLabel, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     }
     
-    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon != nil ? textIndent + 15 : textIndent))
-    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Right, relatedBy: .Equal, toItem: checkboxView, attribute: .Left, multiplier: 1, constant: -15))
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Left, relatedBy: .Equal, toItem: iconView, attribute: .Right, multiplier: 1, constant: icon == nil && image == nil ? textIndent : textIndent+20))
+    addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Right, relatedBy: .Equal, toItem: checkboxView, attribute: .Left, multiplier: 1, constant: -16))
     addConstraint(NSLayoutConstraint(item: subtextLabel, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 6))
     
     let borderBottom: CALayer = {
       let layer = CALayer()
-      layer.frame = CGRectMake(0, 64, self.frame.width, 1)
+      layer.frame = CGRectMake(0, HEIGHT, self.frame.width, 1)
       layer.opacity = 0.1
       layer.name = "border"
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
@@ -177,7 +205,16 @@ class ListCell: UICollectionViewCell {
     
     let borderRight: CALayer = {
       let layer = CALayer()
-      layer.frame = CGRectMake(self.frame.width, 0, 1, 64)
+      layer.frame = CGRectMake(self.frame.width, 0, 1, HEIGHT)
+      layer.opacity = 0.1
+      layer.name = "border"
+      if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
+      return layer
+    }()
+    
+    let borderTop: CALayer = {
+      let layer = CALayer()
+      layer.frame = CGRectMake(0, 0, self.frame.width, 1)
       layer.opacity = 0.1
       layer.name = "border"
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
@@ -192,8 +229,9 @@ class ListCell: UICollectionViewCell {
       }
     }
     
-    layer.insertSublayer(borderBottom, atIndex: 0)
     layer.insertSublayer(borderRight, atIndex: 0)
+    if topBorder { layer.insertSublayer(borderTop, atIndex: 0) }
+    else { layer.insertSublayer(borderBottom, atIndex: 0) }
   }
   
   override var selected:Bool {
@@ -205,8 +243,8 @@ class ListCell: UICollectionViewCell {
       }
     }
   }
-
+  
   required init(coder aDecoder: NSCoder) {
-      fatalError("init(coder:) has not been implemented")
+    fatalError("init(coder:) has not been implemented")
   }
 }

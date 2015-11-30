@@ -25,14 +25,12 @@ class WeatherHandler {
       var temp = 0.0
       var pressure = 0.0
       
-      if let jsonResult = responseObject as? Dictionary<String, AnyObject> {
-        if let main = jsonResult["main"] as? Dictionary<String, AnyObject> {
-          if let _temp = main["temp"] as? Double {
-            temp = _temp
-          }
-          if let _pressure = main["pressure"] as? Double {
-            pressure = _pressure
-          }
+      if let jsonResult = responseObject as? Dictionary<String, AnyObject>, main = jsonResult["main"] as? Dictionary<String, AnyObject> {
+        if let _temp = main["temp"] as? Double {
+          temp = _temp
+        }
+        if let _pressure = main["pressure"] as? Double {
+          pressure = _pressure
         }
       }
       

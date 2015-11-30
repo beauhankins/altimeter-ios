@@ -14,7 +14,7 @@ class PhotoGridController: UIViewController {
   // MARK: - Variables & Constants
 
   var photos: NSMutableArray?
-  var selectedPhotoURL: NSURL?
+  var selectedPhotoIndex: Int?
 
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -54,7 +54,9 @@ class PhotoGridController: UIViewController {
     super.viewDidLoad()
     
     layoutInterface()
-    preparePhotos()
+    preparePhotos({
+      self.photoGridView.reloadData()
+    })
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -63,20 +65,18 @@ class PhotoGridController: UIViewController {
 
   // MARK: - Photos
 
-  func preparePhotos() {
+  func preparePhotos(completion: () -> Void) {
     photos = NSMutableArray()
     let library = ALAssetsLibrary()
     library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { (group: ALAssetsGroup?, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
       if let assets = group {
         assets.enumerateAssetsUsingBlock({ (result: ALAsset?, index: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
-          if let photo = result {
-            self.photos?.insertObject(UIImage(CGImage: photo.thumbnail().takeUnretainedValue()), atIndex: 0)
+          if let photo = result, photos = self.photos {
+            photos.insertObject(UIImage(CGImage: photo.thumbnail().takeUnretainedValue()), atIndex: 0)
           }
         })
-      }
-      
-      if stop.memory.boolValue {
-        self.photoGridView.reloadData()
+      } else {
+        completion()
       }
       
     }) { (error: NSError!) -> Void in
@@ -112,23 +112,14 @@ class PhotoGridController: UIViewController {
   }
   
   func done(sender: AnyObject) {
-    let library = ALAssetsLibrary()
-    library.assetForURL(selectedPhotoURL, resultBlock: { (asset: ALAsset?) -> Void in
-      if let photo = asset {
-
-        let image = UIImage(CGImage: photo.thumbnail().takeUnretainedValue())
-        let imageData = UIImageJPEGRepresentation(image, 1.0)
-
-        CheckInDataManager.sharedManager.checkIn?.image = imageData
-      }
-      }) { (error: NSError!) -> Void in
-        
+    if let i = selectedPhotoIndex, photo = photos?[i] {
+      CheckInDataManager.sharedManager.checkIn?.image = UIImageJPEGRepresentation(photo as! UIImage, 1.0)
     }
     closeController()
   }
   
   func canContinue() -> Bool {
-    return selectedPhotoURL != nil
+    return selectedPhotoIndex != nil
   }
   
   func takePhoto() {
@@ -146,14 +137,14 @@ class PhotoGridController: UIViewController {
 
 extension PhotoGridController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let row = indexPath.row
+    let relativeRow = indexPath.row - 1
     
-    if (row < 1) {
-      // Default camera
-      selectedPhotoURL = nil
+    if (relativeRow < 0) {
+      // Camera
+      selectedPhotoIndex = nil
       takePhoto()
     } else {
-      selectedPhotoURL = photos?.objectAtIndex(row - 1) as? NSURL
+      selectedPhotoIndex = relativeRow
       navigationBar.rightBarItem.enabled = canContinue()
     }
   }
@@ -191,7 +182,7 @@ extension PhotoGridController: UICollectionViewDataSource {
       cell.imageMode = .Center
     } else {
       if let photos = photos {
-        cell.image = photos.objectAtIndex(relativeRow) as? UIImage
+        cell.image = photos[relativeRow] as? UIImage
       }
     }
     
@@ -210,8 +201,18 @@ extension PhotoGridController: UIImagePickerControllerDelegate, UINavigationCont
     if mediaType == kUTTypeImage as String {
       let image = info[UIImagePickerControllerOriginalImage] as! UIImage
       
-      UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-      preparePhotos()
+      UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
     }
+  }
+  
+  func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo: UnsafePointer<()>) {
+    dispatch_async(dispatch_get_main_queue(), {
+      self.preparePhotos({
+        self.selectedPhotoIndex = 0
+        self.photoGridView.reloadSections(NSIndexSet(index: 0))
+        self.photoGridView.selectItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), animated: false, scrollPosition: UICollectionViewScrollPosition.Top)
+        self.navigationBar.rightBarItem.enabled = self.canContinue()
+      })
+    })
   }
 }

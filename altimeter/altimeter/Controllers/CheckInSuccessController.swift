@@ -40,7 +40,7 @@ class CheckInSuccessController: UIViewController {
     
     view.titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingMiddle
     view.style = .Gradient
-    view.icon = UIImage(named: "icon-location")
+    view.icon = UIImage(named: "icon-location-white")
     return view
     }()
   
