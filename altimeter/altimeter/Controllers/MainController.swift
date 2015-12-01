@@ -27,7 +27,7 @@ class MainController: UIViewController {
     label.textColor = Colors().White
     label.text = "Altitude"
     return label
-    }()
+  }()
   
   lazy var unitLabel: UILabel = {
     let label = UILabel()
@@ -35,7 +35,7 @@ class MainController: UIViewController {
     label.font = Fonts().Unit
     label.textColor = Colors().White
     return label
-    }()
+  }()
   
   lazy var accuracyLabel: UILabel = {
     let label = UILabel()
@@ -44,7 +44,7 @@ class MainController: UIViewController {
     label.textColor = Colors().White
     label.text = "Altitude Accuracy"
     return label
-    }()
+  }()
   
   lazy var psiAndTemperatureLabel: UILabel = {
     let label = UILabel()
@@ -54,7 +54,7 @@ class MainController: UIViewController {
     label.textColor = Colors().White
     label.text = "Temperature"
     return label
-    }()
+  }()
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -64,7 +64,7 @@ class MainController: UIViewController {
     nav.rightBarItem.icon = UIImage(named: "icon-location-white")
     nav.rightBarItem.addTarget(self, action: "checkInController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
-    }()
+  }()
   
   lazy var latitudeLabel: UILabel = {
     let label = UILabel()
@@ -73,7 +73,7 @@ class MainController: UIViewController {
     label.text = "Latitude"
     label.textAlignment = .Center
     return label
-    }()
+  }()
   
   lazy var formattedLatitudeLabel: UILabel = {
     let label = UILabel()
@@ -82,7 +82,7 @@ class MainController: UIViewController {
     label.text = "Latitude"
     label.textAlignment = .Center
     return label
-    }()
+  }()
   
   lazy var longitudeLabel: UILabel = {
     let label = UILabel()
@@ -91,7 +91,7 @@ class MainController: UIViewController {
     label.text = "Longitude"
     label.textAlignment = .Center
     return label
-    }()
+  }()
   
   lazy var formattedLongitudeLabel: UILabel = {
     let label = UILabel()
@@ -100,14 +100,34 @@ class MainController: UIViewController {
     label.text = "Longitude"
     label.textAlignment = .Center
     return label
-    }()
+  }()
   
   lazy var dividerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
     view.backgroundColor = Colors().Primary
     return view
-    }()
+  }()
+  
+  lazy var locationServicesDisabledLabel: UILabel = {
+    let text = "Oh No! Location Services are disabled.\nEnable them in 'Settings > Altimeter'"
+    let attributedText = NSMutableAttributedString(string: text)
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 8
+    attributedText.addAttribute(
+      NSParagraphStyleAttributeName,
+      value: paragraphStyle,
+      range: NSMakeRange(0, text.characters.count))
+    
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.font = Fonts().FormattedCoordinate
+    label.textColor = Colors().White
+    label.attributedText = attributedText
+    label.textAlignment = .Center
+    label.numberOfLines = 0
+    return label
+  }()
   
   lazy var altitudeView: UIView = {
     let view = UIView()
@@ -124,7 +144,7 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.unitLabel, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     
     return view
-    }()
+  }()
   
   lazy var topView: UIView = {
     let view = UIView()
@@ -133,12 +153,6 @@ class MainController: UIViewController {
     view.addSubview(self.altitudeView)
     view.addSubview(self.accuracyLabel)
     view.addSubview(self.psiAndTemperatureLabel)
-    view.addSubview(self.navigationBar)
-    
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.altitudeView, attribute: .Bottom, relatedBy: .Equal, toItem: self.accuracyLabel, attribute: .Top, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.altitudeView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
@@ -150,7 +164,7 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.psiAndTemperatureLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     
     return view
-    }()
+  }()
   
   lazy var bottomView: UIView = {
     let view = UIView()
@@ -185,54 +199,82 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.dividerView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: -20))
     
     return view
-    }()
+  }()
   
   // MARK: - View Lifecycle
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    NSNotificationCenter.defaultCenter().addObserver(self, selector:"applicationWillEnterForeground:", name:
+      UIApplicationWillEnterForegroundNotification, object: nil)
   }
   
   override func viewWillAppear(animated: Bool) {
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    startLocationServices()
+    startLocationServices({ () -> Void in
+      self.startUpdatingLocation()
+      self.updateInterfaceForLocationServices(true)
+      }) { () -> Void in
+        self.updateInterfaceForLocationServices(false)
+    }
     updateWeatherData()
     
     layoutInterface()
   }
   
   override func viewDidLayoutSubviews() {
-    let topBackgroundLayer: CAGradientLayer = {
+    let backgroundLayer: CAGradientLayer = {
       let layer = Gradients().SecondaryToPrimary
-      layer.frame = self.topView.bounds
+      layer.frame = view.bounds
       layer.backgroundColor = Colors().Secondary.CGColor
       return layer
     }()
     
-    topView.layer.insertSublayer(topBackgroundLayer, atIndex: 0)
+    view.layer.insertSublayer(backgroundLayer, atIndex: 0)
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return UIStatusBarStyle.LightContent
   }
   
+  func applicationWillEnterForeground(notification: NSNotification) {
+    startLocationServices({ () -> Void in
+      self.startUpdatingLocation()
+      self.updateInterfaceForLocationServices(true)
+      }) { () -> Void in
+        self.updateInterfaceForLocationServices(false)
+    }
+  }
+  
   // MARK: - Interface
   
   func layoutInterface() {
-    
+    view.addSubview(navigationBar)
     view.addSubview(topView)
     view.addSubview(bottomView)
+    view.addSubview(locationServicesDisabledLabel)
     
-    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: -100))
-    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
+    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 100))
-    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Bottom, relatedBy: .Equal, toItem: bottomView, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: topView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: -40))
+    view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: -40))
+    view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     
     updateInterfaceData(LocationData())
   }
@@ -279,15 +321,40 @@ class MainController: UIViewController {
   
   // MARK: - Location Services
 
-  func startLocationServices() {
+  func startLocationServices(completion: () -> Void, failure: () -> Void) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
       if CLLocationManager.locationServicesEnabled() {
+        
         if self.locationManager.respondsToSelector("requestWhenInUseAuthorization") {
           self.locationManager.requestWhenInUseAuthorization()
-        } else {
-          self.startUpdatingLocation()
+        }
+        
+        if CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedAlways ||
+           CLLocationManager.authorizationStatus() == CLAuthorizationStatus.AuthorizedWhenInUse {
+            dispatch_async(dispatch_get_main_queue()) {
+              completion()
+            }
+            return
         }
       }
+      
+      dispatch_async(dispatch_get_main_queue()) {
+        failure()
+      }
+    }
+  }
+  
+  func updateInterfaceForLocationServices(enabled: Bool) {
+    if enabled {
+      topView.hidden = false
+      bottomView.hidden = false
+      navigationBar.rightBarItem.enabled = true
+      locationServicesDisabledLabel.hidden = true
+    } else {
+      topView.hidden = true
+      bottomView.hidden = true
+      navigationBar.rightBarItem.enabled = false
+      locationServicesDisabledLabel.hidden = false
     }
   }
   
