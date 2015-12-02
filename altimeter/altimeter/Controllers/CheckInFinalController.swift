@@ -13,7 +13,7 @@ import AssetsLibrary
 class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
   
-  lazy var locationData = CheckInDataManager.sharedManager.checkIn!.locationData!
+  lazy var locationData = CheckInDataManager.sharedManager.checkIn.locationData
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -42,9 +42,9 @@ class CheckInFinalController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
-    let altitude = CheckInDataManager.sharedManager.checkIn!.locationData?.altitude
-    let altitudeString = String(format: "%.0f", round(altitude!))
-    if let locationName = CheckInDataManager.sharedManager.checkIn!.locationName {
+    let altitude = self.locationData.altitude
+    let altitudeString = String(format: "%.0f", round(altitude))
+    if let locationName = CheckInDataManager.sharedManager.checkIn.locationName {
       view.title = "\(locationName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     } else {
       view.title = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
@@ -59,7 +59,7 @@ class CheckInFinalController: UIViewController {
   lazy var locationDataDetailView: LocationDataDetailView = {
     let view = LocationDataDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.checkIn = CheckInDataManager.sharedManager.checkIn!
+    view.checkIn = CheckInDataManager.sharedManager.checkIn
     return view
     }()
   
@@ -70,7 +70,7 @@ class CheckInFinalController: UIViewController {
     listControl.textLabel.font = Fonts().Heading
     listControl.textColor = Colors().Primary
     listControl.icon = UIImage(named: "icon-plus")!
-    if let data = CheckInDataManager.sharedManager.checkIn!.image {
+    if let data = CheckInDataManager.sharedManager.checkIn.image {
       listControl.image = UIImage(data: data)
     }
     listControl.addTarget(self, action: Selector("addPhoto:"), forControlEvents: .TouchUpInside)
@@ -197,7 +197,7 @@ class CheckInFinalController: UIViewController {
   }
   
   func updateThumbnail() {
-    if let data = CheckInDataManager.sharedManager.checkIn!.image {
+    if let data = CheckInDataManager.sharedManager.checkIn.image {
       self.addPhotoButton.image = UIImage(data: data)
       
       self.addPhotoButton.text = "Remove Photo"
@@ -239,11 +239,71 @@ class CheckInFinalController: UIViewController {
   
   func nextControllerShared() {
     saveCheckIn()
-    if facebookCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Facebook) }
-    if twitterCheckBox.selected { CheckInServiceHandler().checkIn(locationData, services: CheckInService.Twitter) }
-    let checkInSuccessController = CheckInSuccessController()
-    checkInSuccessController.isShared = true;
-    navigationController?.pushViewController(checkInSuccessController, animated: true)
+    
+    let alerts = NSMutableArray()
+    
+    let checkIn = CheckInDataManager.sharedManager.checkIn
+    if facebookCheckBox.selected {
+      CheckInServiceHandler().checkIn(checkIn, services: CheckInService.Facebook, success: { () -> Void in
+        let checkInSuccessController = CheckInSuccessController()
+        checkInSuccessController.isShared = true;
+        self.navigationController?.pushViewController(checkInSuccessController, animated: true)
+        
+        }, failure: { () -> Void in
+          let alertController = UIAlertController(
+                                  title: "Post to Facebook Failed",
+                                  message: "You are not logged in to Facebook. Update your details in Settings > Facebook.",
+                                  preferredStyle: .Alert)
+          
+          let okButton = UIAlertAction(title: "👍", style: .Cancel) {
+            action -> Void in
+            if alerts.count > 1 {
+              alerts.removeObjectAtIndex(0)
+              let alert = alerts[0] as! UIAlertController
+              
+              self.presentViewController(alert, animated: true, completion: nil)
+            }
+          }
+          alertController.addAction(okButton)
+          
+          if alerts.count == 0 {
+            self.presentViewController(alertController, animated: true, completion: nil)
+          }
+          
+          alerts.addObject(alertController)
+      })
+    }
+    if twitterCheckBox.selected {
+      CheckInServiceHandler().checkIn(checkIn, services: CheckInService.Twitter, success: { () -> Void in
+        let checkInSuccessController = CheckInSuccessController()
+        checkInSuccessController.isShared = true;
+        self.navigationController?.pushViewController(checkInSuccessController, animated: true)
+        
+        }, failure: { () -> Void in
+          let alertController = UIAlertController(
+                                  title: "Tweet Failed",
+                                  message: "You are not logged in to Twitter. Update your details in Settings > Twitter.",
+                                  preferredStyle: .Alert)
+          
+          let okButton = UIAlertAction(title: "👍", style: .Cancel) {
+            action -> Void in
+            if alerts.count > 1 {
+              alerts.removeObjectAtIndex(0)
+              let alert = alerts[0] as! UIAlertController
+              
+              self.presentViewController(alert, animated: true, completion: nil)
+            }
+          }
+          alertController.addAction(okButton)
+          
+          if alerts.count == 0 {
+            self.presentViewController(alertController, animated: true, completion: nil)
+          }
+          
+          alerts.addObject(alertController)
+      })
+      
+    }
   }
   
   func nextController() {
@@ -254,18 +314,17 @@ class CheckInFinalController: UIViewController {
   
   func requestPhotosPermissions() {
     let library = ALAssetsLibrary()
-    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { (group: ALAssetsGroup?, stop: UnsafeMutablePointer<ObjCBool>) -> Void in }) { (error: NSError!) -> Void in }
+    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { group, stop -> Void in }) { error -> Void in }
   }
   
   func saveCheckIn() {
-    if let checkIn = CheckInDataManager.sharedManager.checkIn {
-      SavedCheckInHandler().save(checkIn)
-    }
+    let checkIn = CheckInDataManager.sharedManager.checkIn
+    SavedCheckInHandler().save(checkIn)
   }
   
   func addPhoto(sender: AnyObject) {
-    if let _ = CheckInDataManager.sharedManager.checkIn!.image {
-      CheckInDataManager.sharedManager.checkIn!.image = nil
+    if let _ = CheckInDataManager.sharedManager.checkIn.image {
+      CheckInDataManager.sharedManager.checkIn.image = nil
       updateThumbnail()
     } else {
       let photoGridController = PhotoGridController()

@@ -9,7 +9,7 @@
 import Foundation
 
 class CheckIn {
-  var locationData: LocationData?
+  var locationData: LocationData = LocationData()
   var image: NSData?
   var timestamp: NSDate?
   var locationName: String?

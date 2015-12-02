@@ -30,9 +30,10 @@ class CheckInSuccessController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
-    let altitude = CheckInDataManager.sharedManager.checkIn!.locationData?.altitude
-    let altitudeString = String(format: "%.0f", round(altitude!))
-    if let locationName = CheckInDataManager.sharedManager.checkIn!.locationName {
+    let altitude = CheckInDataManager.sharedManager.checkIn.locationData.altitude
+    let altitudeString = String(format: "%.0f", round(altitude))
+    
+    if let locationName = CheckInDataManager.sharedManager.checkIn.locationName {
       view.title = "\(locationName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     } else {
       view.title = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
@@ -47,7 +48,7 @@ class CheckInSuccessController: UIViewController {
   lazy var locationDataDetailView: LocationDataDetailView = {
     let view = LocationDataDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.checkIn = CheckInDataManager.sharedManager.checkIn!
+    view.checkIn = CheckInDataManager.sharedManager.checkIn
     return view
     }()
   
@@ -77,9 +78,8 @@ class CheckInSuccessController: UIViewController {
   lazy var mapView: MKMapView = {
     let mapView = MKMapView()
     mapView.translatesAutoresizingMaskIntoConstraints = false
-    let latitude = CheckInDataManager.sharedManager.checkIn!.locationData?.latitude
-    let longitude = CheckInDataManager.sharedManager.checkIn!.locationData?.longitude
-    mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: latitude!, longitude: longitude!), span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
+    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
+    mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationData.latitude, longitude: locationData.longitude), span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
     return mapView
     }()
   
@@ -190,7 +190,8 @@ class CheckInSuccessController: UIViewController {
   }
   
   func openMaps(sender: AnyObject) {
-    let coord = CLLocationCoordinate2D(latitude: (CheckInDataManager.sharedManager.checkIn!.locationData?.latitude)!, longitude: (CheckInDataManager.sharedManager.checkIn!.locationData?.longitude)!)
+    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
+    let coord = CLLocationCoordinate2D(latitude: locationData.latitude, longitude: locationData.longitude)
     let placemark = MKPlacemark(coordinate: coord, addressDictionary: nil)
     let mapItem = MKMapItem(placemark: placemark)
     

@@ -159,10 +159,8 @@ extension SavedCheckInsController: UICollectionViewDataSource {
     
     let checkIn = savedCheckIns[row]
     
-    if let locationData = checkIn.locationData {
-      cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(locationData.altitude))) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
-    }
-    
+    cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(checkIn.locationData.altitude))) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
+      
     if let timestamp = checkIn.timestamp {
       let dateFormatter = NSDateFormatter()
       dateFormatter.dateFormat = "EEEE dd/MM/yyyy"

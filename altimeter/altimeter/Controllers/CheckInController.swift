@@ -141,16 +141,16 @@ class CheckInController: UIViewController {
     let request = MKLocalSearchRequest()
     request.naturalLanguageQuery = query
     
-    if let locationData = CheckInDataManager.sharedManager.checkIn?.locationData {
-      request.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude), MKCoordinateSpan(latitudeDelta: 0.112872, longitudeDelta: 0.109863))
-    }
+    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
+    request.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude), MKCoordinateSpan(latitudeDelta: 0.112872, longitudeDelta: 0.109863))
     
     localSearch = nil
     localSearch = MKLocalSearch(request: request)
     
     if let search = localSearch {
       UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-      search.startWithCompletionHandler({ (response: MKLocalSearchResponse?, error: NSError?) -> Void in
+      search.startWithCompletionHandler({
+        response, error -> Void in
         if let error = error {
           print(error)
         } else {
@@ -173,7 +173,7 @@ class CheckInController: UIViewController {
   
   func nextController() {
     if let location = selectedLocation {
-      CheckInDataManager.sharedManager.checkIn?.locationName = location.name
+      CheckInDataManager.sharedManager.checkIn.locationName = location.name
     }
     
     let checkInFinalController = CheckInFinalController()
@@ -249,13 +249,14 @@ extension CheckInController: UICollectionViewDataSource {
     if let locationName = locations[row].name {
       cell.text = String(locationName)
     }
-    if let locationData = CheckInDataManager.sharedManager.checkIn?.locationData {
-      let coordinate = locations[row].placemark.coordinate
-      
-      let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-      let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))
-      cell.subtext = "\(Int(UserSettings.sharedSettings.unit.convertDistance(distance))) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
-    }
+    
+    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
+    
+    let coordinate = locations[row].placemark.coordinate
+    
+    let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))
+    cell.subtext = "\(Int(UserSettings.sharedSettings.unit.convertDistance(distance))) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     
     return cell
   }

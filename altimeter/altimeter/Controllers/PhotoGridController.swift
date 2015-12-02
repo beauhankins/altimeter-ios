@@ -68,7 +68,8 @@ class PhotoGridController: UIViewController {
   func preparePhotos(completion: () -> Void) {
     photos = NSMutableArray()
     let library = ALAssetsLibrary()
-    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { (group: ALAssetsGroup?, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: {
+      group, stop -> Void in
       if let assets = group {
         assets.enumerateAssetsUsingBlock({ (result: ALAsset?, index: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
           if let photo = result, photos = self.photos {
@@ -79,7 +80,8 @@ class PhotoGridController: UIViewController {
         completion()
       }
       
-    }) { (error: NSError!) -> Void in
+    }) {
+      error -> Void in
       
     }
   }
@@ -113,7 +115,7 @@ class PhotoGridController: UIViewController {
   
   func done(sender: AnyObject) {
     if let i = selectedPhotoIndex, photo = photos?[i] {
-      CheckInDataManager.sharedManager.checkIn?.image = UIImageJPEGRepresentation(photo as! UIImage, 1.0)
+      CheckInDataManager.sharedManager.checkIn.image = UIImageJPEGRepresentation(photo as! UIImage, 1.0)
     }
     closeController()
   }

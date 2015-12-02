@@ -16,8 +16,7 @@ class SavedCheckInHandler {
     let savedCheckIn = SavedCheckIn.MR_createEntity()
     savedCheckIn.timestamp = checkIn.timestamp
     savedCheckIn.image = checkIn.image
-//    savedCheckIn.image = UIImageJPEGRepresentation(UIImage(named: "example-image.jpeg")!, 0.5)
-    savedCheckIn.locationData = NSKeyedArchiver.archivedDataWithRootObject(checkIn.locationData!)
+    savedCheckIn.locationData = NSKeyedArchiver.archivedDataWithRootObject(checkIn.locationData)
     savedCheckIn.locationName = checkIn.locationName
     
     NSManagedObjectContext.MR_defaultContext().MR_saveToPersistentStoreAndWait()
@@ -30,7 +29,7 @@ class SavedCheckInHandler {
     for savedCheckIn in savedCheckIns {
       let checkIn = CheckIn()
       if let locationData = savedCheckIn.locationData {
-        checkIn.locationData = NSKeyedUnarchiver.unarchiveObjectWithData(locationData!) as? LocationData
+        checkIn.locationData = NSKeyedUnarchiver.unarchiveObjectWithData(locationData!) as! LocationData
       }
       checkIn.timestamp = savedCheckIn.timestamp
       checkIn.image = savedCheckIn.image

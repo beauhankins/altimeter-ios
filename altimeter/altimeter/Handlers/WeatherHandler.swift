@@ -13,10 +13,12 @@ class WeatherHandler {
     let url = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)"
     
     let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
-    manager.POST(url, parameters: nil, success: { (operation: AFHTTPRequestOperation, responseObject: AnyObject) -> Void in
+    manager.POST(url, parameters: nil, success: {
+      operation, responseObject -> Void in
       completion(responseObject)
-      }) { (operation: AFHTTPRequestOperation, error: NSError) -> Void in
-      failure(error)
+      }) {
+        operation, error -> Void in
+        failure(error)
     }
   }
   
@@ -39,7 +41,8 @@ class WeatherHandler {
         "pressure":pressure
         ])
       
-      }) { (error: NSError) -> Void in
+      }) {
+        error -> Void in
       
     }
   }

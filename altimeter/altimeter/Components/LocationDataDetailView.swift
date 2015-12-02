@@ -12,7 +12,7 @@ import UIKit
 class LocationDataDetailView: UIView {
   var checkIn: CheckIn = CheckIn() {
     didSet {
-      let locationData = checkIn.locationData!
+      let locationData = checkIn.locationData
       
       let latitude = fabs(locationData.latitude)
       let formattedLatitude = formattedCoordinateAngleString(locationData.latitude)

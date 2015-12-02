@@ -11,5 +11,5 @@ import Foundation
 class CheckInDataManager {
   static let sharedManager = CheckInDataManager()
   
-  var checkIn: CheckIn?
+  var checkIn: CheckIn = CheckIn()
 }
