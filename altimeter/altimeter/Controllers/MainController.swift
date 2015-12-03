@@ -66,6 +66,42 @@ class MainController: UIViewController {
     return nav
   }()
   
+  lazy var compass: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.image = UIImage(named: "compass")
+    imageView.contentMode = UIViewContentMode.ScaleAspectFit
+    return imageView
+  }()
+  
+  lazy var compassMarkings: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.image = UIImage(named: "compass-markings")
+    imageView.contentMode = UIViewContentMode.ScaleAspectFit
+    return imageView
+  }()
+  
+  lazy var compassView: UIView = {
+    let view = UIImageView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    
+    view.addSubview(self.compass)
+    view.addSubview(self.compassMarkings)
+
+    view.addConstraint(NSLayoutConstraint(item: self.compass, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.compass, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.compass, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.compass, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: self.compassMarkings, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.compassMarkings, attribute: .Height, relatedBy: .Equal, toItem: view, attribute: .Height, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.compassMarkings, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.compassMarkings, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
+    
+    return view
+  }()
+  
   lazy var latitudeLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -219,9 +255,11 @@ class MainController: UIViewController {
       }) { () -> Void in
         self.updateInterfaceForLocationServices(false)
     }
-    updateWeatherData()
     
+    updateWeatherData()
     layoutInterface()
+    
+    NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("updateData:"), userInfo: nil, repeats: true)
   }
   
   override func viewDidLayoutSubviews() {
@@ -252,6 +290,7 @@ class MainController: UIViewController {
   
   func layoutInterface() {
     view.addSubview(navigationBar)
+    view.addSubview(compassView)
     view.addSubview(topView)
     view.addSubview(bottomView)
     view.addSubview(locationServicesDisabledLabel)
@@ -260,6 +299,11 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    
+    view.addConstraint(NSLayoutConstraint(item: compassView, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 56))
+    view.addConstraint(NSLayoutConstraint(item: compassView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 56))
+    view.addConstraint(NSLayoutConstraint(item: compassView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: compassView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Top, multiplier: 1, constant: 36))
     
     view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: bottomView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
@@ -276,7 +320,11 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     
-    updateInterfaceData(LocationData())
+    updateInterfaceData(locationData)
+  }
+  
+  func updateData(sender: AnyObject?) {
+    updateInterfaceData(locationData)
   }
   
   func updateInterfaceData(data: LocationData) {
@@ -360,6 +408,7 @@ class MainController: UIViewController {
   
   func startUpdatingLocation() {
     locationManager.startUpdatingLocation()
+    locationManager.startUpdatingHeading()
   }
   
   func updateWeatherData() {
@@ -429,10 +478,12 @@ extension MainController: CLLocationManagerDelegate {
     
     locationData.latitude = latitude
     locationData.longitude = longitude
-    
-    updateWeatherData()
-    
-    updateInterfaceData(locationData)
+  }
+  
+  func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    let heading = newHeading.magneticHeading
+    let headingDegrees = (-heading*M_PI/180)
+    compass.transform = CGAffineTransformMakeRotation(CGFloat(headingDegrees));
   }
   
   func attributedString(string: String, letterSpacing: Float = 3.0) -> NSAttributedString

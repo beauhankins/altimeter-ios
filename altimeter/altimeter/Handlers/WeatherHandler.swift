@@ -23,6 +23,7 @@ class WeatherHandler {
   }
   
   func getWeatherData( lat lat: Double, lon: Double, completion: ([String:Double]) -> Void ) {
+    
     fetchWeather(lat: lat, lon: lon, completion: { (responseObject: AnyObject) -> Void in
       var temp = 0.0
       var pressure = 0.0
@@ -43,7 +44,7 @@ class WeatherHandler {
       
       }) {
         error -> Void in
-      
+      print(error)
     }
   }
 }
