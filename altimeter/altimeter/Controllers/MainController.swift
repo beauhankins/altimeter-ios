@@ -249,7 +249,7 @@ class MainController: UIViewController {
   override func viewWillAppear(animated: Bool) {
     locationManager.delegate = self
     locationManager.desiredAccuracy = kCLLocationAccuracyBest
-    startLocationServices({ () -> Void in
+    prepareLocationServices({ () -> Void in
       self.startUpdatingLocation()
       self.updateInterfaceForLocationServices(true)
       }) { () -> Void in
@@ -278,7 +278,7 @@ class MainController: UIViewController {
   }
   
   func applicationWillEnterForeground(notification: NSNotification) {
-    startLocationServices({ () -> Void in
+    prepareLocationServices({ () -> Void in
       self.startUpdatingLocation()
       self.updateInterfaceForLocationServices(true)
       }) { () -> Void in
@@ -337,7 +337,7 @@ class MainController: UIViewController {
     let altitudeString = String(format: "%.0f", altitude)
     let accuracyString = String(format: "~%.0f' ACCURACY", altitudeAccuracy)
     let psiAndTemperatureString = data.psi > 0 ?
-      String(format: "%.0f PSI %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, temperature) :
+      String(format: "%.0f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, temperature) :
       String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", temperature)
     let latitudeString = String(format: "%.4f %@", latitude, data.latitude > 0 ? "S" : "N")
     let formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
@@ -369,7 +369,7 @@ class MainController: UIViewController {
   
   // MARK: - Location Services
 
-  func startLocationServices(completion: () -> Void, failure: () -> Void) {
+  func prepareLocationServices(completion: () -> Void, failure: () -> Void) {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
       if CLLocationManager.locationServicesEnabled() {
         
@@ -448,41 +448,40 @@ extension MainController: CLLocationManagerDelegate {
   func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
     if status == .AuthorizedWhenInUse || status == .AuthorizedAlways {
       startUpdatingLocation()
+      updateInterfaceForLocationServices(true)
     }
   }
   
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    if unitStore.count > 0 {
-      if unitStore[0] as! NSNumber != UserSettings.sharedSettings.unit.rawValue {
-        altitudeStore.removeAllObjects()
-        altitudeAccuracyStore.removeAllObjects()
-      }
+    if manager == locationManager, let location = manager.location {
+      let unit = UserSettings.sharedSettings.unit
+      
+      if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
+      altitudeStore.addObject(location.altitude as Double)
+      
+      if altitudeAccuracyStore.count > 5 { altitudeAccuracyStore.removeObjectAtIndex(0) }
+      altitudeAccuracyStore.addObject(location.verticalAccuracy)
+      
+      let avAltitude = unit.convertDistance(average(altitudeStore as NSArray as! [Double]))
+      let avAltitudeAccuracy = unit.convertDistance(average(altitudeAccuracyStore as NSArray as! [Double]))
+      let latitude = location.coordinate.latitude
+      let longitude = location.coordinate.longitude
+      
+      locationData.altitude = avAltitude
+      locationData.altitudeAccuracy = avAltitudeAccuracy
+      locationData.latitude = latitude
+      locationData.longitude = longitude
     }
-    
-    unitStore[0] = UserSettings.sharedSettings.unit.rawValue
-    
-    if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
-    altitudeStore.addObject(UserSettings.sharedSettings.unit.convertDistance(locationManager.location!.altitude.advancedBy(0)))
-    
-    if altitudeAccuracyStore.count > 5 { altitudeAccuracyStore.removeObjectAtIndex(0) }
-    altitudeAccuracyStore.addObject(UserSettings.sharedSettings.unit.convertDistance(locationManager.location!.verticalAccuracy))
-    
-    let avAltitude = Double((altitudeStore as NSArray as! [Int]).reduce(0,combine:+)) / Double(altitudeStore.count)
-    let avAltitudeAccuracy = Double((altitudeAccuracyStore as NSArray as! [Int]).reduce(0,combine:+)) / Double(altitudeAccuracyStore.count)
-    
-    locationData.altitude = avAltitude
-    locationData.altitudeAccuracy = avAltitudeAccuracy
-    
-    let latitude = locationManager.location!.coordinate.latitude
-    let longitude = locationManager.location!.coordinate.longitude
-    
-    locationData.latitude = latitude
-    locationData.longitude = longitude
+  }
+  
+  func average(array: [Double]) -> Double {
+    return array.reduce(0, combine:+) / Double(array.count)
   }
   
   func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
     let heading = newHeading.magneticHeading
     let headingDegrees = (-heading*M_PI/180)
+    
     compass.transform = CGAffineTransformMakeRotation(CGFloat(headingDegrees));
   }
   

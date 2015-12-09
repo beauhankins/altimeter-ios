@@ -142,7 +142,7 @@ class CheckInController: UIViewController {
     request.naturalLanguageQuery = query
     
     let locationData = CheckInDataManager.sharedManager.checkIn.locationData
-    request.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude), MKCoordinateSpan(latitudeDelta: 0.112872, longitudeDelta: 0.109863))
+    request.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude), MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
     
     localSearch = nil
     localSearch = MKLocalSearch(request: request)

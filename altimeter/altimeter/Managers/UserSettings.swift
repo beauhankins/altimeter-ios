@@ -15,9 +15,9 @@ enum Unit: Int {
   func convertDistance(distance: Double) -> Double {
     switch self {
     case .Imperial:
-      return distance
-    case .Metric:
       return distance * 3.2808399
+    case .Metric:
+      return distance
     }
   }
   

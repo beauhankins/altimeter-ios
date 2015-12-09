@@ -31,7 +31,6 @@
 		091C4BAE1BA7A3B600DB5F07 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */; };
 		091C4BB11BA7A3BD00DB5F07 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */; };
 		091C4BB21BA7A3BD00DB5F07 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */; };
-		091C4BB71BA7A3DA00DB5F07 /* example-image.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB61BA7A3DA00DB5F07 /* example-image.jpeg */; };
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
@@ -89,7 +88,6 @@
 		091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "Resources/Fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
 		091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "Resources/Fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "Resources/Fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
-		091C4BB61BA7A3DA00DB5F07 /* example-image.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "example-image.jpeg"; path = "Resources/example-image.jpeg"; sourceTree = "<group>"; };
 		0923422C1B1031150028C7A9 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -206,7 +204,6 @@
 			isa = PBXGroup;
 			children = (
 				090887271B022D53003E9A60 /* Images.xcassets */,
-				091C4BB61BA7A3DA00DB5F07 /* example-image.jpeg */,
 				092342311B103F4B0028C7A9 /* Fonts */,
 			);
 			name = Resources;
@@ -394,7 +391,6 @@
 				090887281B022D53003E9A60 /* Images.xcassets in Resources */,
 				09AF4AF51BA7A6470090059E /* Lato-Bold.ttf in Resources */,
 				09AF4AF71BA7A6470090059E /* Lato-Regular.ttf in Resources */,
-				091C4BB71BA7A3DA00DB5F07 /* example-image.jpeg in Resources */,
 				09AF4AF61BA7A6470090059E /* Lato-Light.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

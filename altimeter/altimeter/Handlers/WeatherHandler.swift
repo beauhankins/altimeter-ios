@@ -9,8 +9,10 @@
 import Foundation
 
 class WeatherHandler {
+  let APIKEY = "922effc79b3cf84d8aecbe895279057f"
+  
   private func fetchWeather( lat lat: Double, lon: Double, completion: (AnyObject) -> Void, failure: (NSError) -> Void ) {
-    let url = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)"
+    let url = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&APPID=\(APIKEY)"
     
     let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
     manager.POST(url, parameters: nil, success: {
