@@ -31,7 +31,7 @@ class StatusBar: UIView {
   override func layoutSubviews() {
     removeConstraints(constraints)
     
-    backgroundColor = Colors().Black
+    backgroundColor = Colors().Secondary
     
     addSubview(textLabel)
     
