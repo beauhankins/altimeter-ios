@@ -7,22 +7,10 @@
 //
 
 import Foundation
+import Alamofire
 
 class WeatherHandler {
   let APIKEY = "922effc79b3cf84d8aecbe895279057f"
-  
-  private func fetchWeather( lat lat: Double, lon: Double, completion: (AnyObject) -> Void, failure: (NSError) -> Void ) {
-    let url = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&APPID=\(APIKEY)"
-    
-    let manager: AFHTTPRequestOperationManager = AFHTTPRequestOperationManager()
-    manager.POST(url, parameters: nil, success: {
-      operation, responseObject -> Void in
-      completion(responseObject)
-      }) {
-        operation, error -> Void in
-        failure(error)
-    }
-  }
   
   func getWeatherData( lat lat: Double, lon: Double, completion: ([String:Double]) -> Void ) {
     
@@ -40,13 +28,34 @@ class WeatherHandler {
       }
       
       completion([
-        "temp":temp,
-        "pressure":pressure
+        "temp": temp,
+        "pressure": pressure
         ])
       
       }) {
         error -> Void in
       print(error)
+    }
+  }
+  
+  private func fetchWeather( lat lat: Double, lon: Double, completion: (AnyObject) -> Void, failure: (NSError) -> Void ) {
+    let url = "http://api.openweathermap.org/data/2.5/weather"
+    let parameters = [
+      "lat": String(lat),
+      "lon": String(lon),
+      "APPID": APIKEY
+    ]
+    
+    Alamofire.request(.GET, url, parameters: parameters)
+      .responseJSON {
+        response in
+        if let data = response.result.value {
+          completion(data)
+        }
+        
+        if let error = response.result.error {
+          failure(error)
+        }
     }
   }
 }

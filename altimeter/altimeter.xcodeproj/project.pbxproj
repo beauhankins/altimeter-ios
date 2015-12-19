@@ -35,6 +35,8 @@
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
 		098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098A24C91BB621C8005FA3E2 /* ListField.swift */; };
+		098F21B51C201B290020F704 /* LocationSearchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F21B41C201B290020F704 /* LocationSearchHandler.swift */; };
+		098F21B71C201FA00020F704 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F21B61C201FA00020F704 /* Location.swift */; };
 		09AF4AF51BA7A6470090059E /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */; };
 		09AF4AF61BA7A6470090059E /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */; };
 		09AF4AF71BA7A6470090059E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */; };
@@ -43,7 +45,7 @@
 		09EF61E01BE96B590047D6CB /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF61DF1BE96B590047D6CB /* StatusBar.swift */; };
 		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
-		4F5D1190B6DA9B00E9B3B6FD /* libPods-altimeter.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B1875E6743942CA94342723 /* libPods-altimeter.a */; };
+		8BB5101E5DC0414E5EED0F92 /* Pods_altimeter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3870BDEAB171FE206152BA7A /* Pods_altimeter.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,12 +95,14 @@
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		098A24C91BB621C8005FA3E2 /* ListField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListField.swift; path = Components/ListField.swift; sourceTree = "<group>"; };
+		098F21B41C201B290020F704 /* LocationSearchHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationSearchHandler.swift; path = Handlers/LocationSearchHandler.swift; sourceTree = "<group>"; };
+		098F21B61C201FA00020F704 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
 		09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridCell.swift; path = Components/PhotoGridCell.swift; sourceTree = "<group>"; };
 		09B394641BB159690082A98C /* LocationDataDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDataDetailView.swift; path = Components/LocationDataDetailView.swift; sourceTree = "<group>"; };
 		09EF61DF1BE96B590047D6CB /* StatusBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusBar.swift; path = Components/StatusBar.swift; sourceTree = "<group>"; };
 		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		3B1875E6743942CA94342723 /* libPods-altimeter.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-altimeter.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3870BDEAB171FE206152BA7A /* Pods_altimeter.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_altimeter.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7470450BBA62FF8D8EC16BF1 /* Pods-altimeter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.debug.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.debug.xcconfig"; sourceTree = "<group>"; };
 		A7379AAEB755A4B5D7483CBF /* Pods-altimeter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-altimeter.release.xcconfig"; path = "Pods/Target Support Files/Pods-altimeter/Pods-altimeter.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,7 +116,7 @@
 				0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */,
 				092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */,
 				09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */,
-				4F5D1190B6DA9B00E9B3B6FD /* libPods-altimeter.a in Frameworks */,
+				8BB5101E5DC0414E5EED0F92 /* Pods_altimeter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -240,6 +244,7 @@
 				091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */,
 				091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */,
 				091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */,
+				098F21B41C201B290020F704 /* LocationSearchHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -266,6 +271,7 @@
 			children = (
 				091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */,
 				091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */,
+				098F21B61C201FA00020F704 /* Location.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -290,7 +296,7 @@
 				09F6E1C21B64D2A800E25FBB /* CoreData.framework */,
 				0978A17E1B5A111C002FB5FE /* MapKit.framework */,
 				092342361B1046380028C7A9 /* CoreMotion.framework */,
-				3B1875E6743942CA94342723 /* libPods-altimeter.a */,
+				3870BDEAB171FE206152BA7A /* Pods_altimeter.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -316,6 +322,7 @@
 				090887181B022D53003E9A60 /* Frameworks */,
 				090887191B022D53003E9A60 /* Resources */,
 				FBB2E6D7D12D2F2010B5B2C6 /* Copy Pods Resources */,
+				3EB1A2103B427B9367478694 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -405,6 +412,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3EB1A2103B427B9367478694 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-altimeter/Pods-altimeter-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		DA030745112A1CA45C7C6829 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -448,6 +470,7 @@
 				091C4BA21BA7A3A200DB5F07 /* ListCell.swift in Sources */,
 				091C4BA41BA7A3A200DB5F07 /* NavigationBar.swift in Sources */,
 				091C4B991BA7A39000DB5F07 /* DataModel.xcdatamodeld in Sources */,
+				098F21B71C201FA00020F704 /* Location.swift in Sources */,
 				091C4B8F1BA7A36700DB5F07 /* CheckInController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 				098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */,
@@ -461,6 +484,7 @@
 				091C4BA01BA7A3A200DB5F07 /* CounterButton.swift in Sources */,
 				091C4B941BA7A36700DB5F07 /* SavedCheckInsController.swift in Sources */,
 				091C4BAA1BA7A3AB00DB5F07 /* WeatherHandler.swift in Sources */,
+				098F21B51C201B290020F704 /* LocationSearchHandler.swift in Sources */,
 				091C4B901BA7A36700DB5F07 /* CheckInFinalController.swift in Sources */,
 				091C4B931BA7A36700DB5F07 /* PhotoGridController.swift in Sources */,
 				091C4BB21BA7A3BD00DB5F07 /* LocationData.swift in Sources */,

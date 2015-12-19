@@ -2,15 +2,18 @@
 platform :ios, '8.0'
 
 target 'altimeter' do
-  pod 'AFNetworking'
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
   pod 'TestFairy'
   pod 'MagicalRecord', '~> 2.3'
+  pod 'Dollar'
+  pod 'Alamofire', '~> 3.0'
+  pod 'ReachabilitySwift', git: 'https://github.com/ashleymills/Reachability.swift'
 end
 
 target 'altimeterTests' do
 
 end
 
+use_frameworks!

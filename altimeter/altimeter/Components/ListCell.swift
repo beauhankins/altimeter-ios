@@ -222,7 +222,7 @@ class ListCell: UICollectionViewCell {
     }()
     
     if let sublayers = layer.sublayers {
-      for var layer in sublayers {
+      for layer in sublayers {
         if layer.name == "border" {
           layer.removeFromSuperlayer()
         }

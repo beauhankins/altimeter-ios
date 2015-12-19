@@ -14,10 +14,9 @@ import CoreLocation
 class CheckInController: UIViewController {
   // MARK: - Variables & Constants
   
-  var locations:[MKMapItem] = []
-  var localSearch: MKLocalSearch?
+  var locations: [Location] = []
   
-  var selectedLocation: MKMapItem?
+  var selectedLocation: Location?
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -138,30 +137,24 @@ class CheckInController: UIViewController {
   // MARK: - Search Filter
   
   func queryDidChange(query: String) {
-    let request = MKLocalSearchRequest()
-    request.naturalLanguageQuery = query
+    UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     
-    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
-    request.region = MKCoordinateRegionMake(CLLocationCoordinate2DMake(locationData.latitude, locationData.longitude), MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05))
-    
-    localSearch = nil
-    localSearch = MKLocalSearch(request: request)
-    
-    if let search = localSearch {
-      UIApplication.sharedApplication().networkActivityIndicatorVisible = true
-      search.startWithCompletionHandler({
-        response, error -> Void in
+    LocationSearchHandler().getLocations(query, completion: {
+      locations -> Void in
+      self.locations = locations
+      self.locationsListView.reloadData()
+      self.selectedLocation = nil
+      
+      UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+      }) {
+        error -> Void in
         if let error = error {
           print(error)
         } else {
-          if let response = response {
-            self.locations = response.mapItems
-            self.locationsListView.reloadData()
-            self.selectedLocation = nil
-          }
+          print("No results for location search query")
         }
+        
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-      })
     }
   }
   
@@ -246,13 +239,11 @@ extension CheckInController: UICollectionViewDataSource {
     cell.showCheckBox = true
     cell.textColor = Colors().Black
     
-    if let locationName = locations[row].name {
-      cell.text = String(locationName)
-    }
+    cell.text = String(locations[row].name)
     
     let locationData = CheckInDataManager.sharedManager.checkIn.locationData
     
-    let coordinate = locations[row].placemark.coordinate
+    let coordinate = locations[row].coordinate
     
     let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
     let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))

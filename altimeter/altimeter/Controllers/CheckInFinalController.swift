@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import AssetsLibrary
+import ReachabilitySwift
 
 class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
@@ -163,7 +164,7 @@ class CheckInFinalController: UIViewController {
     
     layoutInterface()
     requestPhotosPermissions()
-    monitorReachability()
+    startMonitoringReachability()
   }
   
   override func viewWillAppear(animated: Bool) {
@@ -346,13 +347,36 @@ class CheckInFinalController: UIViewController {
   }
   
   func serviceIsAvailable() -> Bool {
-    return AFNetworkReachabilityManager.sharedManager().reachable
+    let reachability: Reachability
+
+    do {
+      reachability = try Reachability.reachabilityForInternetConnection()
+    } catch {
+      print("Unable to create Reachability")
+      return false
+    }
+    
+    return reachability.isReachable()
   }
   
-  func monitorReachability() {
-    AFNetworkReachabilityManager.sharedManager().setReachabilityStatusChangeBlock { (status: AFNetworkReachabilityStatus) -> Void in
-      self.serviceDidChange(self.serviceIsAvailable())
+  func startMonitoringReachability() {
+    let reachability: Reachability
+    
+    do {
+      reachability = try Reachability.reachabilityForInternetConnection()
+    } catch {
+      print("Unable to create Reachability")
+      return
     }
-    AFNetworkReachabilityManager.sharedManager().startMonitoring()
+    
+    NSNotificationCenter.defaultCenter().addObserver(self,
+      selector: "reachabilityChanged:",
+      name: ReachabilityChangedNotification,
+      object: reachability)
+  }
+  
+  func reachabilityChanged(note: NSNotification) {
+    let reachability = note.object as! Reachability
+    self.serviceDidChange(reachability.isReachable())
   }
 }
