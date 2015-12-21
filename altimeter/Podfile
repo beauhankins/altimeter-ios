@@ -5,7 +5,6 @@ target 'altimeter' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
-  pod 'TestFairy'
   pod 'MagicalRecord', '~> 2.3'
   pod 'Dollar'
   pod 'Alamofire', '~> 3.0'

@@ -364,6 +364,7 @@
 				TargetAttributes = {
 					0908871A1B022D53003E9A60 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = 5STW797USV;
 					};
 					0908872F1B022D53003E9A60 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -605,11 +606,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.altimeter.app;
 				PRODUCT_NAME = Altimeter;
-				PROVISIONING_PROFILE = "f51f2a3b-05e9-4fd6-9421-f2b207902c83";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "altimeter-Bridging-Header.h";
 			};
 			name = Debug;
@@ -620,11 +623,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.altimeter.app;
 				PRODUCT_NAME = Altimeter;
-				PROVISIONING_PROFILE = "f51f2a3b-05e9-4fd6-9421-f2b207902c83";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "altimeter-Bridging-Header.h";
 			};
 			name = Release;

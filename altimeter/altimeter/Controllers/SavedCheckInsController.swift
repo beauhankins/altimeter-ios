@@ -174,7 +174,7 @@ extension SavedCheckInsController: UICollectionViewDataSource {
       timeFormatter.locale = NSLocale.currentLocale()
       let timeString = timeFormatter.stringFromDate(timestamp)
       
-      cell.subtext = String("\(timeString.substringToIndex(timeString.endIndex.predecessor())) at \(dateString)")
+      cell.subtext = String("\(dateString) at \(timeString.substringToIndex(timeString.endIndex.predecessor()))")
     }
     
     if let imageData = checkIn.image {
