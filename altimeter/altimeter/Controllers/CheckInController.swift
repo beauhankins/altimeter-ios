@@ -247,7 +247,7 @@ extension CheckInController: UICollectionViewDataSource {
     
     let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
     let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))
-    cell.subtext = "\(Int(UserSettings.sharedSettings.unit.convertDistance(distance))) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
+    cell.subtext = "\(Int(UserSettings.sharedSettings.unit.dynamicDistance(distance))) \(UserSettings.sharedSettings.unit.dynamicDistanceAbbreviation(distance).uppercaseString)"
     
     return cell
   }

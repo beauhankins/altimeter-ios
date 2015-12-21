@@ -163,10 +163,15 @@ extension SavedCheckInsController: UICollectionViewDataSource {
       
     if let timestamp = checkIn.timestamp {
       let dateFormatter = NSDateFormatter()
-      dateFormatter.dateFormat = "EEEE dd/MM/yyyy"
+      dateFormatter.dateStyle = .ShortStyle
+      dateFormatter.timeStyle = .NoStyle
+      dateFormatter.locale = NSLocale.currentLocale()
       let dateString = dateFormatter.stringFromDate(timestamp)
+      
       let timeFormatter = NSDateFormatter()
-      timeFormatter.dateFormat = "hh:mma"
+      timeFormatter.dateStyle = .NoStyle
+      timeFormatter.timeStyle = .ShortStyle
+      timeFormatter.locale = NSLocale.currentLocale()
       let timeString = timeFormatter.stringFromDate(timestamp)
       
       cell.subtext = String("\(timeString.substringToIndex(timeString.endIndex.predecessor())) at \(dateString)")

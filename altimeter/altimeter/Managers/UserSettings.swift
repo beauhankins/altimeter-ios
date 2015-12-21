@@ -8,6 +8,11 @@
 
 import Foundation
 
+let FEET_IN_MILES = 5280.0
+let FEET_CUTOFF = 3281.0
+let METERS_IN_KILOMETERS = 1000.0
+let METERS_CUTOFF = METERS_IN_KILOMETERS
+
 enum Unit: Int {
   case Imperial
   case Metric
@@ -27,6 +32,44 @@ enum Unit: Int {
       return "ft"
     case .Metric:
       return "m"
+    }
+  }
+  
+  func dynamicDistance(distance: Double) -> Double {
+    let dist = convertDistance(distance)
+    
+    switch self {
+    case .Imperial:
+      if dist > FEET_CUTOFF {
+        return dist / FEET_IN_MILES
+      } else {
+        return dist
+      }
+    case .Metric:
+      if dist > METERS_CUTOFF {
+        return dist / METERS_IN_KILOMETERS
+      } else {
+        return dist
+      }
+    }
+  }
+  
+  func dynamicDistanceAbbreviation(distance: Double) -> String {
+    let dist = convertDistance(distance)
+    
+    switch self {
+    case .Imperial:
+      if dist > FEET_CUTOFF {
+        return "mi"
+      } else {
+        return "ft"
+      }
+    case .Metric:
+      if dist > METERS_CUTOFF {
+        return "km"
+      } else {
+        return "m"
+      }
     }
   }
   
