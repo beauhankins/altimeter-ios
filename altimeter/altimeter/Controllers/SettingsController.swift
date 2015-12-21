@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MessageUI
 
 class SettingsController: UIViewController {
   // MARK: - Variables & Constants
@@ -138,11 +139,31 @@ class SettingsController: UIViewController {
   }
   
   func sendFeedback() {
-    print("Send Feedback")
+    if MFMailComposeViewController.canSendMail() {
+      let mailComposerController = MFMailComposeViewController()
+      
+      mailComposerController.mailComposeDelegate = self
+      mailComposerController.setToRecipients(["team@getaltimeter.com"])
+      mailComposerController.setSubject("Question about Altimeter...")
+      
+      presentViewController(mailComposerController, animated: true, completion: nil)
+    } else {
+      let alertController = UIAlertController(
+        title: "Cannot send mail",
+        message: "You have not set-up email on this device. Set-up email in Settings > Mail, Contacts, Calendars.",
+        preferredStyle: .Alert)
+      
+      let okButton = UIAlertAction(title: "👍", style: .Cancel, handler: nil)
+      alertController.addAction(okButton)
+      
+      presentViewController(alertController, animated: true, completion: nil)
+    }
   }
   
   func openInAppStore() {
-    print("Open In App Store")
+    let urlString = "itms://itunes.apple.com/us/app/altimeter-simple-precise-altitude/id1066240359"
+    
+    UIApplication.sharedApplication().openURL(NSURL(string: urlString)!)
   }
   
   // MARK: - Settings
@@ -208,5 +229,13 @@ extension SettingsController: UICollectionViewDataSource {
     else { cell.stateText = "" }
     
     return cell
+  }
+}
+
+// MARK: - MFMailComposeViewControllerDelegate
+
+extension SettingsController: MFMailComposeViewControllerDelegate {
+  func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
+    controller.dismissViewControllerAnimated(true, completion: nil)
   }
 }
