@@ -70,10 +70,18 @@ enum NavigationBarItemType: Int {
 class NavigationBarItem: UIControl {
   
   var icon: UIImage?
-  var text: String?
+  var text: String? {
+    didSet {
+      textLabel.text = text
+    }
+  }
   var alignment: NavigationBarItemAlignment = .Left
   var type: NavigationBarItemType = .Default
-  var color: UIColor = Colors().White
+  var color: UIColor = Colors().White {
+    didSet {
+      textLabel.textColor = color
+    }
+  }
   
   private lazy var iconView: UIImageView = {
     var imageView = UIImageView()

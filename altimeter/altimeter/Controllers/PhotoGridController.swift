@@ -14,6 +14,7 @@ import MobileCoreServices
 class PhotoGridController: UIViewController {
   // MARK: - Variables & Constants
 
+  let checkIn: CheckIn
   var photos: NSMutableArray?
   var selectedPhotoIndex: Int?
 
@@ -51,6 +52,19 @@ class PhotoGridController: UIViewController {
   
   // MARK: - View Lifecycle
   
+  init(checkIn: CheckIn) {
+    self.checkIn = checkIn
+    
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  convenience required init?(coder aDecoder: NSCoder) {
+    let checkIn = CheckIn.create() as! CheckIn
+    checkIn.save()
+    
+    self.init(checkIn: checkIn)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -70,11 +84,21 @@ class PhotoGridController: UIViewController {
     photos = NSMutableArray()
     let library = ALAssetsLibrary()
     library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: {
-      group, stop -> Void in
+      group, stop in
       if let assets = group {
-        assets.enumerateAssetsUsingBlock({ (result: ALAsset?, index: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
-          if let photo = result, photos = self.photos {
-            photos.insertObject(UIImage(CGImage: photo.thumbnail().takeUnretainedValue()), atIndex: 0)
+        assets.enumerateAssetsUsingBlock({
+          result, index, stop in
+          if let asset = result, photos = self.photos {
+            let originalRep = asset.defaultRepresentation().fullResolutionImage().takeUnretainedValue()
+            let originalImage = UIImage(CGImage: originalRep)
+            let thumbnailImage = self.scaledImage(originalImage, size: CGSize(width: 400, height: 400))
+            
+            let photo = Photo.create() as! Photo
+            photo.original = UIImageJPEGRepresentation(originalImage, 0.5) ?? NSData()
+            photo.thumbnail = UIImageJPEGRepresentation(thumbnailImage, 1.0) ?? NSData()
+            photo.save()
+            
+            photos.insertObject(photo, atIndex: 0)
           }
         })
       } else {
@@ -85,6 +109,15 @@ class PhotoGridController: UIViewController {
       error -> Void in
       
     }
+  }
+  
+  func scaledImage(image: UIImage, size: CGSize) -> UIImage {
+    UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
+    image.drawInRect(CGRect(origin: CGPoint(x: 0, y: 0), size: size))
+    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    
+    return scaledImage
   }
   
   // MARK: - Layout Interface
@@ -115,9 +148,10 @@ class PhotoGridController: UIViewController {
   }
   
   func done(sender: AnyObject) {
-    if let i = selectedPhotoIndex, photo = photos?[i] {
-      CheckInDataManager.sharedManager.checkIn.image = UIImageJPEGRepresentation(photo as! UIImage, 1.0)
-    }
+    guard let i = selectedPhotoIndex, photo = photos?[i] as? Photo else { return }
+    
+    checkIn.photo = photo
+    
     closeController()
   }
   
@@ -184,8 +218,8 @@ extension PhotoGridController: UICollectionViewDataSource {
       cell.image = UIImage(named: "icon-camera")
       cell.imageMode = .Center
     } else {
-      if let photos = photos {
-        cell.image = photos[relativeRow] as? UIImage
+      if let photo = photos?[relativeRow] as? Photo {
+        cell.image = UIImage(data: photo.thumbnail)
       }
     }
     

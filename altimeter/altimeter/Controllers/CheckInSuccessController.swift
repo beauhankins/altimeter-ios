@@ -13,6 +13,7 @@ import MapKit
 class CheckInSuccessController: UIViewController {
   // MARK: - Variables & Constants
   
+  let checkIn: CheckIn
   var isShared = false
   
   lazy var navigationBar: NavigationBar = {
@@ -30,11 +31,11 @@ class CheckInSuccessController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
-    let altitude = CheckInDataManager.sharedManager.checkIn.locationData.altitude
+    let altitude = self.checkIn.location.altitude.doubleValue
     let altitudeString = String(format: "%.0f", round(altitude))
     
-    if let locationName = CheckInDataManager.sharedManager.checkIn.locationName {
-      view.title = "\(locationName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
+    if let placeName = self.checkIn.place?.name {
+      view.title = "\(placeName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     } else {
       view.title = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     }
@@ -46,9 +47,9 @@ class CheckInSuccessController: UIViewController {
     }()
   
   lazy var locationDataDetailView: LocationDataDetailView = {
-    let view = LocationDataDetailView()
+    let view = LocationDataDetailView(checkIn: self.checkIn)
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.checkIn = CheckInDataManager.sharedManager.checkIn
+    view.checkIn = self.checkIn
     return view
     }()
   
@@ -78,8 +79,12 @@ class CheckInSuccessController: UIViewController {
   lazy var mapView: MKMapView = {
     let mapView = MKMapView()
     mapView.translatesAutoresizingMaskIntoConstraints = false
-    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
-    mapView.region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: locationData.latitude, longitude: locationData.longitude), span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
+    let location = self.checkIn.location
+    mapView.region = MKCoordinateRegion(
+      center: CLLocationCoordinate2D(
+        latitude: location.coordinate.latitude.doubleValue,
+        longitude: location.coordinate.longitude.doubleValue),
+      span: MKCoordinateSpan(latitudeDelta: 0.25, longitudeDelta: 0.25))
     return mapView
     }()
   
@@ -103,11 +108,11 @@ class CheckInSuccessController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.openMapsButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.openMapsButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.openMapsButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.openMapsButton, attribute: .Top, relatedBy: .Equal, toItem: self.locationDataDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.openMapsButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
@@ -119,14 +124,23 @@ class CheckInSuccessController: UIViewController {
   
   // MARK: - View Lifecycle
   
+  init(checkIn: CheckIn) {
+    self.checkIn = checkIn
+    
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  convenience required init?(coder aDecoder: NSCoder) {
+    let checkIn = CheckIn.create() as! CheckIn
+    checkIn.save()
+    
+    self.init(checkIn: checkIn)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
     layoutInterface()
-  }
-  
-  override func viewWillAppear(animated: Bool) {
-    
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -190,8 +204,9 @@ class CheckInSuccessController: UIViewController {
   }
   
   func openMaps(sender: AnyObject) {
-    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
-    let coord = CLLocationCoordinate2D(latitude: locationData.latitude, longitude: locationData.longitude)
+    let coord = CLLocationCoordinate2D(
+      latitude: checkIn.location.coordinate.latitude.doubleValue,
+      longitude: checkIn.location.coordinate.longitude.doubleValue)
     let placemark = MKPlacemark(coordinate: coord, addressDictionary: nil)
     let mapItem = MKMapItem(placemark: placemark)
     

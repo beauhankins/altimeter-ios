@@ -10,23 +10,23 @@ import Foundation
 import UIKit
 
 class LocationDataDetailView: UIView {
-  var checkIn: CheckIn = CheckIn() {
+  var checkIn: CheckIn {
     didSet {
-      let locationData = checkIn.locationData
+      let location = checkIn.location
       
-      let latitude = fabs(locationData.latitude)
-      let formattedLatitude = formattedCoordinateAngleString(locationData.latitude)
-      let longitude = fabs(locationData.longitude)
-      let formattedLongitude = formattedCoordinateAngleString(locationData.latitude)
-      let pressure = locationData.psi
-      let temperature = UserSettings.sharedSettings.unit.convertDegrees(locationData.temperature)
+      let latitude = fabs(location.coordinate.latitude.doubleValue)
+      let formattedLatitude = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
+      let longitude = fabs(location.coordinate.longitude.doubleValue)
+      let formattedLongitude = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
+      let pressure = location.pressure.doubleValue
+      let temperature = UserSettings.sharedSettings.unit.convertDegrees(location.temperature.doubleValue)
       
-      let coordinateString = String(format: "%.4f %@   %.4f %@", latitude, locationData.latitude > 0 ? "S" : "N", longitude, locationData.longitude > 0 ? "E" : "W")
+      let coordinateString = String(format: "%.4f %@   %.4f %@", latitude, latitude > 0 ? "S" : "N", longitude, longitude > 0 ? "E" : "W")
       let formattedCoordinateString = "\(formattedLatitude)   \(formattedLongitude)"
       let pressureString = String(format: "%.0f PSI", pressure)
       let temperatureString = String(format: "%.0f°%@", temperature, UserSettings.sharedSettings.unit.degreesAbbreviation())
       
-      if let timestamp = checkIn.timestamp {
+      if let timestamp = checkIn.dateCreated {
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateStyle = .ShortStyle
         dateFormatter.timeStyle = .NoStyle
@@ -138,20 +138,33 @@ class LocationDataDetailView: UIView {
     return view
     }()
   
+  init(checkIn: CheckIn) {
+    self.checkIn = checkIn
+    
+    super.init(frame: CGRectZero)
+  }
+  
+  convenience required init?(coder aDecoder: NSCoder) {
+    let checkIn = CheckIn.create() as! CheckIn
+    checkIn.save()
+    
+    self.init(checkIn: checkIn)
+  }
+  
   override func layoutSubviews() {
     layer.sublayers?.removeAll()
     
     addSubview(container)
     
     addConstraint(NSLayoutConstraint(item: container, attribute: .Top, relatedBy: .Equal, toItem: self, attribute: .Top, multiplier: 1, constant: 12))
-    addConstraint(NSLayoutConstraint(item: container, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 36))
+    addConstraint(NSLayoutConstraint(item: container, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 40))
     addConstraint(NSLayoutConstraint(item: container, attribute: .Right, relatedBy: .Equal, toItem: self, attribute: .Right, multiplier: 1, constant: -22))
     
     addConstraint(NSLayoutConstraint(item: self, attribute: .Bottom, relatedBy: .Equal, toItem: container, attribute: .Bottom, multiplier: 1, constant: 12))
     
     let borderBottom: CALayer = {
       let layer = CALayer()
-      layer.frame = CGRectMake(0, self.frame.height, self.frame.width, 1)
+      layer.frame = CGRectMake(20, self.frame.height, self.frame.width, 1)
       layer.opacity = 0.1
       layer.backgroundColor = Colors().Black.CGColor
       return layer

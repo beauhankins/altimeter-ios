@@ -11,10 +11,10 @@ import MapKit
 import Alamofire
 import Dollar
 
-class LocationSearchHandler {
+class PlaceSearchHandler {
   let APIKEY = "AIzaSyBEFgz1nnN_4HiaE8bQFm1U0xhbOFZIjUg"
 
-  func getLocations(query: String, completion: ([Location]) -> Void, failure: (NSError?) -> Void) {
+  func getPlaces(query: String, completion: ([Place]) -> Void, failure: (NSError?) -> Void) {
     let url = "https://maps.googleapis.com/maps/api/place/autocomplete/json"
     let parameters = [
       "input": query,
@@ -26,14 +26,14 @@ class LocationSearchHandler {
         response in
         
         if let data = response.result.value, predictions = data["predictions"] as? Array<AnyObject> {
-          let locationIds = $.map(predictions, transform: {
+          let placeIds = $.map(predictions, transform: {
             prediction in
             return prediction["place_id"] as! String
           })
           
-          self.getLocationDetails(locationIds, completion: {
-            locations in
-            completion(locations)
+          self.getPlaceDetails(placeIds, completion: {
+            places in
+            completion(places)
             }, failure: {
               error in
               failure(error)
@@ -46,10 +46,10 @@ class LocationSearchHandler {
       }
   }
   
-  private func getLocationDetails(locationIds: [String], completion: ([Location]) -> Void, failure: (NSError?) -> Void) {
-    let locations = NSMutableArray()
+  private func getPlaceDetails(placeIds: [String], completion: ([Place]) -> Void, failure: (NSError?) -> Void) {
+    let places = NSMutableArray()
     
-    $.each(locationIds) {
+    $.each(placeIds) {
       i, id in
       let url = "https://maps.googleapis.com/maps/api/place/details/json"
       let parameters = [
@@ -68,16 +68,23 @@ class LocationSearchHandler {
               if let result = result {
                 if let
                   name = result["name"] as? String,
-                  location = result["geometry"]?["location"],
-                  lat = location["lat"] as? Double,
-                  lng = location["lng"] as? Double {
-                    locations.addObject(Location(
-                      name: name,
-                      coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng)
-                      ))
+                  coord = result["geometry"]?["location"],
+                  lat = coord["lat"] as? Double,
+                  lng = coord["lng"] as? Double {
+                    let coordinate = Coordinate.create() as! Coordinate
+                    coordinate.latitude = lat
+                    coordinate.longitude = lng
+                    coordinate.save()
                     
-                    if let lastId = $.last(locationIds) where id == lastId  {
-                      completion(locations as NSArray as! [Location])
+                    let place = Place.create() as! Place
+                    place.name = name
+                    place.coordinate = coordinate
+                    place.save()
+                    
+                    places.addObject(place)
+                    
+                    if let lastId = $.last(placeIds) where id == lastId  {
+                      completion(places as NSArray as! [Place])
                     }
                     
                     return

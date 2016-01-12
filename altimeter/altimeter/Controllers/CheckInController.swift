@@ -14,9 +14,9 @@ import CoreLocation
 class CheckInController: UIViewController {
   // MARK: - Variables & Constants
   
-  var locations: [Location] = []
-  
-  var selectedLocation: Location?
+  let checkIn: CheckIn
+  var places: [Place] = []
+  var selectedPlace: Place?
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -33,10 +33,10 @@ class CheckInController: UIViewController {
     return nav
     }()
   
-  lazy var locationsListView: UICollectionView = {
+  lazy var placesListView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
-    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width, 64)
     
     let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -61,17 +61,17 @@ class CheckInController: UIViewController {
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(self.locationsListView)
+    view.addSubview(self.placesListView)
     view.addSubview(self.searchField)
     
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Top, relatedBy: .Equal, toItem: self.searchField, attribute: .Bottom, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.locationsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.placesListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.placesListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.placesListView, attribute: .Top, relatedBy: .Equal, toItem: self.searchField, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.placesListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     
     return view
     }()
@@ -81,21 +81,38 @@ class CheckInController: UIViewController {
     }()
   
   func newSavedButton() -> ListControl {
-    let listControl = ListControl()
-    listControl.translatesAutoresizingMaskIntoConstraints = false
-    listControl.text = "View Saved Check-Ins"
-    listControl.textLabel.font = Fonts().Heading
-    listControl.textColor = Colors().Primary
-    listControl.icon = UIImage(named: "icon-location")!
-    listControl.stateText = "\(SavedCheckIn.MR_findAll().count)"
-    listControl.stateTextColor = Colors().Black.colorWithAlphaComponent(0.5)
-    listControl.topBorder = true
-    listControl.backgroundColor = Colors().White
-    listControl.addTarget(self, action: Selector("savedCheckInsController"), forControlEvents: .TouchUpInside)
-    return listControl
+    let savedButton: ListControl = {
+      let listControl = ListControl()
+      listControl.translatesAutoresizingMaskIntoConstraints = false
+      listControl.text = "View Saved Check-Ins"
+      listControl.textLabel.font = Fonts().Heading
+      listControl.textColor = Colors().Primary
+      listControl.icon = UIImage(named: "icon-location")!
+      listControl.stateText = "\(SavedCheckInHandler().allSavedCheckIns().count)"
+      listControl.stateTextColor = Colors().Black.colorWithAlphaComponent(0.5)
+      listControl.topBorder = true
+      listControl.backgroundColor = Colors().White
+      listControl.addTarget(self, action: Selector("savedCheckInsController"), forControlEvents: .TouchUpInside)
+      return listControl
+      }()
+    
+    return savedButton
   }
   
   // MARK: - View Lifecycle
+  
+  init(checkIn: CheckIn) {
+    self.checkIn = checkIn
+    
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  convenience required init?(coder aDecoder: NSCoder) {
+    let checkIn = CheckIn.create() as! CheckIn
+    checkIn.save()
+    
+    self.init(checkIn: checkIn)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -123,7 +140,7 @@ class CheckInController: UIViewController {
     
     view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: savedButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
@@ -131,7 +148,12 @@ class CheckInController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     
+    updateRightNavigationBarItem()
+  }
+  
+  func updateRightNavigationBarItem() {
     navigationBar.rightBarItem.enabled = canContinue()
+    navigationBar.rightBarItem.text = (selectedPlace != nil) ? "Next" : "Skip"
   }
   
   // MARK: - Search Filter
@@ -139,11 +161,12 @@ class CheckInController: UIViewController {
   func queryDidChange(query: String) {
     UIApplication.sharedApplication().networkActivityIndicatorVisible = true
     
-    LocationSearchHandler().getLocations(query, completion: {
-      locations -> Void in
-      self.locations = locations
-      self.locationsListView.reloadData()
-      self.selectedLocation = nil
+    PlaceSearchHandler().getPlaces(query, completion: {
+      places -> Void in
+      self.places = places
+      self.placesListView.reloadData()
+      self.selectedPlace = nil
+      self.updateRightNavigationBarItem()
       
       UIApplication.sharedApplication().networkActivityIndicatorVisible = false
       }) {
@@ -165,11 +188,11 @@ class CheckInController: UIViewController {
   }
   
   func nextController() {
-    if let location = selectedLocation {
-      CheckInDataManager.sharedManager.checkIn.locationName = location.name
+    if let place = selectedPlace {
+      checkIn.place?.name = place.name
     }
-    
-    let checkInFinalController = CheckInFinalController()
+        
+    let checkInFinalController = CheckInFinalController(checkIn: checkIn)
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
   
@@ -186,7 +209,7 @@ class CheckInController: UIViewController {
     
     savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Bottom, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Top, multiplier: 1, constant: 0))
     savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
-    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Left, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Left, multiplier: 1, constant: 20))
+    savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Left, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Left, multiplier: 1, constant: 0))
     savedCheckInsController.view.addConstraint(NSLayoutConstraint(item: savedButton_copy, attribute: .Right, relatedBy: .Equal, toItem: savedCheckInsController.view, attribute: .Right, multiplier: 1, constant: 0))
     
     presentViewController(savedCheckInsController, animated: true, completion: nil)
@@ -204,7 +227,8 @@ extension CheckInController: UICollectionViewDelegate {
     let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
     cell.selected = true
     
-    selectedLocation = locations[indexPath.row]
+    selectedPlace = places[indexPath.row]
+    updateRightNavigationBarItem()
   }
   
   func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
@@ -225,7 +249,7 @@ extension CheckInController: UICollectionViewDelegateFlowLayout {
 
 extension CheckInController: UICollectionViewDataSource {
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return locations.count
+    return places.count
   }
   
   func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -239,19 +263,25 @@ extension CheckInController: UICollectionViewDataSource {
     cell.showCheckBox = true
     cell.textColor = Colors().Black
     
-    cell.text = String(locations[row].name)
+    cell.text = String(places[row].name)
     
-    let locationData = CheckInDataManager.sharedManager.checkIn.locationData
+    let location = checkIn.location
     
-    let coordinate = locations[row].coordinate
+    let coordinate = places[row].coordinate
     
-    let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-    let distance = location.distanceFromLocation(CLLocation(latitude: locationData.latitude, longitude: locationData.longitude))
+    let placeLocation = CLLocation(
+      latitude: coordinate.latitude.doubleValue,
+      longitude: coordinate.longitude.doubleValue)
+    let distance = placeLocation.distanceFromLocation(CLLocation(
+      latitude: location.coordinate.latitude.doubleValue,
+      longitude: location.coordinate.longitude.doubleValue))
     cell.subtext = "\(Int(UserSettings.sharedSettings.unit.dynamicDistance(distance))) \(UserSettings.sharedSettings.unit.dynamicDistanceAbbreviation(distance).uppercaseString)"
     
     return cell
   }
 }
+
+// MARK: - UITextFieldDelegate
 
 extension CheckInController: UITextFieldDelegate {
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {

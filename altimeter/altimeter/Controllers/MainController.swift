@@ -14,8 +14,8 @@ class MainController: UIViewController {
   
   // MARK: - Variables & Constants
   
+  let location: Location
   let locationManager = CLLocationManager()
-  lazy var locationData = LocationData()
   lazy var altitudeStore = NSMutableArray()
   lazy var altitudeAccuracyStore = NSMutableArray()
   lazy var unitStore = NSMutableArray()
@@ -239,6 +239,20 @@ class MainController: UIViewController {
   
   // MARK: - View Lifecycle
   
+  override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+    self.location = Location.create() as! Location
+    self.location.save()
+    
+    super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    self.location = Location.create() as! Location
+    self.location.save()
+    
+    super.init(coder: aDecoder)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -320,33 +334,33 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     
-    updateInterfaceData(locationData)
+    updateInterfaceData(location)
   }
   
   func updateData(sender: AnyObject?) {
-    updateInterfaceData(locationData)
+    updateInterfaceData(location)
   }
   
-  func updateInterfaceData(data: LocationData) {
-    let altitude = round(data.altitude)
-    let altitudeAccuracy = round(data.altitudeAccuracy)
-    let temperature = UserSettings.sharedSettings.unit.convertDegrees(data.temperature)
-    let latitude = fabs(data.latitude)
-    let longitude = fabs(data.longitude)
+  func updateInterfaceData(location: Location) {
+    let altitude = round(location.altitude.doubleValue)
+    let altitudeAccuracy = round(location.altitudeAccuracy.doubleValue)
+    let temperature = UserSettings.sharedSettings.unit.convertDegrees(location.temperature.doubleValue)
+    let latitude = fabs(location.coordinate.latitude.doubleValue)
+    let longitude = fabs(location.coordinate.longitude.doubleValue)
     
     let altitudeString = String(format: "%.0f", altitude)
     let accuracyString = String(format: "~%.0f' ACCURACY", altitudeAccuracy)
-    let psiAndTemperatureString = data.psi > 0 ?
-      String(format: "%.02f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", data.psi, temperature) :
+    let pressureAndTemperatureString = location.pressure.doubleValue > 0 ?
+      String(format: "%.02f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", location.pressure, temperature) :
       String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", temperature)
-    let latitudeString = String(format: "%.4f %@", latitude, data.latitude > 0 ? "S" : "N")
-    let formattedLatitudeString = formattedCoordinateAngleString(data.latitude)
-    let longitudeString = String(format: "%.4f %@", longitude, data.longitude > 0 ? "E" : "W")
-    let formattedLongitudeString = formattedCoordinateAngleString(data.longitude)
+    let latitudeString = String(format: "%.4f %@", latitude, location.coordinate.latitude.doubleValue > 0 ? "S" : "N")
+    let formattedLatitudeString = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
+    let longitudeString = String(format: "%.4f %@", longitude, location.coordinate.longitude.doubleValue > 0 ? "E" : "W")
+    let formattedLongitudeString = formattedCoordinateAngleString(location.coordinate.longitude.doubleValue)
     
     altitudeLabel.attributedText = attributedString(altitudeString)
     accuracyLabel.attributedText = attributedString(accuracyString)
-    psiAndTemperatureLabel.attributedText = attributedString(psiAndTemperatureString)
+    psiAndTemperatureLabel.attributedText = attributedString(pressureAndTemperatureString)
     latitudeLabel.attributedText = attributedString(latitudeString)
     formattedLatitudeLabel.attributedText = attributedString(formattedLatitudeString)
     longitudeLabel.attributedText = attributedString(longitudeString)
@@ -412,16 +426,16 @@ class MainController: UIViewController {
   }
   
   func updateWeatherData() {
-    WeatherHandler().getWeatherData(lat: locationData.latitude, lon: locationData.longitude) {
+    WeatherHandler().getWeatherData(lat: location.coordinate.latitude.doubleValue, lon: location.coordinate.longitude.doubleValue) {
       weatherData in
       if let
         temp = weatherData["temp"],
         pressure = weatherData["pressure"] {
-          self.locationData.temperature = self.fahrenheit(kelvin: temp)
-          self.locationData.psi = self.psi(hPa: pressure)
+          self.location.temperature = self.fahrenheit(kelvin: temp)
+          self.location.pressure = self.psi(hPa: pressure)
       }
       
-      self.updateInterfaceData(self.locationData)
+      self.updateInterfaceData(self.location)
     }
   }
   
@@ -443,13 +457,12 @@ class MainController: UIViewController {
   }
   
   func checkInController() {
-    let checkIn = CheckIn()
-    checkIn.locationData = locationData
-    checkIn.timestamp = NSDate()
+    let checkIn = CheckIn.create() as! CheckIn
+    checkIn.location = location
+    checkIn.dateCreated = NSDate()
+    checkIn.save()
     
-    CheckInDataManager.sharedManager.checkIn = checkIn
-    
-    let checkInController = CheckInController()
+    let checkInController = CheckInController(checkIn: checkIn)
     navigationController?.pushViewController(checkInController, animated: true)
   }
 }
@@ -466,24 +479,24 @@ extension MainController: CLLocationManagerDelegate {
   }
   
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    if manager == locationManager, let location = manager.location {
+    if manager == locationManager, let managedLocation = manager.location {
       let unit = UserSettings.sharedSettings.unit
       
       if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
       altitudeStore.addObject(location.altitude as Double)
       
       if altitudeAccuracyStore.count > 5 { altitudeAccuracyStore.removeObjectAtIndex(0) }
-      altitudeAccuracyStore.addObject(location.verticalAccuracy)
+      altitudeAccuracyStore.addObject(managedLocation.verticalAccuracy)
       
       let avAltitude = unit.convertDistance(average(altitudeStore as NSArray as! [Double]))
       let avAltitudeAccuracy = unit.convertDistance(average(altitudeAccuracyStore as NSArray as! [Double]))
       let latitude = location.coordinate.latitude
       let longitude = location.coordinate.longitude
       
-      locationData.altitude = avAltitude
-      locationData.altitudeAccuracy = avAltitudeAccuracy
-      locationData.latitude = latitude
-      locationData.longitude = longitude
+      location.altitude = avAltitude
+      location.altitudeAccuracy = avAltitudeAccuracy
+      location.coordinate.latitude = latitude
+      location.coordinate.longitude = longitude
     }
   }
   

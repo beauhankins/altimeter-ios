@@ -14,7 +14,7 @@ import ReachabilitySwift
 class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
   
-  lazy var locationData = CheckInDataManager.sharedManager.checkIn.locationData
+  let checkIn: CheckIn
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -43,10 +43,10 @@ class CheckInFinalController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
-    let altitude = self.locationData.altitude
+    let altitude = self.checkIn.location.altitude.doubleValue
     let altitudeString = String(format: "%.0f", round(altitude))
-    if let locationName = CheckInDataManager.sharedManager.checkIn.locationName {
-      view.title = "\(locationName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
+    if let placeName = self.checkIn.place?.name {
+      view.title = "\(placeName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     } else {
       view.title = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     }
@@ -58,9 +58,9 @@ class CheckInFinalController: UIViewController {
     }()
   
   lazy var locationDataDetailView: LocationDataDetailView = {
-    let view = LocationDataDetailView()
+    let view = LocationDataDetailView(checkIn: self.checkIn)
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.checkIn = CheckInDataManager.sharedManager.checkIn
+    view.checkIn = self.checkIn
     return view
     }()
   
@@ -71,8 +71,8 @@ class CheckInFinalController: UIViewController {
     listControl.textLabel.font = Fonts().Heading
     listControl.textColor = Colors().Primary
     listControl.icon = UIImage(named: "icon-plus")!
-    if let data = CheckInDataManager.sharedManager.checkIn.image {
-      listControl.image = UIImage(data: data)
+    if let thumbnail = self.checkIn.photo?.thumbnail {
+      listControl.image = UIImage(data: thumbnail)
     }
     listControl.addTarget(self, action: Selector("addPhoto:"), forControlEvents: .TouchUpInside)
     return listControl
@@ -99,7 +99,6 @@ class CheckInFinalController: UIViewController {
     listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-twitter")!
     listControl.showCheckBox = true
-    listControl.textIndent = 20.0
     listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
     listControl.hidden = !self.serviceIsAvailable()
     return listControl
@@ -134,15 +133,15 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.serviceStatusBar, attribute: .Bottom, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
 
-    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.locationDataDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 10))
     view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
     
@@ -150,7 +149,7 @@ class CheckInFinalController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 10))
     view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 20))
+    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Top, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Bottom, multiplier: 1, constant: 0))
     
@@ -158,6 +157,19 @@ class CheckInFinalController: UIViewController {
     }()
   
   // MARK: - View Lifecycle
+  
+  init(checkIn: CheckIn) {
+    self.checkIn = checkIn
+    
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  convenience required init?(coder aDecoder: NSCoder) {
+    let checkIn = CheckIn.create() as! CheckIn
+    checkIn.save()
+    
+    self.init(checkIn: checkIn)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -198,8 +210,8 @@ class CheckInFinalController: UIViewController {
   }
   
   func updateThumbnail() {
-    if let data = CheckInDataManager.sharedManager.checkIn.image {
-      self.addPhotoButton.image = UIImage(data: data)
+    if let thumbnail = checkIn.photo?.thumbnail {
+      self.addPhotoButton.image = UIImage(data: thumbnail)
       
       self.addPhotoButton.text = "Remove Photo"
       self.addPhotoButton.icon = nil
@@ -243,10 +255,9 @@ class CheckInFinalController: UIViewController {
     
     let alerts = NSMutableArray()
     
-    let checkIn = CheckInDataManager.sharedManager.checkIn
     if facebookCheckBox.selected {
-      CheckInServiceHandler().checkIn(checkIn, services: CheckInService.Facebook, success: { () -> Void in
-        let checkInSuccessController = CheckInSuccessController()
+      CheckInServiceHandler(checkIn: checkIn).checkIn(.Facebook, success: { () -> Void in
+        let checkInSuccessController = CheckInSuccessController(checkIn: self.checkIn)
         checkInSuccessController.isShared = true;
         self.navigationController?.pushViewController(checkInSuccessController, animated: true)
         
@@ -275,8 +286,8 @@ class CheckInFinalController: UIViewController {
       })
     }
     if twitterCheckBox.selected {
-      CheckInServiceHandler().checkIn(checkIn, services: CheckInService.Twitter, success: { () -> Void in
-        let checkInSuccessController = CheckInSuccessController()
+      CheckInServiceHandler(checkIn: checkIn).checkIn(.Twitter, success: { () -> Void in
+        let checkInSuccessController = CheckInSuccessController(checkIn: self.checkIn)
         checkInSuccessController.isShared = true;
         self.navigationController?.pushViewController(checkInSuccessController, animated: true)
         
@@ -309,7 +320,7 @@ class CheckInFinalController: UIViewController {
   
   func nextController() {
     saveCheckIn()
-    let checkInSuccessController = CheckInSuccessController()
+    let checkInSuccessController = CheckInSuccessController(checkIn: checkIn)
     navigationController?.pushViewController(checkInSuccessController, animated: true)
   }
   
@@ -319,16 +330,15 @@ class CheckInFinalController: UIViewController {
   }
   
   func saveCheckIn() {
-    let checkIn = CheckInDataManager.sharedManager.checkIn
     SavedCheckInHandler().save(checkIn)
   }
   
   func addPhoto(sender: AnyObject) {
-    if let _ = CheckInDataManager.sharedManager.checkIn.image {
-      CheckInDataManager.sharedManager.checkIn.image = nil
+    if let _ = checkIn.photo {
+      checkIn.photo = nil
       updateThumbnail()
     } else {
-      let photoGridController = PhotoGridController()
+      let photoGridController = PhotoGridController(checkIn: checkIn)
       photoGridController.modalTransitionStyle = .CoverVertical
       presentViewController(photoGridController, animated: true, completion: nil)
     }

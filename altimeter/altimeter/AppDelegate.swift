@@ -7,17 +7,15 @@
 //
 
 import UIKit
-import MagicalRecord
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
-  
-  
+    
   func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
     
-    MagicalRecord.setupAutoMigratingCoreDataStack()
+    
     
     fetchUserSettings()
     
@@ -37,10 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
     return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
-  }
-  
-  func applicationWillTerminate(application: UIApplication) {
-    MagicalRecord.cleanUp()
   }
   
   func fetchUserSettings() {

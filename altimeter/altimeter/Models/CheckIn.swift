@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import CoreData
+import SwiftRecord
 
-class CheckIn {
-  var locationData: LocationData = LocationData()
-  var image: NSData?
-  var timestamp: NSDate?
-  var locationName: String?
+class CheckIn: NSManagedObject {
+  @NSManaged var location: Location
+  @NSManaged var photo: Photo?
+  @NSManaged var dateCreated: NSDate?
+  @NSManaged var place: Place?
+  @NSManaged var saved: Bool
 }

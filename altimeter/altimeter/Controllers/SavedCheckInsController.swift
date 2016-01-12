@@ -33,8 +33,8 @@ class SavedCheckInsController: UIViewController {
   
   lazy var savedCheckInsListView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
-    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width, 64)
     
     let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,10 +65,6 @@ class SavedCheckInsController: UIViewController {
     super.viewDidLoad()
     
     layoutInterface()
-  }
-  
-  override func viewWillAppear(animated: Bool) {
-    
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -102,8 +98,10 @@ class SavedCheckInsController: UIViewController {
   }
   
   func nextController() {
-    CheckInDataManager.sharedManager.checkIn = savedCheckIns[selectedRow!]
-    let checkInFinalController = CheckInFinalController()
+    guard let selectedRow = selectedRow else { return }
+    
+    let checkIn = savedCheckIns[selectedRow]
+    let checkInFinalController = CheckInFinalController(checkIn: checkIn)
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
   
@@ -158,10 +156,11 @@ extension SavedCheckInsController: UICollectionViewDataSource {
     cell.textColor = Colors().Black
     
     let checkIn = savedCheckIns[row]
+    let altitude = checkIn.location.altitude.doubleValue
     
-    cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(checkIn.locationData.altitude))) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
+    cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(altitude))) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
       
-    if let timestamp = checkIn.timestamp {
+    if let timestamp = checkIn.dateCreated {
       let dateFormatter = NSDateFormatter()
       dateFormatter.dateStyle = .ShortStyle
       dateFormatter.timeStyle = .NoStyle
@@ -177,8 +176,8 @@ extension SavedCheckInsController: UICollectionViewDataSource {
       cell.subtext = String("\(dateString) at \(timeString.substringToIndex(timeString.endIndex.predecessor()))")
     }
     
-    if let imageData = checkIn.image {
-      cell.image = UIImage(data: imageData)
+    if let photo = checkIn.photo {
+      cell.image = UIImage(data: photo.thumbnail)
     }
     
     return cell

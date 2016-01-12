@@ -146,7 +146,7 @@ class ListCell: UICollectionViewCell {
     super.init(frame: frame)
   }
   
-  override func layoutSubviews() {    
+  override func layoutSubviews() {
     addSubview(imageView)
     addSubview(iconView)
     addSubview(textLabel)
@@ -163,7 +163,7 @@ class ListCell: UICollectionViewCell {
       return
     }
     
-    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: imageView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 20))
     addConstraint(NSLayoutConstraint(item: imageView, attribute: .Width, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: image == nil ? 0 : HEIGHT))
     addConstraint(NSLayoutConstraint(item: imageView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: HEIGHT))
     addConstraint(NSLayoutConstraint(item: imageView, attribute: .Bottom, relatedBy: .Equal, toItem: self, attribute: .Bottom, multiplier: 1, constant: 0))
@@ -196,7 +196,7 @@ class ListCell: UICollectionViewCell {
     
     let borderBottom: CALayer = {
       let layer = CALayer()
-      layer.frame = CGRectMake(0, HEIGHT, self.frame.width, 1)
+      layer.frame = CGRectMake(20, HEIGHT, self.frame.width, 1)
       layer.opacity = 0.1
       layer.name = "border"
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }
@@ -214,7 +214,7 @@ class ListCell: UICollectionViewCell {
     
     let borderTop: CALayer = {
       let layer = CALayer()
-      layer.frame = CGRectMake(0, 0, self.frame.width, 1)
+      layer.frame = CGRectMake(20, 0, self.frame.width, 1)
       layer.opacity = 0.1
       layer.name = "border"
       if let textColor = self.textColor { layer.backgroundColor = textColor == Colors().White ? textColor.CGColor : Colors().Black.CGColor }

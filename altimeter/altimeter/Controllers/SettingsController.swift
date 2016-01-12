@@ -63,8 +63,8 @@ class SettingsController: UIViewController {
   
   lazy var settingsListView: UICollectionView = {
     let layout = UICollectionViewFlowLayout()
-    layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
-    layout.itemSize = CGSizeMake(self.view.bounds.width - 20, 64)
+    layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    layout.itemSize = CGSizeMake(self.view.bounds.width, 64)
     
     let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: layout)
     collectionView.translatesAutoresizingMaskIntoConstraints = false

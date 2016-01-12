@@ -1,18 +1,18 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '8.0'
+use_frameworks!
 
 target 'altimeter' do
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'
-  pod 'MagicalRecord', '~> 2.3'
   pod 'Dollar'
   pod 'Alamofire', '~> 3.0'
   pod 'ReachabilitySwift', git: 'https://github.com/ashleymills/Reachability.swift'
+  pod 'SwiftRecord'
 end
 
 target 'altimeterTests' do
 
 end
 
-use_frameworks!

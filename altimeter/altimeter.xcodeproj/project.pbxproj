@@ -17,9 +17,7 @@
 		091C4B931BA7A36700DB5F07 /* PhotoGridController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8C1BA7A36700DB5F07 /* PhotoGridController.swift */; };
 		091C4B941BA7A36700DB5F07 /* SavedCheckInsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8D1BA7A36700DB5F07 /* SavedCheckInsController.swift */; };
 		091C4B951BA7A36700DB5F07 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B8E1BA7A36700DB5F07 /* SettingsController.swift */; };
-		091C4B991BA7A39000DB5F07 /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B961BA7A39000DB5F07 /* DataModel.xcdatamodeld */; };
-		091C4B9A1BA7A39000DB5F07 /* SavedCheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B981BA7A39000DB5F07 /* SavedCheckIn.swift */; };
-		091C4BA01BA7A3A200DB5F07 /* CounterButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9B1BA7A3A200DB5F07 /* CounterButton.swift */; };
+		091C4B991BA7A39000DB5F07 /* Altimeter.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B961BA7A39000DB5F07 /* Altimeter.xcdatamodeld */; };
 		091C4BA11BA7A3A200DB5F07 /* InformationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9C1BA7A3A200DB5F07 /* InformationDetailView.swift */; };
 		091C4BA21BA7A3A200DB5F07 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9D1BA7A3A200DB5F07 /* ListCell.swift */; };
 		091C4BA31BA7A3A200DB5F07 /* ListControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4B9E1BA7A3A200DB5F07 /* ListControl.swift */; };
@@ -27,21 +25,23 @@
 		091C4BA81BA7A3AB00DB5F07 /* CheckInServiceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */; };
 		091C4BA91BA7A3AB00DB5F07 /* SavedCheckInHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */; };
 		091C4BAA1BA7A3AB00DB5F07 /* WeatherHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */; };
-		091C4BAD1BA7A3B600DB5F07 /* CheckInDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAB1BA7A3B600DB5F07 /* CheckInDataManager.swift */; };
 		091C4BAE1BA7A3B600DB5F07 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */; };
-		091C4BB11BA7A3BD00DB5F07 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */; };
-		091C4BB21BA7A3BD00DB5F07 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */; };
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
+		09513DB01C42329900DE06B0 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAB1C42329900DE06B0 /* CheckIn.swift */; };
+		09513DB11C42329900DE06B0 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAC1C42329900DE06B0 /* Coordinate.swift */; };
+		09513DB21C42329900DE06B0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAD1C42329900DE06B0 /* Location.swift */; };
+		09513DB31C42329900DE06B0 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAE1C42329900DE06B0 /* Photo.swift */; };
+		09513DB41C42329900DE06B0 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAF1C42329900DE06B0 /* Place.swift */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
 		098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098A24C91BB621C8005FA3E2 /* ListField.swift */; };
-		098F21B51C201B290020F704 /* LocationSearchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F21B41C201B290020F704 /* LocationSearchHandler.swift */; };
-		098F21B71C201FA00020F704 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F21B61C201FA00020F704 /* Location.swift */; };
+		098F21B51C201B290020F704 /* PlaceSearchHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098F21B41C201B290020F704 /* PlaceSearchHandler.swift */; };
 		09AF4AF51BA7A6470090059E /* Lato-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */; };
 		09AF4AF61BA7A6470090059E /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */; };
 		09AF4AF71BA7A6470090059E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */; };
 		09AF4AF91BA7A8600090059E /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */; };
 		09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B394641BB159690082A98C /* LocationDataDetailView.swift */; };
+		09CB94D51C45039500675990 /* SwiftRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09CB94D41C45039500675990 /* SwiftRecord.framework */; };
 		09EF61E01BE96B590047D6CB /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF61DF1BE96B590047D6CB /* StatusBar.swift */; };
 		09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F6E1C21B64D2A800E25FBB /* CoreData.framework */; };
 		09F76EB61B04D0000050A594 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F76EB31B04CFDC0050A594 /* CoreLocation.framework */; };
@@ -73,9 +73,7 @@
 		091C4B8C1BA7A36700DB5F07 /* PhotoGridController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridController.swift; path = Controllers/PhotoGridController.swift; sourceTree = "<group>"; };
 		091C4B8D1BA7A36700DB5F07 /* SavedCheckInsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavedCheckInsController.swift; path = Controllers/SavedCheckInsController.swift; sourceTree = "<group>"; };
 		091C4B8E1BA7A36700DB5F07 /* SettingsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = Controllers/SettingsController.swift; sourceTree = "<group>"; };
-		091C4B971BA7A39000DB5F07 /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
-		091C4B981BA7A39000DB5F07 /* SavedCheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavedCheckIn.swift; path = Database/SavedCheckIn.swift; sourceTree = "<group>"; };
-		091C4B9B1BA7A3A200DB5F07 /* CounterButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CounterButton.swift; path = Components/CounterButton.swift; sourceTree = "<group>"; };
+		091C4B971BA7A39000DB5F07 /* Altimeter.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Altimeter.xcdatamodel; sourceTree = "<group>"; };
 		091C4B9C1BA7A3A200DB5F07 /* InformationDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InformationDetailView.swift; path = Components/InformationDetailView.swift; sourceTree = "<group>"; };
 		091C4B9D1BA7A3A200DB5F07 /* ListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListCell.swift; path = Components/ListCell.swift; sourceTree = "<group>"; };
 		091C4B9E1BA7A3A200DB5F07 /* ListControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListControl.swift; path = Components/ListControl.swift; sourceTree = "<group>"; };
@@ -83,22 +81,24 @@
 		091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInServiceHandler.swift; path = Handlers/CheckInServiceHandler.swift; sourceTree = "<group>"; };
 		091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SavedCheckInHandler.swift; path = Handlers/SavedCheckInHandler.swift; sourceTree = "<group>"; };
 		091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeatherHandler.swift; path = Handlers/WeatherHandler.swift; sourceTree = "<group>"; };
-		091C4BAB1BA7A3B600DB5F07 /* CheckInDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckInDataManager.swift; path = Managers/CheckInDataManager.swift; sourceTree = "<group>"; };
 		091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserSettings.swift; path = Managers/UserSettings.swift; sourceTree = "<group>"; };
-		091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckIn.swift; path = Models/CheckIn.swift; sourceTree = "<group>"; };
-		091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationData.swift; path = Models/LocationData.swift; sourceTree = "<group>"; };
 		091C4BB31BA7A3D100DB5F07 /* Lato-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Bold.ttf"; path = "Resources/Fonts/Lato-Bold.ttf"; sourceTree = "<group>"; };
 		091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Light.ttf"; path = "Resources/Fonts/Lato-Light.ttf"; sourceTree = "<group>"; };
 		091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "Resources/Fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		0923422C1B1031150028C7A9 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		09513DAB1C42329900DE06B0 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckIn.swift; path = Models/CheckIn.swift; sourceTree = "<group>"; };
+		09513DAC1C42329900DE06B0 /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Coordinate.swift; path = Models/Coordinate.swift; sourceTree = "<group>"; };
+		09513DAD1C42329900DE06B0 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
+		09513DAE1C42329900DE06B0 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = Models/Photo.swift; sourceTree = "<group>"; };
+		09513DAF1C42329900DE06B0 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Place.swift; path = Models/Place.swift; sourceTree = "<group>"; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
 		098A24C91BB621C8005FA3E2 /* ListField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListField.swift; path = Components/ListField.swift; sourceTree = "<group>"; };
-		098F21B41C201B290020F704 /* LocationSearchHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationSearchHandler.swift; path = Handlers/LocationSearchHandler.swift; sourceTree = "<group>"; };
-		098F21B61C201FA00020F704 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
+		098F21B41C201B290020F704 /* PlaceSearchHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceSearchHandler.swift; path = Handlers/PlaceSearchHandler.swift; sourceTree = "<group>"; };
 		09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridCell.swift; path = Components/PhotoGridCell.swift; sourceTree = "<group>"; };
 		09B394641BB159690082A98C /* LocationDataDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDataDetailView.swift; path = Components/LocationDataDetailView.swift; sourceTree = "<group>"; };
+		09CB94D41C45039500675990 /* SwiftRecord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRecord.framework; path = "Pods/../build/Debug-iphoneos/SwiftRecord.framework"; sourceTree = "<group>"; };
 		09EF61DF1BE96B590047D6CB /* StatusBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusBar.swift; path = Components/StatusBar.swift; sourceTree = "<group>"; };
 		09F6E1C21B64D2A800E25FBB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		09F76EB31B04CFDC0050A594 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -112,6 +112,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09CB94D51C45039500675990 /* SwiftRecord.framework in Frameworks */,
 				09F6E1C31B64D2A800E25FBB /* CoreData.framework in Frameworks */,
 				0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */,
 				092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */,
@@ -216,7 +217,6 @@
 		0923423A1B1070E90028C7A9 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				091C4B9B1BA7A3A200DB5F07 /* CounterButton.swift */,
 				091C4B9C1BA7A3A200DB5F07 /* InformationDetailView.swift */,
 				091C4B9D1BA7A3A200DB5F07 /* ListCell.swift */,
 				091C4B9E1BA7A3A200DB5F07 /* ListControl.swift */,
@@ -232,7 +232,6 @@
 		09402F111B585E73007A136D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				091C4BAB1BA7A3B600DB5F07 /* CheckInDataManager.swift */,
 				091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */,
 			);
 			name = Managers;
@@ -244,7 +243,7 @@
 				091C4BA51BA7A3AB00DB5F07 /* CheckInServiceHandler.swift */,
 				091C4BA61BA7A3AB00DB5F07 /* SavedCheckInHandler.swift */,
 				091C4BA71BA7A3AB00DB5F07 /* WeatherHandler.swift */,
-				098F21B41C201B290020F704 /* LocationSearchHandler.swift */,
+				098F21B41C201B290020F704 /* PlaceSearchHandler.swift */,
 			);
 			name = Handlers;
 			sourceTree = "<group>";
@@ -252,8 +251,7 @@
 		09F6E1C71B64D46900E25FBB /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				091C4B961BA7A39000DB5F07 /* DataModel.xcdatamodeld */,
-				091C4B981BA7A39000DB5F07 /* SavedCheckIn.swift */,
+				091C4B961BA7A39000DB5F07 /* Altimeter.xcdatamodeld */,
 			);
 			name = Database;
 			sourceTree = "<group>";
@@ -269,9 +267,11 @@
 		09F76EB91B04DA060050A594 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				091C4BAF1BA7A3BD00DB5F07 /* CheckIn.swift */,
-				091C4BB01BA7A3BD00DB5F07 /* LocationData.swift */,
-				098F21B61C201FA00020F704 /* Location.swift */,
+				09513DAB1C42329900DE06B0 /* CheckIn.swift */,
+				09513DAC1C42329900DE06B0 /* Coordinate.swift */,
+				09513DAD1C42329900DE06B0 /* Location.swift */,
+				09513DAE1C42329900DE06B0 /* Photo.swift */,
+				09513DAF1C42329900DE06B0 /* Place.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -293,6 +293,7 @@
 		1DA91F4EC8252B703B0CB9AE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				09CB94D41C45039500675990 /* SwiftRecord.framework */,
 				09F6E1C21B64D2A800E25FBB /* CoreData.framework */,
 				0978A17E1B5A111C002FB5FE /* MapKit.framework */,
 				092342361B1046380028C7A9 /* CoreMotion.framework */,
@@ -465,35 +466,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09513DB31C42329900DE06B0 /* Photo.swift in Sources */,
+				09513DB41C42329900DE06B0 /* Place.swift in Sources */,
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
+				09513DB01C42329900DE06B0 /* CheckIn.swift in Sources */,
 				091C4BA81BA7A3AB00DB5F07 /* CheckInServiceHandler.swift in Sources */,
 				091C4B951BA7A36700DB5F07 /* SettingsController.swift in Sources */,
 				091C4BA21BA7A3A200DB5F07 /* ListCell.swift in Sources */,
 				091C4BA41BA7A3A200DB5F07 /* NavigationBar.swift in Sources */,
-				091C4B991BA7A39000DB5F07 /* DataModel.xcdatamodeld in Sources */,
-				098F21B71C201FA00020F704 /* Location.swift in Sources */,
+				091C4B991BA7A39000DB5F07 /* Altimeter.xcdatamodeld in Sources */,
 				091C4B8F1BA7A36700DB5F07 /* CheckInController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
+				09513DB11C42329900DE06B0 /* Coordinate.swift in Sources */,
 				098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */,
 				091C4B921BA7A36700DB5F07 /* MainController.swift in Sources */,
 				09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */,
+				09513DB21C42329900DE06B0 /* Location.swift in Sources */,
 				091C4BA31BA7A3A200DB5F07 /* ListControl.swift in Sources */,
 				09EF61E01BE96B590047D6CB /* StatusBar.swift in Sources */,
 				091C4B911BA7A36700DB5F07 /* CheckInSuccessController.swift in Sources */,
 				091C4BA91BA7A3AB00DB5F07 /* SavedCheckInHandler.swift in Sources */,
-				091C4BB11BA7A3BD00DB5F07 /* CheckIn.swift in Sources */,
-				091C4BA01BA7A3A200DB5F07 /* CounterButton.swift in Sources */,
 				091C4B941BA7A36700DB5F07 /* SavedCheckInsController.swift in Sources */,
 				091C4BAA1BA7A3AB00DB5F07 /* WeatherHandler.swift in Sources */,
-				098F21B51C201B290020F704 /* LocationSearchHandler.swift in Sources */,
+				098F21B51C201B290020F704 /* PlaceSearchHandler.swift in Sources */,
 				091C4B901BA7A36700DB5F07 /* CheckInFinalController.swift in Sources */,
 				091C4B931BA7A36700DB5F07 /* PhotoGridController.swift in Sources */,
-				091C4BB21BA7A3BD00DB5F07 /* LocationData.swift in Sources */,
-				091C4B9A1BA7A39000DB5F07 /* SavedCheckIn.swift in Sources */,
 				091C4BA11BA7A3A200DB5F07 /* InformationDetailView.swift in Sources */,
 				091C4BAE1BA7A3B600DB5F07 /* UserSettings.swift in Sources */,
 				09AF4AF91BA7A8600090059E /* PhotoGridCell.swift in Sources */,
-				091C4BAD1BA7A3B600DB5F07 /* CheckInDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +608,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.altimeter.app;
@@ -625,6 +629,10 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+				);
 				INFOPLIST_FILE = altimeter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.altimeter.app;
@@ -703,14 +711,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		091C4B961BA7A39000DB5F07 /* DataModel.xcdatamodeld */ = {
+		091C4B961BA7A39000DB5F07 /* Altimeter.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				091C4B971BA7A39000DB5F07 /* DataModel.xcdatamodel */,
+				091C4B971BA7A39000DB5F07 /* Altimeter.xcdatamodel */,
 			);
-			currentVersion = 091C4B971BA7A39000DB5F07 /* DataModel.xcdatamodel */;
-			name = DataModel.xcdatamodeld;
-			path = Database/DataModel.xcdatamodeld;
+			currentVersion = 091C4B971BA7A39000DB5F07 /* Altimeter.xcdatamodel */;
+			name = Altimeter.xcdatamodeld;
+			path = Database/Altimeter.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
