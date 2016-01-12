@@ -146,7 +146,6 @@ class LocationDataDetailView: UIView {
   
   convenience required init?(coder aDecoder: NSCoder) {
     let checkIn = CheckIn.create() as! CheckIn
-    checkIn.save()
     
     self.init(checkIn: checkIn)
   }

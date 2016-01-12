@@ -460,7 +460,6 @@ class MainController: UIViewController {
     let checkIn = CheckIn.create() as! CheckIn
     checkIn.location = location
     checkIn.dateCreated = NSDate()
-    checkIn.save()
     
     let checkInController = CheckInController(checkIn: checkIn)
     navigationController?.pushViewController(checkInController, animated: true)
