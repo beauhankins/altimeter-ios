@@ -36,7 +36,7 @@ class CheckInFinalController: UIViewController {
     let statusBar = StatusBar()
     statusBar.translatesAutoresizingMaskIntoConstraints = false
     statusBar.text = "NO SERVICE"
-    statusBar.hidden = self.serviceIsAvailable()
+    statusBar.hidden = true
     return statusBar
     }()
   
@@ -88,7 +88,7 @@ class CheckInFinalController: UIViewController {
     listControl.checkboxImage = UIImage(named: "radio-facebook")!
     listControl.showCheckBox = true
     listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
-    listControl.hidden = !self.serviceIsAvailable()
+    listControl.hidden = false
     return listControl
     }()
   
@@ -101,7 +101,7 @@ class CheckInFinalController: UIViewController {
     listControl.checkboxImage = UIImage(named: "radio-twitter")!
     listControl.showCheckBox = true
     listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
-    listControl.hidden = !self.serviceIsAvailable()
+    listControl.hidden = false
     return listControl
     }()
   

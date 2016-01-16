@@ -10,11 +10,13 @@ import Foundation
 import UIKit
 import MapKit
 import CoreLocation
+import ReachabilitySwift
 
 class CheckInController: UIViewController {
   // MARK: - Variables & Constants
   
   let checkIn: CheckIn
+  let reachability: Reachability?
   var places: [Place] = []
   var selectedPlace: Place?
   
@@ -31,6 +33,14 @@ class CheckInController: UIViewController {
     nav.rightBarItem.color = Colors().Primary
     nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
+    }()
+
+  lazy var serviceStatusBar: StatusBar = {
+    let statusBar = StatusBar()
+    statusBar.translatesAutoresizingMaskIntoConstraints = false
+    statusBar.text = "NO SERVICE"
+    statusBar.hidden = true
+    return statusBar
     }()
   
   lazy var placesListView: UICollectionView = {
@@ -61,12 +71,18 @@ class CheckInController: UIViewController {
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
+
+    view.addSubview(self.serviceStatusBar)
     view.addSubview(self.placesListView)
     view.addSubview(self.searchField)
+
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.searchField, attribute: .Top, relatedBy: .Equal, toItem: self.serviceStatusBar, attribute: .Bottom, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.placesListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.placesListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
@@ -103,6 +119,11 @@ class CheckInController: UIViewController {
   
   init(checkIn: CheckIn) {
     self.checkIn = checkIn
+    do {
+      self.reachability = try Reachability.reachabilityForInternetConnection()
+    } catch {
+      self.reachability = nil
+    }
     
     super.init(nibName: nil, bundle: nil)
   }
@@ -117,6 +138,7 @@ class CheckInController: UIViewController {
     super.viewDidLoad()
     
     layoutInterface()
+    startMonitoringReachability()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -148,11 +170,23 @@ class CheckInController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
     
     updateRightNavigationBarItem()
+    serviceDidChange(serviceIsAvailable())
   }
   
   func updateRightNavigationBarItem() {
     navigationBar.rightBarItem.enabled = canContinue()
     navigationBar.rightBarItem.text = (selectedPlace != nil) ? "Next" : "Skip"
+  }
+
+  func serviceDidChange(serviceIsAvailable: Bool) {
+    self.serviceStatusBar.hidden = serviceIsAvailable
+    self.searchField.enabled = !serviceIsAvailable
+    
+    self.serviceStatusBar.setNeedsLayout()
+    self.searchField.setNeedsLayout()
+    
+    self.serviceStatusBar.layoutIfNeeded()
+    self.searchField.layoutIfNeeded()
   }
   
   // MARK: - Search Filter
@@ -216,6 +250,31 @@ class CheckInController: UIViewController {
   
   func canContinue() -> Bool {
     return true
+  }
+
+  func serviceIsAvailable() -> Bool {
+    return reachability?.isReachable() ?? false
+  }
+  
+  func startMonitoringReachability() {
+    guard let reachability = reachability else { return }
+    
+    NSNotificationCenter.defaultCenter().addObserver(self,
+      selector: "reachabilityChanged:",
+      name: ReachabilityChangedNotification,
+      object: reachability)
+    
+    do {
+      try reachability.startNotifier()
+    } catch {}
+  }
+  
+  func reachabilityChanged(note: NSNotification) {
+    let reachability = note.object as! Reachability
+    dispatch_async(dispatch_get_main_queue()) {
+      () in
+      self.serviceDidChange(reachability.isReachable())
+    }
   }
 }
 
