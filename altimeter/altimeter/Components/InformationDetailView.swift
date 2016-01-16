@@ -15,7 +15,12 @@ enum InformationDetailViewStyle {
 }
 
 class InformationDetailView: UIView {
-  var title: String?
+  var title: String? {
+    didSet {
+      titleLabel.text = title
+    }
+  }
+  
   var textColor: UIColor?
   var icon: UIImage?
   var style: InformationDetailViewStyle = .Default

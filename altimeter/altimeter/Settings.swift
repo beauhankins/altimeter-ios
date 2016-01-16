@@ -11,6 +11,7 @@ import UIKit
 
 struct Colors {
   let White = UIColor(white: 1, alpha: 1)
+  let Grey = UIColor(red: (194/255.0), green: (195/255.0), blue: (207/255.0), alpha: 1)
   let Black = UIColor(white: 0, alpha: 1)
   let Primary = UIColor(red: (56/255.0), green: (170/255.0), blue: (255/255.0), alpha: 1)
   let Secondary = UIColor(red: (72/255.0), green: (84/255.0), blue: (255/255.0), alpha: 1)

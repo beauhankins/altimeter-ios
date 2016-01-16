@@ -10,13 +10,19 @@ import Foundation
 import Dollar
 
 class SavedCheckInHandler {
-  func save(checkIn: CheckIn) {
+  func save(checkIn: CheckIn, completion: (() -> Void)? = nil, failure: (() -> Void)? = nil) {
     let savedCheckIns = allSavedCheckIns()
 
     let alreadyExists = $.chain(savedCheckIns).any({ $0.dateCreated == checkIn.dateCreated })
     if (!alreadyExists) {
       checkIn.saved = true
       checkIn.save()
+      
+      guard let completion = completion else { return }
+      completion()
+    } else {
+      guard let failure = failure else { return }
+      failure()
     }
   }
   

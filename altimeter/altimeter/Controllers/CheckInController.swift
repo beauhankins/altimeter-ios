@@ -180,13 +180,10 @@ class CheckInController: UIViewController {
 
   func serviceDidChange(serviceIsAvailable: Bool) {
     self.serviceStatusBar.hidden = serviceIsAvailable
-    self.searchField.enabled = !serviceIsAvailable
+    self.searchField.enabled = serviceIsAvailable
     
     self.serviceStatusBar.setNeedsLayout()
-    self.searchField.setNeedsLayout()
-    
     self.serviceStatusBar.layoutIfNeeded()
-    self.searchField.layoutIfNeeded()
   }
   
   // MARK: - Search Filter
