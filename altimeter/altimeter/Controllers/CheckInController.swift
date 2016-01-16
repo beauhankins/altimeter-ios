@@ -188,7 +188,7 @@ class CheckInController: UIViewController {
   
   func nextController() {
     if let place = selectedPlace {
-      checkIn.place?.name = place.name
+      checkIn.place = place
     }
         
     let checkInFinalController = CheckInFinalController(checkIn: checkIn)

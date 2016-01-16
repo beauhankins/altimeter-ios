@@ -74,12 +74,10 @@ class PlaceSearchHandler {
                     let coordinate = Coordinate.create() as! Coordinate
                     coordinate.latitude = lat
                     coordinate.longitude = lng
-                    coordinate.save()
                     
                     let place = Place.create() as! Place
                     place.name = name
                     place.coordinate = coordinate
-                    place.save()
                     
                     places.addObject(place)
                     

@@ -17,7 +17,7 @@ class PhotoGridCell: UICollectionViewCell {
     }
   }
   
-  var imageMode: UIViewContentMode = .ScaleAspectFit {
+  var imageMode: UIViewContentMode = .ScaleAspectFill {
     didSet {
       imageView.contentMode = imageMode
     }
@@ -34,15 +34,8 @@ class PhotoGridCell: UICollectionViewCell {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.image
+    imageView.contentMode = self.imageMode
     imageView.clipsToBounds = true
-    return imageView
-    }()
-
-  private lazy var selectedOverlay: UIImageView = {
-    var imageView = UIImageView()
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.image = self.image
-    imageView.contentMode = .ScaleAspectFit
     return imageView
     }()
   

@@ -241,14 +241,13 @@ class MainController: UIViewController {
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
     self.location = Location.create() as! Location
-    self.location.save()
+    location.coordinate = Coordinate.create() as! Coordinate
     
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
   }
 
   required init?(coder aDecoder: NSCoder) {
     self.location = Location.create() as! Location
-    self.location.save()
     
     super.init(coder: aDecoder)
   }
@@ -334,14 +333,14 @@ class MainController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterY, relatedBy: .Equal, toItem: view, attribute: .CenterY, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: locationServicesDisabledLabel, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     
-    updateInterfaceData(location)
+    updateInterfaceData()
   }
   
   func updateData(sender: AnyObject?) {
-    updateInterfaceData(location)
+    updateInterfaceData()
   }
   
-  func updateInterfaceData(location: Location) {
+  func updateInterfaceData() {
     let altitude = round(location.altitude.doubleValue)
     let altitudeAccuracy = round(location.altitudeAccuracy.doubleValue)
     let temperature = UserSettings.sharedSettings.unit.convertDegrees(location.temperature.doubleValue)
@@ -351,7 +350,7 @@ class MainController: UIViewController {
     let altitudeString = String(format: "%.0f", altitude)
     let accuracyString = String(format: "~%.0f' ACCURACY", altitudeAccuracy)
     let pressureAndTemperatureString = location.pressure.doubleValue > 0 ?
-      String(format: "%.02f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", location.pressure, temperature) :
+      String(format: "%.02f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", location.pressure.doubleValue, temperature) :
       String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", temperature)
     let latitudeString = String(format: "%.4f %@", latitude, location.coordinate.latitude.doubleValue > 0 ? "S" : "N")
     let formattedLatitudeString = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
@@ -433,9 +432,9 @@ class MainController: UIViewController {
         pressure = weatherData["pressure"] {
           self.location.temperature = self.fahrenheit(kelvin: temp)
           self.location.pressure = self.psi(hPa: pressure)
+          
+          self.updateInterfaceData()
       }
-      
-      self.updateInterfaceData(self.location)
     }
   }
   
@@ -482,15 +481,15 @@ extension MainController: CLLocationManagerDelegate {
       let unit = UserSettings.sharedSettings.unit
       
       if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
-      altitudeStore.addObject(location.altitude as Double)
+      altitudeStore.addObject(managedLocation.altitude as Double)
       
       if altitudeAccuracyStore.count > 5 { altitudeAccuracyStore.removeObjectAtIndex(0) }
       altitudeAccuracyStore.addObject(managedLocation.verticalAccuracy)
       
       let avAltitude = unit.convertDistance(average(altitudeStore as NSArray as! [Double]))
       let avAltitudeAccuracy = unit.convertDistance(average(altitudeAccuracyStore as NSArray as! [Double]))
-      let latitude = location.coordinate.latitude
-      let longitude = location.coordinate.longitude
+      let latitude = managedLocation.coordinate.latitude
+      let longitude = managedLocation.coordinate.longitude
       
       location.altitude = avAltitude
       location.altitudeAccuracy = avAltitudeAccuracy

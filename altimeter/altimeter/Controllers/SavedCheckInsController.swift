@@ -8,13 +8,29 @@
 
 import Foundation
 import UIKit
+import Photos
+import Dollar
 
 class SavedCheckInsController: UIViewController {
   // MARK: - Variables & Constants
   
   let savedCheckIns = SavedCheckInHandler().allSavedCheckIns()
-  
   var selectedRow: Int?
+  
+  let cachingImageManager = PHCachingImageManager()
+  var assets: [PHAsset] = [] {
+    willSet {
+      cachingImageManager.stopCachingImagesForAllAssets()
+    }
+    
+    didSet {
+      cachingImageManager.startCachingImagesForAssets(self.assets,
+        targetSize: CGSize(width: 100.0, height: 100.0),
+        contentMode: .AspectFill,
+        options: nil
+      )
+    }
+  }
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -67,8 +83,36 @@ class SavedCheckInsController: UIViewController {
     layoutInterface()
   }
   
+  override func viewWillAppear(animated: Bool) {
+    prepareAssets({
+      self.savedCheckInsListView.reloadData()
+    })
+  }
+  
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
     return UIStatusBarStyle.Default
+  }
+  
+  // MARK: - Photos
+  
+  func prepareAssets(completion: () -> Void) {
+    assets = []
+    
+    let photoCheckIns = $.chain(savedCheckIns).filter {
+      checkIn in
+      return checkIn.photoId != nil
+    }.value
+    
+    let localIdentifiers = $.map(photoCheckIns) { checkIn in
+      return checkIn.photoId as! String
+    }
+    
+    let results = PHAsset.fetchAssetsWithLocalIdentifiers(localIdentifiers, options: nil)
+    results.enumerateObjectsUsingBlock { (object, _, _) in
+      if let asset = object as? PHAsset {
+        self.assets.append(asset)
+      }
+    }
   }
   
   // MARK: - Layout Interface
@@ -156,9 +200,10 @@ extension SavedCheckInsController: UICollectionViewDataSource {
     cell.textColor = Colors().Black
     
     let checkIn = savedCheckIns[row]
-    let altitude = checkIn.location.altitude.doubleValue
+    let altitude = UserSettings.sharedSettings.unit.convertDistance(checkIn.location.altitude.doubleValue)
+    let altitudeString = String(format: "%.0f", round(altitude))
     
-    cell.text = "\(round(UserSettings.sharedSettings.unit.convertDistance(altitude))) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
+    cell.text = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
       
     if let timestamp = checkIn.dateCreated {
       let dateFormatter = NSDateFormatter()
@@ -176,8 +221,29 @@ extension SavedCheckInsController: UICollectionViewDataSource {
       cell.subtext = String("\(dateString) at \(timeString.substringToIndex(timeString.endIndex.predecessor()))")
     }
     
-    if let photo = checkIn.photo {
-      cell.image = UIImage(data: photo.thumbnail)
+    if let photoId = checkIn.photoId {
+      let imageManager = PHImageManager.defaultManager()
+      
+      if cell.tag != 0 {
+        imageManager.cancelImageRequest(PHImageRequestID(cell.tag))
+      }
+      
+      let asset = $.find(assets) {
+        asset -> Bool in
+        return asset.localIdentifier == photoId
+      } ?? PHAsset()
+      
+      let request = imageManager.requestImageForAsset(asset,
+        targetSize: CGSize(width: 100.0, height: 100.0),
+        contentMode: .AspectFill,
+        options: nil) {
+          image, _ in
+          if let image = image {
+            cell.image = image
+          }
+      }
+      
+      cell.tag = Int(request)
     }
     
     return cell

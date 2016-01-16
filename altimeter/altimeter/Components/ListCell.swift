@@ -130,7 +130,8 @@ class ListCell: UICollectionViewCell {
     var imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.image = self.image
-    imageView.contentMode = .ScaleAspectFit
+    imageView.contentMode = .ScaleAspectFill
+    imageView.layer.masksToBounds = true
     return imageView
   }()
   

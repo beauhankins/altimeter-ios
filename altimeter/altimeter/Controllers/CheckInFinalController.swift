@@ -8,13 +8,14 @@
 
 import Foundation
 import UIKit
-import AssetsLibrary
+import Photos
 import ReachabilitySwift
 
 class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
   
   let checkIn: CheckIn
+  let reachability: Reachability?
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -71,8 +72,8 @@ class CheckInFinalController: UIViewController {
     listControl.textLabel.font = Fonts().Heading
     listControl.textColor = Colors().Primary
     listControl.icon = UIImage(named: "icon-plus")!
-    if let thumbnail = self.checkIn.photo?.thumbnail {
-      listControl.image = UIImage(data: thumbnail)
+    if let thumbnail = self.checkIn.photoId {
+      listControl.image = UIImage()
     }
     listControl.addTarget(self, action: Selector("addPhoto:"), forControlEvents: .TouchUpInside)
     return listControl
@@ -160,6 +161,11 @@ class CheckInFinalController: UIViewController {
   
   init(checkIn: CheckIn) {
     self.checkIn = checkIn
+    do {
+      self.reachability = try Reachability.reachabilityForInternetConnection()
+    } catch {
+      self.reachability = nil
+    }
     
     super.init(nibName: nil, bundle: nil)
   }
@@ -174,7 +180,6 @@ class CheckInFinalController: UIViewController {
     super.viewDidLoad()
     
     layoutInterface()
-    requestPhotosPermissions()
     startMonitoringReachability()
   }
   
@@ -209,13 +214,15 @@ class CheckInFinalController: UIViewController {
   }
   
   func updateThumbnail() {
-    if let thumbnail = checkIn.photo?.thumbnail {
-      self.addPhotoButton.image = UIImage(data: thumbnail)
-      
-      self.addPhotoButton.text = "Remove Photo"
-      self.addPhotoButton.icon = nil
-      self.addPhotoButton.setNeedsLayout()
-      self.addPhotoButton.layoutIfNeeded()
+    if let photoId = checkIn.photoId as? String {
+      fetchPhoto(photoId) {
+        image in
+        self.addPhotoButton.image = image
+        self.addPhotoButton.text = "Remove Photo"
+        self.addPhotoButton.icon = nil
+        self.addPhotoButton.setNeedsLayout()
+        self.addPhotoButton.layoutIfNeeded()
+      }
     } else {
       self.addPhotoButton.image = nil
       
@@ -323,23 +330,16 @@ class CheckInFinalController: UIViewController {
     navigationController?.pushViewController(checkInSuccessController, animated: true)
   }
   
-  func requestPhotosPermissions() {
-    let library = ALAssetsLibrary()
-    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: { group, stop -> Void in }) { error -> Void in }
-  }
-  
   func saveCheckIn() {
     SavedCheckInHandler().save(checkIn)
   }
   
   func addPhoto(sender: AnyObject) {
-    if let _ = checkIn.photo {
-      checkIn.photo = nil
+    if let _ = checkIn.photoId {
+      checkIn.photoId = nil
       updateThumbnail()
     } else {
-      let photoGridController = PhotoGridController(checkIn: checkIn)
-      photoGridController.modalTransitionStyle = .CoverVertical
-      presentViewController(photoGridController, animated: true, completion: nil)
+      photoGridController()
     }
   }
   
@@ -349,6 +349,12 @@ class CheckInFinalController: UIViewController {
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
+  func photoGridController() {
+    let photoGridController = PhotoGridController(checkIn: checkIn)
+    photoGridController.modalTransitionStyle = .CoverVertical
+    presentViewController(photoGridController, animated: true, completion: nil)
+  }
+  
   // MARK: - Validation
   
   func canContinue() -> Bool {
@@ -356,36 +362,55 @@ class CheckInFinalController: UIViewController {
   }
   
   func serviceIsAvailable() -> Bool {
-    let reachability: Reachability
-
-    do {
-      reachability = try Reachability.reachabilityForInternetConnection()
-    } catch {
-      print("Unable to create Reachability")
-      return false
-    }
-    
-    return reachability.isReachable()
+    return reachability?.isReachable() ?? false
   }
   
   func startMonitoringReachability() {
-    let reachability: Reachability
-    
-    do {
-      reachability = try Reachability.reachabilityForInternetConnection()
-    } catch {
-      print("Unable to create Reachability")
-      return
-    }
+    guard let reachability = reachability else { return }
     
     NSNotificationCenter.defaultCenter().addObserver(self,
       selector: "reachabilityChanged:",
       name: ReachabilityChangedNotification,
       object: reachability)
+    
+    do {
+      try reachability.startNotifier()
+    } catch {}
   }
   
   func reachabilityChanged(note: NSNotification) {
     let reachability = note.object as! Reachability
-    self.serviceDidChange(reachability.isReachable())
+    dispatch_async(dispatch_get_main_queue()) {
+      () in
+      self.serviceDidChange(reachability.isReachable())
+    }
+  }
+  
+  // MARK: - Photos
+  
+  private func fetchPhoto(localIdentifier: String, completion: ((image: UIImage) -> Void)) {
+    let results = PHAsset.fetchAssetsWithLocalIdentifiers([localIdentifier as String], options: nil)
+    var assets: [PHAsset] = []
+    results.enumerateObjectsUsingBlock { (object, _, _) in
+      if let asset = object as? PHAsset {
+        assets.append(asset)
+      }
+    }
+    
+    if let asset = assets.first {
+      let options = PHImageRequestOptions()
+      options.deliveryMode = .FastFormat
+      
+      let imageManager = PHImageManager.defaultManager()
+      imageManager.requestImageForAsset(asset,
+        targetSize: PHImageManagerMaximumSize,
+        contentMode: .AspectFit,
+        options: options) {
+          image, _ in
+          if let image = image {
+            completion(image: image)
+          }
+      }
+    }
   }
 }

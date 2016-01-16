@@ -8,15 +8,29 @@
 
 import Foundation
 import UIKit
-import AssetsLibrary
+import Photos
 import MobileCoreServices
 
 class PhotoGridController: UIViewController {
   // MARK: - Variables & Constants
 
   let checkIn: CheckIn
-  var photos: NSMutableArray?
   var selectedPhotoIndex: Int?
+  
+  let cachingImageManager = PHCachingImageManager()
+  var assets: [PHAsset] = [] {
+    willSet {
+      cachingImageManager.stopCachingImagesForAllAssets()
+    }
+    
+    didSet {
+      cachingImageManager.startCachingImagesForAssets(self.assets,
+        targetSize: PHImageManagerMaximumSize,
+        contentMode: .AspectFill,
+        options: nil
+      )
+    }
+  }
 
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -68,7 +82,10 @@ class PhotoGridController: UIViewController {
     super.viewDidLoad()
     
     layoutInterface()
-    preparePhotos({
+  }
+  
+  override func viewWillAppear(animated: Bool) {
+    prepareAssets({
       self.photoGridView.reloadData()
     })
   }
@@ -79,44 +96,21 @@ class PhotoGridController: UIViewController {
 
   // MARK: - Photos
 
-  func preparePhotos(completion: () -> Void) {
-    photos = NSMutableArray()
-    let library = ALAssetsLibrary()
-    library.enumerateGroupsWithTypes(ALAssetsGroupSavedPhotos, usingBlock: {
-      group, stop in
-      if let assets = group {
-        assets.enumerateAssetsUsingBlock({
-          result, index, stop in
-          if let asset = result, photos = self.photos {
-            let originalRep = asset.defaultRepresentation().fullResolutionImage().takeUnretainedValue()
-            let originalImage = UIImage(CGImage: originalRep)
-            let thumbnailImage = self.scaledImage(originalImage, size: CGSize(width: 400, height: 400))
-            
-            let photo = Photo.create() as! Photo
-            photo.original = UIImageJPEGRepresentation(originalImage, 0.5) ?? NSData()
-            photo.thumbnail = UIImageJPEGRepresentation(thumbnailImage, 1.0) ?? NSData()
-            photo.save()
-            
-            photos.insertObject(photo, atIndex: 0)
-          }
-        })
-      } else {
-        completion()
-      }
-      
-    }) {
-      error -> Void in
-      
-    }
-  }
-  
-  func scaledImage(image: UIImage, size: CGSize) -> UIImage {
-    UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-    image.drawInRect(CGRect(origin: CGPoint(x: 0, y: 0), size: size))
-    let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-    UIGraphicsEndImageContext()
+  func prepareAssets(completion: () -> Void) {
+    self.assets = []
     
-    return scaledImage
+    let options = PHFetchOptions()
+    options.sortDescriptors = [
+      NSSortDescriptor(key: "creationDate", ascending: false)
+    ]
+    
+    let results = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
+    results.enumerateObjectsUsingBlock {
+      object, _, _ in
+      if let asset = object as? PHAsset {
+        self.assets.append(asset)
+      }
+    }
   }
   
   // MARK: - Layout Interface
@@ -147,9 +141,11 @@ class PhotoGridController: UIViewController {
   }
   
   func done(sender: AnyObject) {
-    guard let i = selectedPhotoIndex, photo = photos?[i] as? Photo else { return }
+    guard let i = selectedPhotoIndex else { return }
     
-    checkIn.photo = photo
+    let asset = assets[i]
+    
+    checkIn.photoId = asset.localIdentifier
     
     closeController()
   }
@@ -202,7 +198,7 @@ extension PhotoGridController: UICollectionViewDelegateFlowLayout {
 
 extension PhotoGridController: UICollectionViewDataSource {
   func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return photos!.count
+    return assets.count + 1
   }
   
   func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -217,9 +213,25 @@ extension PhotoGridController: UICollectionViewDataSource {
       cell.image = UIImage(named: "icon-camera")
       cell.imageMode = .Center
     } else {
-      if let photo = photos?[relativeRow] as? Photo {
-        cell.image = UIImage(data: photo.thumbnail)
+      let imageManager = PHImageManager.defaultManager()
+      
+      if cell.tag != 0 {
+        imageManager.cancelImageRequest(PHImageRequestID(cell.tag))
       }
+      
+      let asset = assets[relativeRow]
+      
+      let request = imageManager.requestImageForAsset(asset,
+        targetSize: CGSize(width: 100.0, height: 100.0),
+        contentMode: .AspectFill,
+        options: nil) {
+          image, _ in
+          if let image = image {
+            cell.image = image
+          }
+      }
+      
+      cell.tag = Int(request)
     }
     
     return cell
@@ -243,7 +255,7 @@ extension PhotoGridController: UIImagePickerControllerDelegate, UINavigationCont
   
   func image(image: UIImage, didFinishSavingWithError error: NSErrorPointer, contextInfo: UnsafePointer<()>) {
     dispatch_async(dispatch_get_main_queue(), {
-      self.preparePhotos({
+      self.prepareAssets({
         self.selectedPhotoIndex = 0
         self.photoGridView.reloadSections(NSIndexSet(index: 0))
         self.photoGridView.selectItemAtIndexPath(NSIndexPath(forItem: 1, inSection: 0), animated: false, scrollPosition: UICollectionViewScrollPosition.Top)

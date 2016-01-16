@@ -12,7 +12,7 @@ import SwiftRecord
 
 class CheckIn: NSManagedObject {
   @NSManaged var location: Location
-  @NSManaged var photo: Photo?
+  @NSManaged var photoId: NSString?
   @NSManaged var dateCreated: NSDate?
   @NSManaged var place: Place?
   @NSManaged var saved: Bool

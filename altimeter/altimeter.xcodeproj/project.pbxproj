@@ -31,7 +31,6 @@
 		09513DB01C42329900DE06B0 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAB1C42329900DE06B0 /* CheckIn.swift */; };
 		09513DB11C42329900DE06B0 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAC1C42329900DE06B0 /* Coordinate.swift */; };
 		09513DB21C42329900DE06B0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAD1C42329900DE06B0 /* Location.swift */; };
-		09513DB31C42329900DE06B0 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAE1C42329900DE06B0 /* Photo.swift */; };
 		09513DB41C42329900DE06B0 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAF1C42329900DE06B0 /* Place.swift */; };
 		0978A17F1B5A111C002FB5FE /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0978A17E1B5A111C002FB5FE /* MapKit.framework */; };
 		098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 098A24C91BB621C8005FA3E2 /* ListField.swift */; };
@@ -90,7 +89,6 @@
 		09513DAB1C42329900DE06B0 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckIn.swift; path = Models/CheckIn.swift; sourceTree = "<group>"; };
 		09513DAC1C42329900DE06B0 /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Coordinate.swift; path = Models/Coordinate.swift; sourceTree = "<group>"; };
 		09513DAD1C42329900DE06B0 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
-		09513DAE1C42329900DE06B0 /* Photo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Photo.swift; path = Models/Photo.swift; sourceTree = "<group>"; };
 		09513DAF1C42329900DE06B0 /* Place.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Place.swift; path = Models/Place.swift; sourceTree = "<group>"; };
 		0978A17E1B5A111C002FB5FE /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		0982577B1B57C97C00E82295 /* altimeter-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "altimeter-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
@@ -270,7 +268,6 @@
 				09513DAB1C42329900DE06B0 /* CheckIn.swift */,
 				09513DAC1C42329900DE06B0 /* Coordinate.swift */,
 				09513DAD1C42329900DE06B0 /* Location.swift */,
-				09513DAE1C42329900DE06B0 /* Photo.swift */,
 				09513DAF1C42329900DE06B0 /* Place.swift */,
 			);
 			name = Models;
@@ -466,7 +463,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09513DB31C42329900DE06B0 /* Photo.swift in Sources */,
 				09513DB41C42329900DE06B0 /* Place.swift in Sources */,
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
 				09513DB01C42329900DE06B0 /* CheckIn.swift in Sources */,
