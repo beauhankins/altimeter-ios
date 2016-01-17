@@ -11,9 +11,14 @@ import CoreData
 import SwiftRecord
 
 class Location: NSManagedObject {
+  @NSManaged var locationId: NSNumber
   @NSManaged var altitude: NSNumber
   @NSManaged var altitudeAccuracy: NSNumber
   @NSManaged var coordinate: Coordinate
   @NSManaged var pressure: NSNumber
   @NSManaged var temperature: NSNumber
+  
+  override internal class func autoIncrementingId() -> String? {
+    return "locationId"
+  }
 }

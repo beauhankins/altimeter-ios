@@ -116,13 +116,7 @@ class SettingsController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: -20))
-    let settingsListHeightConstraint: NSLayoutConstraint = {
-      let constraint = NSLayoutConstraint(item: settingsListView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 500)
-      constraint.constant = CGFloat(64*settingsListItems.count+1)
-      return constraint
-      }()
-    view.addConstraint(settingsListHeightConstraint)
-    
+    view.addConstraint(NSLayoutConstraint(item: settingsListView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: CGFloat(64*settingsListItems.count+1)))
   }
   
   // MARK: - Actions
@@ -189,7 +183,7 @@ extension SettingsController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didHighlightItemAtIndexPath indexPath: NSIndexPath) {
     let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
     
-    cell.textColor = Colors().Primary
+    cell.textColor = Colors().PictonBlue
   }
   
   func collectionView(collectionView: UICollectionView, didUnhighlightItemAtIndexPath indexPath: NSIndexPath) {

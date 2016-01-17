@@ -42,7 +42,7 @@ class SavedCheckInsController: UIViewController {
     nav.leftBarItem.addTarget(self, action: "prevController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Next"
     nav.rightBarItem.type = .Emphasis
-    nav.rightBarItem.color = Colors().Primary
+    nav.rightBarItem.color = Colors().PictonBlue
     nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
@@ -205,21 +205,19 @@ extension SavedCheckInsController: UICollectionViewDataSource {
     
     cell.text = "\(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation())"
       
-    if let timestamp = checkIn.dateCreated {
-      let dateFormatter = NSDateFormatter()
-      dateFormatter.dateStyle = .ShortStyle
-      dateFormatter.timeStyle = .NoStyle
-      dateFormatter.locale = NSLocale.currentLocale()
-      let dateString = dateFormatter.stringFromDate(timestamp)
-      
-      let timeFormatter = NSDateFormatter()
-      timeFormatter.dateStyle = .NoStyle
-      timeFormatter.timeStyle = .ShortStyle
-      timeFormatter.locale = NSLocale.currentLocale()
-      let timeString = timeFormatter.stringFromDate(timestamp)
-      
-      cell.subtext = String("\(dateString) at \(timeString.substringToIndex(timeString.endIndex.predecessor()))")
-    }
+    let dateFormatter = NSDateFormatter()
+    dateFormatter.dateStyle = .ShortStyle
+    dateFormatter.timeStyle = .NoStyle
+    dateFormatter.locale = NSLocale.currentLocale()
+    let dateString = dateFormatter.stringFromDate(checkIn.dateCreated)
+    
+    let timeFormatter = NSDateFormatter()
+    timeFormatter.dateStyle = .NoStyle
+    timeFormatter.timeStyle = .ShortStyle
+    timeFormatter.locale = NSLocale.currentLocale()
+    let timeString = timeFormatter.stringFromDate(checkIn.dateCreated)
+    
+    cell.subtext = String("\(dateString) at \(timeString.substringToIndex(timeString.endIndex.predecessor()))")
     
     if let photoId = checkIn.photoId {
       let imageManager = PHImageManager.defaultManager()

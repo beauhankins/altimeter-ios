@@ -39,6 +39,7 @@
 		09AF4AF61BA7A6470090059E /* Lato-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB41BA7A3D100DB5F07 /* Lato-Light.ttf */; };
 		09AF4AF71BA7A6470090059E /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */; };
 		09AF4AF91BA7A8600090059E /* PhotoGridCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */; };
+		09B24C321C4BA415000DAC0A /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B24C311C4BA415000DAC0A /* ActionSheet.swift */; };
 		09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09B394641BB159690082A98C /* LocationDataDetailView.swift */; };
 		09CB94D51C45039500675990 /* SwiftRecord.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09CB94D41C45039500675990 /* SwiftRecord.framework */; };
 		09EF61E01BE96B590047D6CB /* StatusBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09EF61DF1BE96B590047D6CB /* StatusBar.swift */; };
@@ -95,6 +96,7 @@
 		098A24C91BB621C8005FA3E2 /* ListField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ListField.swift; path = Components/ListField.swift; sourceTree = "<group>"; };
 		098F21B41C201B290020F704 /* PlaceSearchHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceSearchHandler.swift; path = Handlers/PlaceSearchHandler.swift; sourceTree = "<group>"; };
 		09AF4AF81BA7A8600090059E /* PhotoGridCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PhotoGridCell.swift; path = Components/PhotoGridCell.swift; sourceTree = "<group>"; };
+		09B24C311C4BA415000DAC0A /* ActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ActionSheet.swift; path = Components/ActionSheet.swift; sourceTree = "<group>"; };
 		09B394641BB159690082A98C /* LocationDataDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LocationDataDetailView.swift; path = Components/LocationDataDetailView.swift; sourceTree = "<group>"; };
 		09CB94D41C45039500675990 /* SwiftRecord.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftRecord.framework; path = "Pods/../build/Debug-iphoneos/SwiftRecord.framework"; sourceTree = "<group>"; };
 		09EF61DF1BE96B590047D6CB /* StatusBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StatusBar.swift; path = Components/StatusBar.swift; sourceTree = "<group>"; };
@@ -223,6 +225,7 @@
 				09B394641BB159690082A98C /* LocationDataDetailView.swift */,
 				098A24C91BB621C8005FA3E2 /* ListField.swift */,
 				09EF61DF1BE96B590047D6CB /* StatusBar.swift */,
+				09B24C311C4BA415000DAC0A /* ActionSheet.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -466,6 +469,7 @@
 				09513DB41C42329900DE06B0 /* Place.swift in Sources */,
 				0923422D1B1031150028C7A9 /* Settings.swift in Sources */,
 				09513DB01C42329900DE06B0 /* CheckIn.swift in Sources */,
+				09B24C321C4BA415000DAC0A /* ActionSheet.swift in Sources */,
 				091C4BA81BA7A3AB00DB5F07 /* CheckInServiceHandler.swift in Sources */,
 				091C4B951BA7A36700DB5F07 /* SettingsController.swift in Sources */,
 				091C4BA21BA7A3A200DB5F07 /* ListCell.swift in Sources */,

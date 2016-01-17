@@ -26,7 +26,7 @@ class PhotoGridCell: UICollectionViewCell {
   override var selected: Bool {
     didSet {
       self.layer.borderWidth = selected ? 6 : 0
-      self.layer.borderColor = Colors().Secondary.CGColor
+      self.layer.borderColor = Colors().NeonBlue.CGColor
     }
   }
   

@@ -141,7 +141,7 @@ class MainController: UIViewController {
   lazy var dividerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = Colors().Primary
+    view.backgroundColor = Colors().PictonBlue
     return view
   }()
   
@@ -279,7 +279,7 @@ class MainController: UIViewController {
     let backgroundLayer: CAGradientLayer = {
       let layer = Gradients().SecondaryToPrimary
       layer.frame = view.bounds
-      layer.backgroundColor = Colors().Secondary.CGColor
+      layer.backgroundColor = Colors().NeonBlue.CGColor
       return layer
     }()
     
@@ -341,8 +341,8 @@ class MainController: UIViewController {
   }
   
   func updateInterfaceData() {
-    let altitude = round(location.altitude.doubleValue)
-    let altitudeAccuracy = round(location.altitudeAccuracy.doubleValue)
+    let altitude = round(UserSettings.sharedSettings.unit.convertDistance(location.altitude.doubleValue))
+    let altitudeAccuracy = round(UserSettings.sharedSettings.unit.convertDistance(location.altitudeAccuracy.doubleValue))
     let temperature = UserSettings.sharedSettings.unit.convertDegrees(location.temperature.doubleValue)
     let latitude = fabs(location.coordinate.latitude.doubleValue)
     let longitude = fabs(location.coordinate.longitude.doubleValue)
@@ -478,7 +478,6 @@ extension MainController: CLLocationManagerDelegate {
   
   func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if manager == locationManager, let managedLocation = manager.location {
-      let unit = UserSettings.sharedSettings.unit
       
       if altitudeStore.count > 10 { altitudeStore.removeObjectAtIndex(0) }
       altitudeStore.addObject(managedLocation.altitude as Double)
@@ -486,8 +485,8 @@ extension MainController: CLLocationManagerDelegate {
       if altitudeAccuracyStore.count > 5 { altitudeAccuracyStore.removeObjectAtIndex(0) }
       altitudeAccuracyStore.addObject(managedLocation.verticalAccuracy)
       
-      let avAltitude = unit.convertDistance(average(altitudeStore as NSArray as! [Double]))
-      let avAltitudeAccuracy = unit.convertDistance(average(altitudeAccuracyStore as NSArray as! [Double]))
+      let avAltitude = average(altitudeStore as NSArray as! [Double])
+      let avAltitudeAccuracy = average(altitudeAccuracyStore as NSArray as! [Double])
       let latitude = managedLocation.coordinate.latitude
       let longitude = managedLocation.coordinate.longitude
       
@@ -504,9 +503,9 @@ extension MainController: CLLocationManagerDelegate {
   
   func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
     let heading = newHeading.magneticHeading
-    let headingDegrees = (-heading*M_PI/180)
+    let headingDegrees = CGFloat(-heading*M_PI/180)
     
-    compass.transform = CGAffineTransformMakeRotation(CGFloat(headingDegrees));
+    compass.transform = CGAffineTransformMakeRotation(headingDegrees);
   }
   
   func attributedString(string: String, letterSpacing: Float = 3.0) -> NSAttributedString

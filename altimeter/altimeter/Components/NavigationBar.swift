@@ -25,7 +25,7 @@ class NavigationBar: UIView {
     navBarItem.translatesAutoresizingMaskIntoConstraints = false
     navBarItem.alignment = .Right
     return navBarItem
-    }()
+  }()
   
   lazy var titleLabel: UILabel = {
     var label = UILabel()
@@ -34,7 +34,7 @@ class NavigationBar: UIView {
     label.textAlignment = .Center
     label.textColor = Colors().White
     return label
-    }()
+  }()
   
   override func layoutSubviews() {
     
@@ -82,6 +82,17 @@ class NavigationBarItem: UIControl {
       textLabel.textColor = color
     }
   }
+  var isLoading: Bool = false {
+    didSet {
+      self.textLabel.hidden = self.isLoading
+      
+      if isLoading {
+        self.loadingView.startAnimating()
+      } else {
+        self.loadingView.stopAnimating()
+      }
+    }
+  }
   
   private lazy var iconView: UIImageView = {
     var imageView = UIImageView()
@@ -89,7 +100,7 @@ class NavigationBarItem: UIControl {
     imageView.image = self.icon
     imageView.contentMode = .ScaleAspectFit
     return imageView
-    }()
+  }()
   
   private lazy var textLabel: UILabel = {
     var label = UILabel()
@@ -98,12 +109,23 @@ class NavigationBarItem: UIControl {
     label.textAlignment = self.alignment == .Left ? .Left : .Right
     label.textColor = self.color
     label.text = self.text
+    label.hidden = self.isLoading
     return label
-    }()
+  }()
+  
+  private lazy var loadingView: UIActivityIndicatorView = {
+    var activityIndicatorView = UIActivityIndicatorView()
+    activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+    activityIndicatorView.color = Colors().Black
+    activityIndicatorView.hidesWhenStopped = true
+    if self.isLoading { activityIndicatorView.startAnimating() }
+    return activityIndicatorView
+  }()
   
   override func layoutSubviews() {
     addSubview(iconView)
     addSubview(textLabel)
+    addSubview(loadingView)
     
     addConstraint(NSLayoutConstraint(item: self, attribute: .Width, relatedBy: .Equal, toItem: textLabel, attribute: .Width, multiplier: 1, constant: icon != nil ? 25 : 0))
     
@@ -113,6 +135,11 @@ class NavigationBarItem: UIControl {
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Left, relatedBy: .Equal, toItem: self, attribute: .Left, multiplier: 1, constant: 0))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
     addConstraint(NSLayoutConstraint(item: iconView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
+    
+    addConstraint(NSLayoutConstraint(item: loadingView, attribute: .Width, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: loadingView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: loadingView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 1, constant: 0))
+    addConstraint(NSLayoutConstraint(item: loadingView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
   }
   
   override var enabled: Bool {

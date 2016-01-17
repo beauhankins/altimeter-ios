@@ -42,7 +42,7 @@ class PhotoGridController: UIViewController {
     nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Done"
     nav.rightBarItem.type = .Emphasis
-    nav.rightBarItem.color = Colors().Primary
+    nav.rightBarItem.color = Colors().PictonBlue
     nav.rightBarItem.addTarget(self, action: "done:", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()

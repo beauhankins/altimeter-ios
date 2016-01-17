@@ -11,23 +11,26 @@ import Dollar
 
 class SavedCheckInHandler {
   func save(checkIn: CheckIn, completion: (() -> Void)? = nil, failure: (() -> Void)? = nil) {
-    let savedCheckIns = allSavedCheckIns()
-
-    let alreadyExists = $.chain(savedCheckIns).any({ $0.dateCreated == checkIn.dateCreated })
-    if (!alreadyExists) {
-      checkIn.saved = true
-      checkIn.save()
+    let savedCheckIn = CheckIn.findOrCreate(["dateCreated": checkIn.dateCreated, "saved": true]) as! CheckIn
+    
+    if savedCheckIn.location.locationId == checkIn.location.locationId &&
+       savedCheckIn.photoId == checkIn.photoId &&
+       savedCheckIn.place?.placeId == checkIn.place?.placeId {
+        guard let failure = failure else { return }
+        failure()
+    } else {
+      savedCheckIn.location = checkIn.location
+      savedCheckIn.photoId = checkIn.photoId
+      savedCheckIn.place = checkIn.place
+      savedCheckIn.save()
       
       guard let completion = completion else { return }
       completion()
-    } else {
-      guard let failure = failure else { return }
-      failure()
     }
   }
   
   func allSavedCheckIns() -> [CheckIn] {
-    let savedCheckIns = CheckIn.query(["saved": true]) as! [CheckIn]
+    let savedCheckIns = CheckIn.query(["saved": true], sort: ["dateCreated":"DESC"]) as! [CheckIn]
     return savedCheckIns
   }
 }

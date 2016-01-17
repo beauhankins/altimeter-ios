@@ -111,7 +111,7 @@ class ListControl: UIControl {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = Fonts().Default
     label.textAlignment = .Right
-    label.textColor = Colors().Primary
+    label.textColor = Colors().PictonBlue
     label.text = self.stateText
     label.hidden = true
     return label

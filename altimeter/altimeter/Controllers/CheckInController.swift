@@ -30,7 +30,7 @@ class CheckInController: UIViewController {
     nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Next"
     nav.rightBarItem.type = .Emphasis
-    nav.rightBarItem.color = Colors().Primary
+    nav.rightBarItem.color = Colors().PictonBlue
     nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
@@ -102,7 +102,7 @@ class CheckInController: UIViewController {
       listControl.translatesAutoresizingMaskIntoConstraints = false
       listControl.text = "View Saved Check-Ins"
       listControl.textLabel.font = Fonts().Heading
-      listControl.textColor = Colors().Primary
+      listControl.textColor = Colors().PictonBlue
       listControl.icon = UIImage(named: "icon-location")!
       listControl.stateText = "\(SavedCheckInHandler().allSavedCheckIns().count)"
       listControl.stateTextColor = Colors().Black.colorWithAlphaComponent(0.5)

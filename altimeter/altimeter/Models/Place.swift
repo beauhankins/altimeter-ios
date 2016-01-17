@@ -11,6 +11,11 @@ import CoreData
 import SwiftRecord
 
 class Place: NSManagedObject {
+  @NSManaged var placeId: NSNumber
   @NSManaged var name: String
   @NSManaged var coordinate: Coordinate
+  
+  override internal class func autoIncrementingId() -> String? {
+    return "placeId"
+  }
 }

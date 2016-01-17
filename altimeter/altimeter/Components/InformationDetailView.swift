@@ -62,7 +62,7 @@ class InformationDetailView: UIView {
       let backgroundLayer: CAGradientLayer = {
         let layer = Gradients().SecondaryToPrimary
         layer.frame = bounds
-        layer.backgroundColor = Colors().Secondary.CGColor
+        layer.backgroundColor = Colors().NeonBlue.CGColor
         layer.startPoint = CGPoint(x: 0,y: 0.5)
         layer.endPoint = CGPoint(x: 1,y: 0.5)
         return layer

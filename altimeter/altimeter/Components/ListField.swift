@@ -18,7 +18,7 @@ class ListField: UITextField {
     
     backgroundColor = Colors().Black
     textColor = Colors().White
-    tintColor = Colors().Secondary
+    tintColor = Colors().NeonBlue
   }
   
   override func textRectForBounds(bounds: CGRect) -> CGRect {

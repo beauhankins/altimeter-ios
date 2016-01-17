@@ -57,7 +57,7 @@ class CheckInSuccessController: UIViewController {
     listControl.translatesAutoresizingMaskIntoConstraints = false
     listControl.text = "Open in Maps"
     listControl.textLabel.font = Fonts().Heading
-    listControl.textColor = Colors().Primary
+    listControl.textColor = Colors().PictonBlue
     listControl.icon = UIImage(named: "icon-map")!
     listControl.addTarget(self, action: Selector("openMaps:"), forControlEvents: .TouchUpInside)
     return listControl
@@ -67,7 +67,7 @@ class CheckInSuccessController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     view.title = "Shared Successfully!"
-    view.backgroundColor = Colors().Primary
+    view.backgroundColor = Colors().PictonBlue
     view.style = .Default
     view.textColor = Colors().White
     view.titleLabel.font = Fonts().Default
@@ -181,7 +181,7 @@ class CheckInSuccessController: UIViewController {
     let topBackgroundLayer: CAGradientLayer = {
       let layer = Gradients().SecondaryToPrimary
       layer.frame = self.navigationBar.bounds
-      layer.backgroundColor = Colors().Secondary.CGColor
+      layer.backgroundColor = Colors().NeonBlue.CGColor
       layer.startPoint = CGPoint(x: 0,y: 0.5)
       layer.endPoint = CGPoint(x: 1,y: 0.5)
       return layer

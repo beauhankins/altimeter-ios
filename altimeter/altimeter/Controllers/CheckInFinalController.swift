@@ -19,6 +19,9 @@ class CheckInFinalController: UIViewController {
   
   // Mutable Constraints
   var successViewTop = NSLayoutConstraint()
+  var successViewBottom = NSLayoutConstraint()
+  var accountPickerTop = NSLayoutConstraint()
+  var accountPickerBottom = NSLayoutConstraint()
   
   lazy var navigationBar: NavigationBar = {
     let nav = NavigationBar()
@@ -30,8 +33,8 @@ class CheckInFinalController: UIViewController {
     nav.leftBarItem.addTarget(self, action: "prevController", forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Share"
     nav.rightBarItem.type = .Emphasis
-    nav.rightBarItem.color = Colors().Primary
-    nav.rightBarItem.addTarget(self, action: "nextControllerShared", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.color = Colors().PictonBlue
+    nav.rightBarItem.addTarget(self, action: "shareCheckIn", forControlEvents: UIControlEvents.TouchUpInside)
     return nav
   }()
   
@@ -73,12 +76,12 @@ class CheckInFinalController: UIViewController {
     listControl.translatesAutoresizingMaskIntoConstraints = false
     listControl.text = "Add Photo"
     listControl.textLabel.font = Fonts().Heading
-    listControl.textColor = Colors().Primary
+    listControl.textColor = Colors().PictonBlue
     listControl.icon = UIImage(named: "icon-plus")!
     if let thumbnail = self.checkIn.photoId {
       listControl.image = UIImage()
     }
-    listControl.addTarget(self, action: Selector("addPhoto:"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: Selector("addPhoto"), forControlEvents: .TouchUpInside)
     return listControl
   }()
   
@@ -90,7 +93,7 @@ class CheckInFinalController: UIViewController {
     listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-facebook")!
     listControl.showCheckBox = true
-    listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: Selector("facebookCheckBoxPressed"), forControlEvents: .TouchUpInside)
     listControl.hidden = false
     return listControl
   }()
@@ -103,7 +106,7 @@ class CheckInFinalController: UIViewController {
     listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-twitter")!
     listControl.showCheckBox = true
-    listControl.addTarget(self, action: Selector("checkBoxPressed:"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: Selector("twitterCheckBoxPressed"), forControlEvents: .TouchUpInside)
     listControl.hidden = false
     return listControl
   }()
@@ -112,7 +115,7 @@ class CheckInFinalController: UIViewController {
     let listControl = ListControl()
     listControl.translatesAutoresizingMaskIntoConstraints = false
     listControl.stateText = "Save Check-In"
-    listControl.addTarget(self, action: Selector("nextController"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: Selector("saveCheckIn"), forControlEvents: .TouchUpInside)
     return listControl
   }()
   
@@ -120,7 +123,7 @@ class CheckInFinalController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     view.title = "Saved Successfully!"
-    view.backgroundColor = Colors().Primary
+    view.backgroundColor = Colors().PictonBlue
     view.style = .Default
     view.textColor = Colors().White
     view.titleLabel.font = Fonts().Default
@@ -128,10 +131,20 @@ class CheckInFinalController: UIViewController {
     return view
   }()
   
+  lazy var accountPicker: ActionSheet = {
+    let actionSheet = ActionSheet()
+    actionSheet.translatesAutoresizingMaskIntoConstraints = false
+    actionSheet.title = "Select Account".uppercaseString
+    actionSheet.doneButton.addTarget(self, action: Selector("hideAccountPicker"), forControlEvents: .TouchUpInside)
+    return actionSheet
+  }()
+  
   lazy var contentView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
+    view.backgroundColor = Colors().White
     
+    view.addSubview(self.navigationBar)
     view.addSubview(self.serviceStatusBar)
     view.addSubview(self.informationDetailView)
     view.addSubview(self.locationDataDetailView)
@@ -140,9 +153,14 @@ class CheckInFinalController: UIViewController {
     view.addSubview(self.twitterCheckBox)
     view.addSubview(self.saveButton)
     
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    
     view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Top, relatedBy: .Equal, toItem: self.navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
     
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
@@ -209,27 +227,31 @@ class CheckInFinalController: UIViewController {
   // MARK: - Layout Interface
   
   func layoutInterface() {
-    view.backgroundColor = Colors().White
+    view.backgroundColor = Colors().Black
+    view.layer.masksToBounds = true
     
-    view.addSubview(navigationBar)
     view.addSubview(contentView)
     view.addSubview(successView)
+    view.addSubview(accountPicker)
     
-    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
-    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
+    successViewTop = NSLayoutConstraint(item: successView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0)
+    successViewBottom = NSLayoutConstraint(item: successView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0)
+    accountPickerTop = NSLayoutConstraint(item: accountPicker, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0)
+    accountPickerBottom = NSLayoutConstraint(item: accountPicker, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0)
     
-    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     
-    successViewTop = NSLayoutConstraint(item: successView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0)
     view.addConstraint(successViewTop)
     view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: successView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+    
+    view.addConstraint(accountPickerTop)
+    view.addConstraint(NSLayoutConstraint(item: accountPicker, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
+    view.addConstraint(NSLayoutConstraint(item: accountPicker, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     
     navigationBar.rightBarItem.enabled = canContinue()
     serviceDidChange(serviceIsAvailable())
@@ -247,7 +269,6 @@ class CheckInFinalController: UIViewController {
       }
     } else {
       self.addPhotoButton.image = nil
-      
       self.addPhotoButton.text = "Add Photo"
       self.addPhotoButton.icon = UIImage(named: "icon-plus")!
       self.addPhotoButton.setNeedsLayout()
@@ -259,48 +280,70 @@ class CheckInFinalController: UIViewController {
     self.serviceStatusBar.hidden = serviceIsAvailable
     self.facebookCheckBox.hidden = !serviceIsAvailable
     self.twitterCheckBox.hidden = !serviceIsAvailable
-    self.saveButton.hidden = serviceIsAvailable
     
     self.serviceStatusBar.setNeedsLayout()
     self.facebookCheckBox.setNeedsLayout()
     self.twitterCheckBox.setNeedsLayout()
-    self.saveButton.setNeedsLayout()
     
     self.serviceStatusBar.layoutIfNeeded()
     self.facebookCheckBox.layoutIfNeeded()
     self.twitterCheckBox.layoutIfNeeded()
-    self.saveButton.layoutIfNeeded()
   }
   
   // MARK: - Animations
   
-  func flashSuccessView(success: Bool = true) {
-    if (success) {
+  func flashSuccessView(success success: Bool = true, completion: (() -> Void)? = nil) {
+    if success {
       self.successView.title = "Saved Successfully!"
-      self.successView.backgroundColor = Colors().Primary
+      self.successView.backgroundColor = Colors().PictonBlue
     } else {
       self.successView.title = "Already Saved"
-      self.successView.backgroundColor = Colors().Grey
+      self.successView.backgroundColor = Colors().LavendarGrey
     }
     
-    self.successViewTop.constant = -64
+    view.removeConstraint(self.successViewTop)
+    view.addConstraint(self.successViewBottom)
     self.successView.setNeedsUpdateConstraints()
     
-    UIView.animateWithDuration(0.5, animations: {
-      () in
+    UIView.animateWithDuration(0.5, animations: { () in
       self.successView.layoutIfNeeded()
-      }) {
-        completed in
-        self.successViewTop.constant = 0
+      }) { _ in
+        self.view.removeConstraint(self.successViewBottom)
+        self.view.addConstraint(self.successViewTop)
         self.successView.setNeedsUpdateConstraints()
         
-        UIView.animateWithDuration(0.5, delay: 2.5, options: .CurveEaseInOut, animations: {
-          () in
+        UIView.animateWithDuration(0.5, delay: 2.5, options: .CurveEaseInOut, animations: { () in
           self.successView.layoutIfNeeded()
-          }, completion: {
-            (completed) in
-            self.saveButton.enabled = true
+          }, completion: { _ in
+            guard let completion = completion else { return }
+            completion()
         })
+    }
+  }
+  
+  func showAccountPicker() {
+    view.removeConstraint(self.accountPickerTop)
+    view.addConstraint(self.accountPickerBottom)
+    self.accountPicker.setNeedsUpdateConstraints()
+    
+    UIView.animateWithDuration(0.25) { () in
+      self.contentView.transform = CGAffineTransformMakeScale(0.9, 0.9)
+      self.contentView.alpha = 0.2
+      self.contentView.userInteractionEnabled = false
+      self.accountPicker.layoutIfNeeded()
+    }
+  }
+  
+  func hideAccountPicker() {
+    view.removeConstraint(self.accountPickerBottom)
+    view.addConstraint(self.accountPickerTop)
+    self.accountPicker.setNeedsUpdateConstraints()
+    
+    UIView.animateWithDuration(0.25) { () in
+      self.contentView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+      self.contentView.alpha = 1.0
+      self.contentView.userInteractionEnabled = true
+      self.accountPicker.layoutIfNeeded()
     }
   }
   
@@ -310,21 +353,27 @@ class CheckInFinalController: UIViewController {
     navigationController?.popViewControllerAnimated(true)
   }
   
-  func nextControllerShared() {
+  func shareCheckIn() {
     let alerts = NSMutableArray()
+    
+    self.navigationBar.rightBarItem.isLoading = true
+    
+    SavedCheckInHandler().save(checkIn)
     
     if facebookCheckBox.selected {
       CheckInServiceHandler(checkIn: checkIn).checkIn(.Facebook, success: { () -> Void in
         self.nextController()
         
-        }, failure: { () -> Void in
+        }, failure: { () in
+          self.navigationBar.rightBarItem.isLoading = false
+          
           let alertController = UIAlertController(
                                   title: "Post to Facebook Failed",
                                   message: "You are not logged in to Facebook. Update your details in Settings > Facebook.",
                                   preferredStyle: .Alert)
           
           let okButton = UIAlertAction(title: "👍", style: .Cancel) {
-            action -> Void in
+            action in
             if alerts.count > 1 {
               alerts.removeObjectAtIndex(0)
               let alert = alerts[0] as! UIAlertController
@@ -346,14 +395,16 @@ class CheckInFinalController: UIViewController {
       CheckInServiceHandler(checkIn: checkIn).checkIn(.Twitter, success: { () -> Void in
         self.nextController()
         
-        }, failure: { () -> Void in
+        }, failure: { () in
+          self.navigationBar.rightBarItem.isLoading = false
+          
           let alertController = UIAlertController(
                                   title: "Tweet Failed",
                                   message: "You are not logged in to Twitter. Update your details in Settings > Twitter.",
                                   preferredStyle: .Alert)
           
           let okButton = UIAlertAction(title: "👍", style: .Cancel) {
-            action -> Void in
+            action in
             if alerts.count > 1 {
               alerts.removeObjectAtIndex(0)
               let alert = alerts[0] as! UIAlertController
@@ -373,35 +424,42 @@ class CheckInFinalController: UIViewController {
     }
   }
   
-  func nextController() {
+  func saveCheckIn() {
     self.saveButton.enabled = false
     
-    SavedCheckInHandler().save(checkIn, completion: {
-      () in
-      if (self.serviceIsAvailable()) {
-        let checkInSuccessController = CheckInSuccessController(checkIn: self.checkIn)
-        self.navigationController?.pushViewController(checkInSuccessController, animated: true)
-      } else {
-        self.flashSuccessView()
+    SavedCheckInHandler().save(checkIn, completion: { () in
+      self.flashSuccessView() { () in
+        self.saveButton.enabled = true
       }
-      }, failure:  {
-        () in
-        self.flashSuccessView(false)
-      })
+      }, failure:  { () in
+        self.flashSuccessView(success: false) { () in
+          self.saveButton.enabled = true
+        }
+    })
   }
   
-  func addPhoto(sender: AnyObject) {
-    if let _ = checkIn.photoId {
-      checkIn.photoId = nil
-      updateThumbnail()
-    } else {
-      photoGridController()
-    }
+  func nextController() {
+    navigationBar.rightBarItem.isLoading = false
+    let checkInSuccessController = CheckInSuccessController(checkIn: self.checkIn)
+    self.navigationController?.pushViewController(checkInSuccessController, animated: true)
   }
   
-  func checkBoxPressed(sender: AnyObject) {
-    let button = sender as! ListControl
-    button.selected = !button.selected
+  func addPhoto() {
+    guard let _ = checkIn.photoId else { photoGridController(); return }
+    
+    checkIn.photoId = nil
+    updateThumbnail()
+  }
+  
+  func twitterCheckBoxPressed() {
+    twitterCheckBox.selected = !twitterCheckBox.selected
+    navigationBar.rightBarItem.enabled = canContinue()
+    
+    if twitterCheckBox.selected { showAccountPicker() }
+  }
+  
+  func facebookCheckBoxPressed() {
+    facebookCheckBox.selected = !facebookCheckBox.selected
     navigationBar.rightBarItem.enabled = canContinue()
   }
   
@@ -414,7 +472,7 @@ class CheckInFinalController: UIViewController {
   // MARK: - Validation
   
   func canContinue() -> Bool {
-    return (facebookCheckBox.selected || twitterCheckBox.selected)
+    return facebookCheckBox.selected || twitterCheckBox.selected
   }
   
   func serviceIsAvailable() -> Bool {
@@ -436,8 +494,7 @@ class CheckInFinalController: UIViewController {
   
   func reachabilityChanged(note: NSNotification) {
     let reachability = note.object as! Reachability
-    dispatch_async(dispatch_get_main_queue()) {
-      () in
+    dispatch_async(dispatch_get_main_queue()) { () in
       self.serviceDidChange(reachability.isReachable())
     }
   }
@@ -447,7 +504,8 @@ class CheckInFinalController: UIViewController {
   private func fetchPhoto(localIdentifier: String, completion: ((image: UIImage) -> Void)) {
     let results = PHAsset.fetchAssetsWithLocalIdentifiers([localIdentifier as String], options: nil)
     var assets: [PHAsset] = []
-    results.enumerateObjectsUsingBlock { (object, _, _) in
+    results.enumerateObjectsUsingBlock {
+      object, _, _ in
       if let asset = object as? PHAsset {
         assets.append(asset)
       }

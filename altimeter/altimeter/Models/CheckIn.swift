@@ -11,9 +11,14 @@ import CoreData
 import SwiftRecord
 
 class CheckIn: NSManagedObject {
+  @NSManaged var checkInId: NSNumber
   @NSManaged var location: Location
   @NSManaged var photoId: NSString?
-  @NSManaged var dateCreated: NSDate?
+  @NSManaged var dateCreated: NSDate
   @NSManaged var place: Place?
   @NSManaged var saved: Bool
+  
+  override internal class func autoIncrementingId() -> String? {
+    return "checkInId"
+  }
 }

@@ -11,16 +11,17 @@ import UIKit
 
 struct Colors {
   let White = UIColor(white: 1, alpha: 1)
-  let Grey = UIColor(red: (194/255.0), green: (195/255.0), blue: (207/255.0), alpha: 1)
+  let LavendarGrey = UIColor(red: (194/255.0), green: (195/255.0), blue: (207/255.0), alpha: 1)
+  let Shark = UIColor(red: (40/255.0), green: (40/255.0), blue: (45/255.0), alpha: 1)
   let Black = UIColor(white: 0, alpha: 1)
-  let Primary = UIColor(red: (56/255.0), green: (170/255.0), blue: (255/255.0), alpha: 1)
-  let Secondary = UIColor(red: (72/255.0), green: (84/255.0), blue: (255/255.0), alpha: 1)
+  let PictonBlue = UIColor(red: (56/255.0), green: (170/255.0), blue: (255/255.0), alpha: 1)
+  let NeonBlue = UIColor(red: (72/255.0), green: (84/255.0), blue: (255/255.0), alpha: 1)
 }
 
 struct Gradients {
   let SecondaryToPrimary: CAGradientLayer = {
     var gradient = CAGradientLayer()
-    gradient.colors = [Colors().Secondary.CGColor, Colors().Primary.CGColor]
+    gradient.colors = [Colors().NeonBlue.CGColor, Colors().PictonBlue.CGColor]
     gradient.locations = [0.0, 1.0]
     return gradient
   }()
@@ -32,6 +33,7 @@ struct Fonts {
   let Default = UIFont(name: "Lato-Regular", size: 18.0)
   let Heading = UIFont(name: "Lato-Regular", size: 18.0)
   let FormattedCoordinate = UIFont(name: "Lato-Regular", size: 16.0)
+  let SmallHeading = UIFont(name: "Lato-Regular", size: 14.0)
   let Data = UIFont(name: "Lato-Regular", size: 14.0)
   let Caption = UIFont(name: "Lato-Regular", size: 11.0)
   

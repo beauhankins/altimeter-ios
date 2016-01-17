@@ -26,22 +26,20 @@ class LocationDataDetailView: UIView {
       let pressureString = String(format: "%.0f PSI", pressure)
       let temperatureString = String(format: "%.0f°%@", temperature, UserSettings.sharedSettings.unit.degreesAbbreviation())
       
-      if let timestamp = checkIn.dateCreated {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .ShortStyle
-        dateFormatter.timeStyle = .NoStyle
-        dateFormatter.locale = NSLocale.currentLocale()
-        let dateString = dateFormatter.stringFromDate(timestamp)
-        
-        let timeFormatter = NSDateFormatter()
-        timeFormatter.dateStyle = .NoStyle
-        timeFormatter.timeStyle = .ShortStyle
-        timeFormatter.locale = NSLocale.currentLocale()
-        let timeString = timeFormatter.stringFromDate(timestamp)
-        
-        dateLabel.attributedText = attributedString(dateString)
-        timeLabel.attributedText = attributedString(timeString.substringToIndex(timeString.endIndex.predecessor()))
-      }
+      let dateFormatter = NSDateFormatter()
+      dateFormatter.dateStyle = .ShortStyle
+      dateFormatter.timeStyle = .NoStyle
+      dateFormatter.locale = NSLocale.currentLocale()
+      let dateString = dateFormatter.stringFromDate(checkIn.dateCreated)
+      
+      let timeFormatter = NSDateFormatter()
+      timeFormatter.dateStyle = .NoStyle
+      timeFormatter.timeStyle = .ShortStyle
+      timeFormatter.locale = NSLocale.currentLocale()
+      let timeString = timeFormatter.stringFromDate(checkIn.dateCreated)
+      
+      dateLabel.attributedText = attributedString(dateString)
+      timeLabel.attributedText = attributedString(timeString.substringToIndex(timeString.endIndex.predecessor()))
       
       coordinateLabel.attributedText = attributedString(coordinateString)
       formattedCoordinateLabel.attributedText = attributedString(formattedCoordinateString)
