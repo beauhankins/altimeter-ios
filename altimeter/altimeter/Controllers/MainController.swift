@@ -60,9 +60,9 @@ class MainController: UIViewController {
     let nav = NavigationBar()
     nav.translatesAutoresizingMaskIntoConstraints = false
     nav.leftBarItem.icon = UIImage(named: "icon-menu")
-    nav.leftBarItem.addTarget(self, action: "settingsController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.leftBarItem.addTarget(self, action: #selector(settingsController), forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.icon = UIImage(named: "icon-location-white")
-    nav.rightBarItem.addTarget(self, action: "checkInController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: #selector(checkInController), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
   }()
   
@@ -255,7 +255,7 @@ class MainController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    NSNotificationCenter.defaultCenter().addObserver(self, selector:"applicationWillEnterForeground:", name:
+    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(applicationWillEnterForeground(_:)), name:
       UIApplicationWillEnterForegroundNotification, object: nil)
   }
   
@@ -272,7 +272,7 @@ class MainController: UIViewController {
     updateWeatherData()
     layoutInterface()
     
-    NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: Selector("updateData:"), userInfo: nil, repeats: true)
+    NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: #selector(updateData(_:)), userInfo: nil, repeats: true)
   }
   
   override func viewDidLayoutSubviews() {
@@ -386,7 +386,7 @@ class MainController: UIViewController {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
       if CLLocationManager.locationServicesEnabled() {
         
-        if self.locationManager.respondsToSelector("requestWhenInUseAuthorization") {
+        if self.locationManager.respondsToSelector(#selector(CLLocationManager.requestWhenInUseAuthorization)) {
           self.locationManager.requestWhenInUseAuthorization()
         }
         

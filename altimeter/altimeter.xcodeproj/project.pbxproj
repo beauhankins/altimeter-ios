@@ -28,6 +28,7 @@
 		091C4BAE1BA7A3B600DB5F07 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091C4BAC1BA7A3B600DB5F07 /* UserSettings.swift */; };
 		0923422D1B1031150028C7A9 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0923422C1B1031150028C7A9 /* Settings.swift */; };
 		092342371B1046380028C7A9 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 092342361B1046380028C7A9 /* CoreMotion.framework */; };
+		0942208D1C531B2F0022D116 /* AccountPickerActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0942208C1C531B2F0022D116 /* AccountPickerActionSheet.swift */; };
 		09513DB01C42329900DE06B0 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAB1C42329900DE06B0 /* CheckIn.swift */; };
 		09513DB11C42329900DE06B0 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAC1C42329900DE06B0 /* Coordinate.swift */; };
 		09513DB21C42329900DE06B0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09513DAD1C42329900DE06B0 /* Location.swift */; };
@@ -87,6 +88,7 @@
 		091C4BB51BA7A3D100DB5F07 /* Lato-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Lato-Regular.ttf"; path = "Resources/Fonts/Lato-Regular.ttf"; sourceTree = "<group>"; };
 		0923422C1B1031150028C7A9 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		092342361B1046380028C7A9 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		0942208C1C531B2F0022D116 /* AccountPickerActionSheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccountPickerActionSheet.swift; path = Components/AccountPickerActionSheet.swift; sourceTree = "<group>"; };
 		09513DAB1C42329900DE06B0 /* CheckIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckIn.swift; path = Models/CheckIn.swift; sourceTree = "<group>"; };
 		09513DAC1C42329900DE06B0 /* Coordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Coordinate.swift; path = Models/Coordinate.swift; sourceTree = "<group>"; };
 		09513DAD1C42329900DE06B0 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Location.swift; path = Models/Location.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 				098A24C91BB621C8005FA3E2 /* ListField.swift */,
 				09EF61DF1BE96B590047D6CB /* StatusBar.swift */,
 				09B24C311C4BA415000DAC0A /* ActionSheet.swift */,
+				0942208C1C531B2F0022D116 /* AccountPickerActionSheet.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				091C4B8F1BA7A36700DB5F07 /* CheckInController.swift in Sources */,
 				090887211B022D53003E9A60 /* AppDelegate.swift in Sources */,
 				09513DB11C42329900DE06B0 /* Coordinate.swift in Sources */,
+				0942208D1C531B2F0022D116 /* AccountPickerActionSheet.swift in Sources */,
 				098A24CA1BB621C8005FA3E2 /* ListField.swift in Sources */,
 				091C4B921BA7A36700DB5F07 /* MainController.swift in Sources */,
 				09B394651BB159690082A98C /* LocationDataDetailView.swift in Sources */,
@@ -608,6 +612,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",
@@ -629,6 +634,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/build/Debug-iphoneos",

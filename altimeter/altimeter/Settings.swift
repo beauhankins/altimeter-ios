@@ -16,6 +16,7 @@ struct Colors {
   let Black = UIColor(white: 0, alpha: 1)
   let PictonBlue = UIColor(red: (56/255.0), green: (170/255.0), blue: (255/255.0), alpha: 1)
   let NeonBlue = UIColor(red: (72/255.0), green: (84/255.0), blue: (255/255.0), alpha: 1)
+  let Red = UIColor(red: (255/255.0), green: (57/255.0), blue: (57/255.0), alpha: 1)
 }
 
 struct Gradients {

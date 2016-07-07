@@ -14,8 +14,8 @@ import Dollar
 class SavedCheckInsController: UIViewController {
   // MARK: - Variables & Constants
   
-  let savedCheckIns = SavedCheckInHandler().allSavedCheckIns()
-  var selectedRow: Int?
+  let onDisappear: (() -> Void)?
+  var savedCheckIns = SavedCheckInHandler().allSavedCheckIns()
   
   let cachingImageManager = PHCachingImageManager()
   var assets: [PHAsset] = [] {
@@ -39,11 +39,7 @@ class SavedCheckInsController: UIViewController {
     nav.titleLabel.textColor = Colors().Black
     nav.leftBarItem.text = "Cancel"
     nav.leftBarItem.color = Colors().Black
-    nav.leftBarItem.addTarget(self, action: "prevController", forControlEvents: UIControlEvents.TouchUpInside)
-    nav.rightBarItem.text = "Next"
-    nav.rightBarItem.type = .Emphasis
-    nav.rightBarItem.color = Colors().PictonBlue
-    nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.leftBarItem.addTarget(self, action: #selector(prevController), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   
@@ -77,6 +73,16 @@ class SavedCheckInsController: UIViewController {
   
   // MARK: - View Lifecycle
   
+  init(onDisappear: (() -> Void)?) {
+    self.onDisappear = onDisappear
+    
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  convenience required init?(coder aDecoder: NSCoder) {
+    self.init(onDisappear: nil)
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -85,8 +91,14 @@ class SavedCheckInsController: UIViewController {
   
   override func viewWillAppear(animated: Bool) {
     prepareAssets({
-      self.savedCheckInsListView.reloadData()
+      self.reloadData()
     })
+  }
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    guard let onDisappear = onDisappear else { return }
+    onDisappear()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -131,8 +143,11 @@ class SavedCheckInsController: UIViewController {
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Bottom, relatedBy: .Equal, toItem: view, attribute: .Bottom, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .CenterX, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: contentView, attribute: .Width, relatedBy: .Equal, toItem: view, attribute: .Width, multiplier: 1, constant: 0))
-    
-    navigationBar.rightBarItem.enabled = canContinue()
+  }
+  
+  func reloadData() {
+    self.savedCheckIns = SavedCheckInHandler().allSavedCheckIns()
+    self.savedCheckInsListView.reloadData()
   }
   
   // MARK: - Actions
@@ -141,18 +156,12 @@ class SavedCheckInsController: UIViewController {
     dismissViewControllerAnimated(true, completion: nil)
   }
   
-  func nextController() {
-    guard let selectedRow = selectedRow else { return }
-    
+  func nextController(selectedRow: Int) {
     let checkIn = savedCheckIns[selectedRow]
-    let checkInFinalController = CheckInFinalController(checkIn: checkIn)
+    let checkInFinalController = CheckInFinalController(checkIn: checkIn, onDisappear: { () in
+      self.reloadData()
+    })
     navigationController?.pushViewController(checkInFinalController, animated: true)
-  }
-  
-  // MARK: - Validation
-  
-  func canContinue() -> Bool {
-    return selectedRow != nil
   }
 }
 
@@ -160,16 +169,8 @@ class SavedCheckInsController: UIViewController {
 
 extension SavedCheckInsController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
-    
-    cell.selected = true
-    selectedRow = indexPath.row
-    navigationBar.rightBarItem.enabled = canContinue()
-  }
-  
-  func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
-    let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
-    cell.selected = false
+    let row = indexPath.row
+    nextController(row)
   }
 }
 
@@ -196,7 +197,6 @@ extension SavedCheckInsController: UICollectionViewDataSource {
     let cell = collectionView.dequeueReusableCellWithReuseIdentifier("SavedListCell", forIndexPath: indexPath) as! ListCell
     let row = indexPath.row
     
-    cell.showCheckBox = true
     cell.textColor = Colors().Black
     
     let checkIn = savedCheckIns[row]

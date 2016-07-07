@@ -68,7 +68,8 @@ class PlaceSearchHandler {
               if let result = result {
                 if let
                   name = result["name"] as? String,
-                  coord = result["geometry"]?["location"],
+                  geometry = result["geometry"] as? [String: AnyObject],
+                  coord = geometry["location"],
                   lat = coord["lat"] as? Double,
                   lng = coord["lng"] as? Double {
                     let coordinate = Coordinate.create() as! Coordinate

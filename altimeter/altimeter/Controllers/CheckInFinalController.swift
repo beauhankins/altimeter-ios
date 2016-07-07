@@ -15,7 +15,10 @@ class CheckInFinalController: UIViewController {
   // MARK: - Variables & Constants
   
   let checkIn: CheckIn
+  let wasSaved: Bool
+  let onDisappear: (() -> Void)?
   let reachability: Reachability?
+  let checkInServiceHandler: CheckInServiceHandler
   
   // Mutable Constraints
   var successViewTop = NSLayoutConstraint()
@@ -30,11 +33,11 @@ class CheckInFinalController: UIViewController {
     nav.titleLabel.textColor = Colors().Black
     nav.leftBarItem.text = "Back"
     nav.leftBarItem.color = Colors().Black
-    nav.leftBarItem.addTarget(self, action: "prevController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.leftBarItem.addTarget(self, action: #selector(prevController), forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Share"
     nav.rightBarItem.type = .Emphasis
     nav.rightBarItem.color = Colors().PictonBlue
-    nav.rightBarItem.addTarget(self, action: "shareCheckIn", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: #selector(shareCheckIn), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
   }()
   
@@ -50,8 +53,8 @@ class CheckInFinalController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
-    let altitude = self.checkIn.location.altitude.doubleValue
-    let altitudeString = String(format: "%.0f", round(altitude))
+    let altitude = round(UserSettings.sharedSettings.unit.convertDistance(self.checkIn.location.altitude.doubleValue))
+    let altitudeString = String(format: "%.0f", altitude)
     if let placeName = self.checkIn.place?.name {
       view.title = "\(placeName) – \(altitudeString) \(UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString)"
     } else {
@@ -81,7 +84,7 @@ class CheckInFinalController: UIViewController {
     if let thumbnail = self.checkIn.photoId {
       listControl.image = UIImage()
     }
-    listControl.addTarget(self, action: Selector("addPhoto"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: #selector(addPhoto), forControlEvents: .TouchUpInside)
     return listControl
   }()
   
@@ -93,7 +96,7 @@ class CheckInFinalController: UIViewController {
     listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-facebook")!
     listControl.showCheckBox = true
-    listControl.addTarget(self, action: Selector("facebookCheckBoxPressed"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: #selector(facebookCheckBoxPressed), forControlEvents: .TouchUpInside)
     listControl.hidden = false
     return listControl
   }()
@@ -106,17 +109,35 @@ class CheckInFinalController: UIViewController {
     listControl.textColor = Colors().Black
     listControl.checkboxImage = UIImage(named: "radio-twitter")!
     listControl.showCheckBox = true
-    listControl.addTarget(self, action: Selector("twitterCheckBoxPressed"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: #selector(twitterCheckBoxPressed), forControlEvents: .TouchUpInside)
     listControl.hidden = false
     return listControl
   }()
   
-  lazy var saveButton: ListControl = {
-    let listControl = ListControl()
-    listControl.translatesAutoresizingMaskIntoConstraints = false
-    listControl.stateText = "Save Check-In"
-    listControl.addTarget(self, action: Selector("saveCheckIn"), forControlEvents: .TouchUpInside)
-    return listControl
+  lazy var saveButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle("Save Check-In", forState: .Normal)
+    button.setTitleColor(Colors().PictonBlue, forState: .Normal)
+    button.setTitleColor(Colors().PictonBlue.colorWithAlphaComponent(0.5), forState: .Highlighted)
+    button.titleLabel?.font = Fonts().Default
+    button.titleLabel?.textAlignment = .Right
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20)
+    button.addTarget(self, action: #selector(saveCheckIn), forControlEvents: .TouchUpInside)
+    return button
+  }()
+  
+  lazy var deleteButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle("Delete Check-In", forState: .Normal)
+    button.setTitleColor(Colors().Red, forState: .Normal)
+    button.setTitleColor(Colors().Red.colorWithAlphaComponent(0.5), forState: .Highlighted)
+    button.titleLabel?.font = Fonts().Default
+    button.titleLabel?.textAlignment = .Right
+    button.contentEdgeInsets = UIEdgeInsetsMake(0, 20, 0, 20)
+    button.addTarget(self, action: #selector(deleteCheckIn), forControlEvents: .TouchUpInside)
+    return button
   }()
   
   lazy var successView: InformationDetailView = {
@@ -131,11 +152,12 @@ class CheckInFinalController: UIViewController {
     return view
   }()
   
-  lazy var accountPicker: ActionSheet = {
-    let actionSheet = ActionSheet()
+  lazy var accountPicker: AccountPickerActionSheet = {
+    let actionSheet = AccountPickerActionSheet()
     actionSheet.translatesAutoresizingMaskIntoConstraints = false
     actionSheet.title = "Select Account".uppercaseString
-    actionSheet.doneButton.addTarget(self, action: Selector("hideAccountPicker"), forControlEvents: .TouchUpInside)
+    actionSheet.cancelButton.addTarget(self, action: #selector(hideAccountPicker), forControlEvents: .TouchUpInside)
+    actionSheet.doneButton.addTarget(self, action: #selector(accountPickerDone), forControlEvents: .TouchUpInside)
     return actionSheet
   }()
   
@@ -145,55 +167,65 @@ class CheckInFinalController: UIViewController {
     view.backgroundColor = Colors().White
     
     view.addSubview(self.navigationBar)
-    view.addSubview(self.serviceStatusBar)
-    view.addSubview(self.informationDetailView)
-    view.addSubview(self.locationDataDetailView)
-    view.addSubview(self.addPhotoButton)
-    view.addSubview(self.facebookCheckBox)
-    view.addSubview(self.twitterCheckBox)
-    view.addSubview(self.saveButton)
-    
     view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: 86))
     view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.navigationBar, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 0))
     
+    view.addSubview(self.serviceStatusBar)
     view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.serviceStatusBar, attribute: .Top, relatedBy: .Equal, toItem: self.navigationBar, attribute: .Bottom, multiplier: 1, constant: 0))
     
+    view.addSubview(self.informationDetailView)
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
     view.addConstraint(NSLayoutConstraint(item: self.informationDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.serviceStatusBar, attribute: .Bottom, multiplier: 1, constant: 0))
     
+    view.addSubview(self.locationDataDetailView)
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.locationDataDetailView, attribute: .Top, relatedBy: .Equal, toItem: self.informationDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
-
+    
+    view.addSubview(self.addPhotoButton)
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.addPhotoButton, attribute: .Top, relatedBy: .Equal, toItem: self.locationDataDetailView, attribute: .Bottom, multiplier: 1, constant: 0))
     
+    view.addSubview(self.facebookCheckBox)
     view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 10))
     view.addConstraint(NSLayoutConstraint(item: self.facebookCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
     
+    view.addSubview(self.twitterCheckBox)
     view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
     view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .CenterX, multiplier: 1, constant: 10))
     view.addConstraint(NSLayoutConstraint(item: self.twitterCheckBox, attribute: .Top, relatedBy: .Equal, toItem: self.addPhotoButton, attribute: .Bottom, multiplier: 1, constant: 0))
     
-    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Left, relatedBy: .Equal, toItem: view, attribute: .Left, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
-    view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Top, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Bottom, multiplier: 1, constant: 0))
+    if self.wasSaved {
+      view.addSubview(self.deleteButton)
+      view.addConstraint(NSLayoutConstraint(item: self.deleteButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+      view.addConstraint(NSLayoutConstraint(item: self.deleteButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+      view.addConstraint(NSLayoutConstraint(item: self.deleteButton, attribute: .Top, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Bottom, multiplier: 1, constant: 0))
+    } else {
+      view.addSubview(self.saveButton)
+      view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Height, relatedBy: .Equal, toItem: .None, attribute: .NotAnAttribute, multiplier: 1, constant: 64))
+      view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Right, relatedBy: .Equal, toItem: view, attribute: .Right, multiplier: 1, constant: 0))
+      view.addConstraint(NSLayoutConstraint(item: self.saveButton, attribute: .Top, relatedBy: .Equal, toItem: self.facebookCheckBox, attribute: .Bottom, multiplier: 1, constant: 0))
+    }
     
     return view
-    }()
+  }()
   
   // MARK: - View Lifecycle
   
-  init(checkIn: CheckIn) {
+  init(checkIn: CheckIn, onDisappear: (() -> Void)?) {
     self.checkIn = checkIn
+    self.wasSaved = checkIn.saved
+    self.onDisappear = onDisappear
+    
+    self.checkInServiceHandler = CheckInServiceHandler(checkIn: checkIn)
     do {
       self.reachability = try Reachability.reachabilityForInternetConnection()
     } catch {
@@ -206,7 +238,7 @@ class CheckInFinalController: UIViewController {
   convenience required init?(coder aDecoder: NSCoder) {
     let checkIn = CheckIn.create() as! CheckIn
     
-    self.init(checkIn: checkIn)
+    self.init(checkIn: checkIn, onDisappear: nil)
   }
   
   override func viewDidLoad() {
@@ -218,6 +250,12 @@ class CheckInFinalController: UIViewController {
   
   override func viewWillAppear(animated: Bool) {
     updateThumbnail()
+  }
+  
+  override func viewWillDisappear(animated: Bool) {
+    super.viewWillDisappear(animated)
+    guard let onDisappear = onDisappear else { return }
+    onDisappear()
   }
   
   override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -294,10 +332,10 @@ class CheckInFinalController: UIViewController {
   
   func flashSuccessView(success success: Bool = true, completion: (() -> Void)? = nil) {
     if success {
-      self.successView.title = "Saved Successfully!"
-      self.successView.backgroundColor = Colors().PictonBlue
+      self.successView.title = wasSaved ? "Deleted Successfully!" : "Saved Successfully!"
+      self.successView.backgroundColor = wasSaved ? Colors().Red : Colors().PictonBlue
     } else {
-      self.successView.title = "Already Saved"
+      self.successView.title = wasSaved ? "Already Deleted" : "Already Saved"
       self.successView.backgroundColor = Colors().LavendarGrey
     }
     
@@ -349,91 +387,83 @@ class CheckInFinalController: UIViewController {
   
   // MARK: - Actions
   
+  func accountPickerDone() {
+    switch accountPicker.service {
+    case .Facebook:
+      checkInServiceHandler.facebookAccount = accountPicker.selectedAccount
+      facebookCheckBox.selected = true
+    case .Twitter:
+      checkInServiceHandler.twitterAccount = accountPicker.selectedAccount
+      twitterCheckBox.selected = true
+    }
+    
+    hideAccountPicker()
+    navigationBar.rightBarItem.enabled = canContinue()
+  }
+  
   func prevController() {
     navigationController?.popViewControllerAnimated(true)
   }
   
   func shareCheckIn() {
-    let alerts = NSMutableArray()
-    
     self.navigationBar.rightBarItem.isLoading = true
     
     SavedCheckInHandler().save(checkIn)
     
-    if facebookCheckBox.selected {
-      CheckInServiceHandler(checkIn: checkIn).checkIn(.Facebook, success: { () -> Void in
-        self.nextController()
-        
-        }, failure: { () in
-          self.navigationBar.rightBarItem.isLoading = false
-          
-          let alertController = UIAlertController(
-                                  title: "Post to Facebook Failed",
-                                  message: "You are not logged in to Facebook. Update your details in Settings > Facebook.",
-                                  preferredStyle: .Alert)
-          
-          let okButton = UIAlertAction(title: "👍", style: .Cancel) {
-            action in
-            if alerts.count > 1 {
-              alerts.removeObjectAtIndex(0)
-              let alert = alerts[0] as! UIAlertController
-              
-              self.presentViewController(alert, animated: true, completion: nil)
-            }
-          }
-          alertController.addAction(okButton)
-          
-          if alerts.count == 0 {
-            self.presentViewController(alertController, animated: true, completion: nil)
-          }
-          
-          alerts.addObject(alertController)
-      })
-    }
+    var services: [CheckInService]?
+    if facebookCheckBox.selected { if services?.append(.Facebook) == nil { services = [.Facebook] } }
+    if twitterCheckBox.selected  { if services?.append(.Twitter) == nil  { services = [.Twitter] } }
     
-    if twitterCheckBox.selected {
-      CheckInServiceHandler(checkIn: checkIn).checkIn(.Twitter, success: { () -> Void in
-        self.nextController()
-        
-        }, failure: { () in
-          self.navigationBar.rightBarItem.isLoading = false
-          
-          let alertController = UIAlertController(
-                                  title: "Tweet Failed",
-                                  message: "You are not logged in to Twitter. Update your details in Settings > Twitter.",
-                                  preferredStyle: .Alert)
-          
-          let okButton = UIAlertAction(title: "👍", style: .Cancel) {
-            action in
-            if alerts.count > 1 {
-              alerts.removeObjectAtIndex(0)
-              let alert = alerts[0] as! UIAlertController
-              
-              self.presentViewController(alert, animated: true, completion: nil)
-            }
-          }
-          alertController.addAction(okButton)
-          
-          if alerts.count == 0 {
-            self.presentViewController(alertController, animated: true, completion: nil)
-          }
-          
-          alerts.addObject(alertController)
-      })
+    guard let _services = services else { return }
+    
+    checkInServiceHandler.checkIn(_services, completion: { () -> Void in
+      self.nextController()
       
-    }
+      }, failure: { (service) in
+        self.navigationBar.rightBarItem.isLoading = false
+        
+        let alertController = UIAlertController(
+          title: "Post to \(service.rawValue) Failed",
+          message: "Something went wrong. Please try again later.",
+          preferredStyle: .Alert)
+        
+        let okButton = UIAlertAction(title: "👍", style: .Cancel, handler: nil)
+        alertController.addAction(okButton)
+        
+        self.presentViewController(alertController, animated: true, completion: nil)
+    })
   }
   
   func saveCheckIn() {
     self.saveButton.enabled = false
+    self.navigationBar.rightBarItem.isLoading = true
     
     SavedCheckInHandler().save(checkIn, completion: { () in
       self.flashSuccessView() { () in
         self.saveButton.enabled = true
+        self.navigationBar.rightBarItem.isLoading = false
+        self.navigationController?.popToRootViewControllerAnimated(true)
       }
       }, failure:  { () in
         self.flashSuccessView(success: false) { () in
           self.saveButton.enabled = true
+          self.navigationBar.rightBarItem.isLoading = false
+        }
+    })
+  }
+  
+  func deleteCheckIn() {
+    self.deleteButton.enabled = false
+    
+    SavedCheckInHandler().delete(checkIn, completion: { () in
+      self.flashSuccessView() { () in
+        self.deleteButton.enabled = true
+        self.prevController()
+      }
+      }, failure:  { () in
+        self.flashSuccessView(success: false) { () in
+          self.deleteButton.enabled = true
+          self.prevController()
         }
     })
   }
@@ -452,15 +482,59 @@ class CheckInFinalController: UIViewController {
   }
   
   func twitterCheckBoxPressed() {
-    twitterCheckBox.selected = !twitterCheckBox.selected
-    navigationBar.rightBarItem.enabled = canContinue()
-    
-    if twitterCheckBox.selected { showAccountPicker() }
+    if !twitterCheckBox.selected {
+      accountPicker.accounts = []
+      accountPicker.service = .Twitter
+      accountPicker.selectedAccount = nil
+      
+      checkInServiceHandler.requestPermissionsAndAccounts(.Twitter, completion: {
+        accounts in
+        
+        self.accountPicker.accounts = accounts
+        self.showAccountPicker()
+        
+        }, failure: { () -> Void in
+          let alertController = UIAlertController(
+            title: "Post to Twitter Failed",
+            message: "You are not logged in to Twitter. Update your details in Settings > Twitter.",
+            preferredStyle: .Alert)
+          
+          let okButton = UIAlertAction(title: "👍", style: .Cancel, handler: nil)
+          alertController.addAction(okButton)
+          
+          self.presentViewController(alertController, animated: true, completion: nil)
+      })
+    } else {
+      twitterCheckBox.selected = false
+    }
   }
   
   func facebookCheckBoxPressed() {
-    facebookCheckBox.selected = !facebookCheckBox.selected
-    navigationBar.rightBarItem.enabled = canContinue()
+    if !facebookCheckBox.selected {
+      accountPicker.accounts = []
+      accountPicker.service = .Facebook
+      accountPicker.selectedAccount = nil
+      
+      checkInServiceHandler.requestPermissionsAndAccounts(.Facebook, completion: {
+        accounts in
+        
+        self.accountPicker.accounts = accounts
+        self.showAccountPicker()
+        
+        }, failure: { () -> Void in
+          let alertController = UIAlertController(
+            title: "Post to Facebook Failed",
+            message: "You are not logged in to Facebook. Update your details in Settings > Facebook.",
+            preferredStyle: .Alert)
+          
+          let okButton = UIAlertAction(title: "👍", style: .Cancel, handler: nil)
+          alertController.addAction(okButton)
+          
+          self.presentViewController(alertController, animated: true, completion: nil)
+      })
+    } else {
+      facebookCheckBox.selected = false
+    }
   }
   
   func photoGridController() {
@@ -483,7 +557,7 @@ class CheckInFinalController: UIViewController {
     guard let reachability = reachability else { return }
     
     NSNotificationCenter.defaultCenter().addObserver(self,
-      selector: "reachabilityChanged:",
+      selector: #selector(reachabilityChanged(_:)),
       name: ReachabilityChangedNotification,
       object: reachability)
     

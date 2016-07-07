@@ -12,7 +12,7 @@ import Alamofire
 class WeatherHandler {
   let APIKEY = "922effc79b3cf84d8aecbe895279057f"
   
-  func getWeatherData( lat lat: Double, lon: Double, completion: ([String:Double]) -> Void ) {
+  func getWeatherData(lat lat: Double, lon: Double, completion: ([String:Double]) -> Void) {
     
     fetchWeather(lat: lat, lon: lon, completion: { (responseObject: AnyObject) -> Void in
       var temp = 0.0
@@ -38,7 +38,7 @@ class WeatherHandler {
     }
   }
   
-  private func fetchWeather( lat lat: Double, lon: Double, completion: (AnyObject) -> Void, failure: (NSError) -> Void ) {
+  private func fetchWeather(lat lat: Double, lon: Double, completion: (AnyObject) -> Void, failure: (NSError) -> Void) {
     let url = "http://api.openweathermap.org/data/2.5/weather"
     let parameters = [
       "lat": String(lat),

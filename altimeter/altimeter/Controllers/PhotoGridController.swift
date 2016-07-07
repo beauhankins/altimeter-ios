@@ -39,11 +39,11 @@ class PhotoGridController: UIViewController {
     nav.titleLabel.textColor = Colors().White
     nav.leftBarItem.text = "Cancel"
     nav.leftBarItem.color = Colors().White
-    nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.leftBarItem.addTarget(self, action: #selector(closeController), forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Done"
     nav.rightBarItem.type = .Emphasis
     nav.rightBarItem.color = Colors().PictonBlue
-    nav.rightBarItem.addTarget(self, action: "done:", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: #selector(done(_:)), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   
@@ -249,7 +249,7 @@ extension PhotoGridController: UIImagePickerControllerDelegate, UINavigationCont
     if mediaType == kUTTypeImage as String {
       let image = info[UIImagePickerControllerOriginalImage] as! UIImage
       
-      UIImageWriteToSavedPhotosAlbum(image, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
+      UIImageWriteToSavedPhotosAlbum(image, self, #selector(self.image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
   }
   

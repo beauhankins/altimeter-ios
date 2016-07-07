@@ -29,6 +29,21 @@ class SavedCheckInHandler {
     }
   }
   
+  func delete(checkIn: CheckIn, completion: (() -> Void)? = nil, failure: (() -> Void)? = nil) {
+    let savedCheckIn = CheckIn.find(["checkInId": checkIn.checkInId]) as? CheckIn
+    
+    if let savedCheckIn = savedCheckIn {
+      savedCheckIn.delete()
+      savedCheckIn.save()
+      
+      guard let completion = completion else { return }
+      completion()
+    } else {
+      guard let failure = failure else { return }
+      failure()
+    }
+  }
+  
   func allSavedCheckIns() -> [CheckIn] {
     let savedCheckIns = CheckIn.query(["saved": true], sort: ["dateCreated":"DESC"]) as! [CheckIn]
     return savedCheckIns

@@ -27,11 +27,11 @@ class CheckInController: UIViewController {
     nav.titleLabel.textColor = Colors().Black
     nav.leftBarItem.text = "Cancel"
     nav.leftBarItem.color = Colors().Black
-    nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.leftBarItem.addTarget(self, action: #selector(closeController), forControlEvents: UIControlEvents.TouchUpInside)
     nav.rightBarItem.text = "Next"
     nav.rightBarItem.type = .Emphasis
     nav.rightBarItem.color = Colors().PictonBlue
-    nav.rightBarItem.addTarget(self, action: "nextController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: #selector(nextController), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
 
@@ -108,11 +108,15 @@ class CheckInController: UIViewController {
       listControl.stateTextColor = Colors().Black.colorWithAlphaComponent(0.5)
       listControl.topBorder = true
       listControl.backgroundColor = Colors().White
-      listControl.addTarget(self, action: Selector("savedCheckInsController"), forControlEvents: .TouchUpInside)
+      listControl.addTarget(self, action: #selector(savedCheckInsController), forControlEvents: .TouchUpInside)
       return listControl
       }()
     
     return savedButton
+  }
+  
+  func reloadSavedCounter() {
+    self.savedButton.stateText = "\(SavedCheckInHandler().allSavedCheckIns().count)"
   }
   
   // MARK: - View Lifecycle
@@ -222,12 +226,16 @@ class CheckInController: UIViewController {
       checkIn.place = place
     }
         
-    let checkInFinalController = CheckInFinalController(checkIn: checkIn)
+    let checkInFinalController = CheckInFinalController(checkIn: checkIn, onDisappear: { () in
+      self.reloadSavedCounter()
+    })
     navigationController?.pushViewController(checkInFinalController, animated: true)
   }
   
   func savedCheckInsController() {
-    let savedCheckInsController = UINavigationController(rootViewController: SavedCheckInsController())
+    let savedCheckInsController = UINavigationController(rootViewController: SavedCheckInsController(onDisappear: { () in
+      self.reloadSavedCounter()
+    }))
     savedCheckInsController.navigationBarHidden = true
     
     savedCheckInsController.modalTransitionStyle = .CoverVertical
@@ -257,7 +265,7 @@ class CheckInController: UIViewController {
     guard let reachability = reachability else { return }
     
     NSNotificationCenter.defaultCenter().addObserver(self,
-      selector: "reachabilityChanged:",
+      selector: #selector(reachabilityChanged(_:)),
       name: ReachabilityChangedNotification,
       object: reachability)
     
@@ -280,9 +288,11 @@ class CheckInController: UIViewController {
 extension CheckInController: UICollectionViewDelegate {
   func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
     let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ListCell
+    let row = indexPath.row
+    
     cell.selected = true
     
-    selectedPlace = places[indexPath.row]
+    selectedPlace = places[row]
     updateRightNavigationBarItem()
   }
   
@@ -342,7 +352,7 @@ extension CheckInController: UITextFieldDelegate {
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     let text = textField.text
     NSObject.cancelPreviousPerformRequestsWithTarget(self)
-    performSelector("queryDidChange:", withObject: text, afterDelay: 0.3)
+    performSelector(#selector(queryDidChange(_:)), withObject: text, afterDelay: 0.3)
     return true
   }
 }

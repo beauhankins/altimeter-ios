@@ -38,7 +38,7 @@ class SettingsController: UIViewController {
     nav.translatesAutoresizingMaskIntoConstraints = false
     nav.titleLabel.text = "Settings"
     nav.leftBarItem.icon = UIImage(named: "icon-close")
-    nav.leftBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.leftBarItem.addTarget(self, action: #selector(closeController), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   

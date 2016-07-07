@@ -22,7 +22,7 @@ class CheckInSuccessController: UIViewController {
     nav.rightBarItem.text = "Close"
     nav.rightBarItem.type = .Emphasis
     nav.rightBarItem.color = Colors().White
-    nav.rightBarItem.addTarget(self, action: "closeController", forControlEvents: UIControlEvents.TouchUpInside)
+    nav.rightBarItem.addTarget(self, action: #selector(closeController), forControlEvents: UIControlEvents.TouchUpInside)
     return nav
     }()
   
@@ -59,7 +59,7 @@ class CheckInSuccessController: UIViewController {
     listControl.textLabel.font = Fonts().Heading
     listControl.textColor = Colors().PictonBlue
     listControl.icon = UIImage(named: "icon-map")!
-    listControl.addTarget(self, action: Selector("openMaps:"), forControlEvents: .TouchUpInside)
+    listControl.addTarget(self, action: #selector(openMaps(_:)), forControlEvents: .TouchUpInside)
     return listControl
     }()
   
