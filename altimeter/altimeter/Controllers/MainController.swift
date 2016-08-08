@@ -350,7 +350,7 @@ class MainController: UIViewController {
     let altitudeString = String(format: "%.0f", altitude)
     let accuracyString = String(format: "~%.0f' ACCURACY", altitudeAccuracy)
     let pressureAndTemperatureString = location.pressure.doubleValue > 0 ?
-      String(format: "%.02f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", location.pressure.doubleValue, temperature) :
+      String(format: "%.04f PSI   %.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", location.pressure.doubleValue, temperature) :
       String(format: "%.0f°\(UserSettings.sharedSettings.unit.degreesAbbreviation())", temperature)
     let latitudeString = String(format: "%.4f %@", latitude, location.coordinate.latitude.doubleValue > 0 ? "S" : "N")
     let formattedLatitudeString = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
@@ -425,8 +425,11 @@ class MainController: UIViewController {
   }
   
   func updateWeatherData() {
-    WeatherHandler().getWeatherData(lat: location.coordinate.latitude.doubleValue, lon: location.coordinate.longitude.doubleValue) {
+    let lat = location.coordinate.latitude.doubleValue
+    let lon = location.coordinate.longitude.doubleValue
+    WeatherHandler().getWeatherData(lat: lat, lon: lon) {
       weatherData in
+      print(self.psi(hPa: weatherData["pressure"]!))
       if let
         temp = weatherData["temp"],
         pressure = weatherData["pressure"] {
@@ -439,7 +442,7 @@ class MainController: UIViewController {
   }
   
   func psi(hPa pressure: Double) -> Double {
-    return pressure * 0.014503773800722
+    return pressure * 0.00014503773800722
   }
   
   func fahrenheit(kelvin temp: Double) -> Double {

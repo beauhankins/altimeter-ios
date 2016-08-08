@@ -30,7 +30,7 @@ class CheckInSuccessController: UIViewController {
     let view = InformationDetailView()
     view.translatesAutoresizingMaskIntoConstraints = false
     
-    let altitude = self.checkIn.location.altitude.doubleValue
+    let altitude = UserSettings.sharedSettings.unit.convertDistance(self.checkIn.location.altitude.doubleValue)
     let altitudeString = String(format: "%.0f", round(altitude))
     
     if let placeName = self.checkIn.place?.name {
@@ -200,13 +200,26 @@ class CheckInSuccessController: UIViewController {
   func openMaps(sender: AnyObject) {
     let coord = CLLocationCoordinate2D(
       latitude: checkIn.location.coordinate.latitude.doubleValue,
-      longitude: checkIn.location.coordinate.longitude.doubleValue)
+      longitude: checkIn.location.coordinate.longitude.doubleValue
+    )
+
+    let regionDistance: CLLocationDistance = 10000
+    let regionSpan = MKCoordinateRegionMakeWithDistance(coord, regionDistance, regionDistance)
+    let options = [
+      MKLaunchOptionsMapCenterKey: NSValue(MKCoordinate: regionSpan.center),
+      MKLaunchOptionsMapSpanKey: NSValue(MKCoordinateSpan: regionSpan.span)
+    ]
+
     let placemark = MKPlacemark(coordinate: coord, addressDictionary: nil)
     let mapItem = MKMapItem(placemark: placemark)
-    
-    mapItem.openInMapsWithLaunchOptions(nil)
+    let altitude = UserSettings.sharedSettings.unit.convertDistance(checkIn.location.altitude.doubleValue)
+    let altitudeString = String(format: "%.0f", round(altitude))
+    let unitString = UserSettings.sharedSettings.unit.distanceAbbreviation().uppercaseString
+
+    mapItem.name = "Check-in location (\(altitudeString) \(unitString))"
+    mapItem.openInMapsWithLaunchOptions(options)
   }
-  
+
   func canContinue() -> Bool {
     return true
   }

@@ -13,17 +13,18 @@ class LocationDataDetailView: UIView {
   var checkIn: CheckIn {
     didSet {
       let location = checkIn.location
+      let coordinate = location.coordinate
       
-      let latitude = fabs(location.coordinate.latitude.doubleValue)
-      let formattedLatitude = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
-      let longitude = fabs(location.coordinate.longitude.doubleValue)
-      let formattedLongitude = formattedCoordinateAngleString(location.coordinate.latitude.doubleValue)
+      let latitude = fabs(coordinate.latitude.doubleValue)
+      let formattedLatitude = formattedCoordinateAngleString(coordinate.latitude.doubleValue)
+      let longitude = fabs(coordinate.longitude.doubleValue)
+      let formattedLongitude = formattedCoordinateAngleString(coordinate.longitude.doubleValue)
       let pressure = location.pressure.doubleValue
       let temperature = UserSettings.sharedSettings.unit.convertDegrees(location.temperature.doubleValue)
       
       let coordinateString = String(format: "%.4f %@   %.4f %@", latitude, latitude > 0 ? "S" : "N", longitude, longitude > 0 ? "E" : "W")
       let formattedCoordinateString = "\(formattedLatitude)   \(formattedLongitude)"
-      let pressureString = String(format: "%.0f PSI", pressure)
+      let pressureString = String(format: "%.04f PSI", pressure)
       let temperatureString = String(format: "%.0f°%@", temperature, UserSettings.sharedSettings.unit.degreesAbbreviation())
       
       let dateFormatter = NSDateFormatter()

@@ -331,9 +331,7 @@ extension CheckInController: UICollectionViewDataSource {
     cell.text = String(places[row].name)
     
     let location = checkIn.location
-    
     let coordinate = places[row].coordinate
-    
     let placeLocation = CLLocation(
       latitude: coordinate.latitude.doubleValue,
       longitude: coordinate.longitude.doubleValue)

@@ -128,7 +128,7 @@ class CheckInServiceHandler {
     
     let requestURL = NSURL(string: "https://graph.facebook.com/me/feed")
     let mediaRequestURL = NSURL(string: "https://graph.facebook.com/me/photos")
-    let altitude = Int(round(checkIn.location.altitude.doubleValue))
+    let altitude = Int(round(UserSettings.sharedSettings.unit.convertDistance(checkIn.location.altitude.doubleValue)))
     let placeName = checkIn.place?.name
     let distanceUnit = UserSettings.sharedSettings.unit.distanceAbbreviation()
     let photoId = checkIn.photoId as? String
@@ -175,7 +175,7 @@ class CheckInServiceHandler {
   private func checkInWithTwitter(completion completion: (() -> Void)?, failure: (() -> Void)?) {
     let requestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/update.json")
     let mediaRequestURL = NSURL(string: "https://api.twitter.com/1.1/statuses/update_with_media.json")
-    let altitude = Int(round(checkIn.location.altitude.doubleValue))
+    let altitude = Int(round(UserSettings.sharedSettings.unit.convertDistance(checkIn.location.altitude.doubleValue)))
     let placeName = checkIn.place?.name
     let distanceUnit = UserSettings.sharedSettings.unit.distanceAbbreviation()
     let photoId = checkIn.photoId as? String

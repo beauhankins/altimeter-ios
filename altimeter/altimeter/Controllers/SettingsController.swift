@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MessageUI
+import SafariServices
 
 class SettingsController: UIViewController {
   // MARK: - Variables & Constants
@@ -16,21 +17,17 @@ class SettingsController: UIViewController {
   var unit: Unit = UserSettings.sharedSettings.unit
   
   var settingsListItems: [[String:String]] {
-    return [
-      [
-        "text": "Units",
-        "state": unit.description(),
-        "action": "toggleUnits"
-      ],
-      [
-        "text": "Send Feedback",
-        "action": "sendFeedback"
-      ],
-      [
-        "text": "Rate in the App Store",
-        "action": "openInAppStore"
-      ],
-    ]
+    return [[
+      "text": "Units",
+      "state": unit.description(),
+      "action": "toggleUnits"
+    ], [
+      "text": "Send feedback",
+      "action": "openFeedback"
+    ], [
+      "text": "Rate in the App Store",
+      "action": "openInAppStore"
+    ]]
   }
   
   lazy var navigationBar: NavigationBar = {
@@ -132,25 +129,13 @@ class SettingsController: UIViewController {
     settingsListView.reloadData()
   }
   
-  func sendFeedback() {
-    if MFMailComposeViewController.canSendMail() {
-      let mailComposerController = MFMailComposeViewController()
-      
-      mailComposerController.mailComposeDelegate = self
-      mailComposerController.setToRecipients(["team@getaltimeter.com"])
-      mailComposerController.setSubject("Question about Altimeter...")
-      
-      presentViewController(mailComposerController, animated: true, completion: nil)
+  func openFeedback() {
+    let urlString = "http://goo.gl/forms/lRPWNFy1Lx8G6a522"
+    if #available(iOS 9.0, *) {
+      let safariViewController = SFSafariViewController(URL: NSURL(string: urlString)!)
+      self.presentViewController(safariViewController, animated: true, completion: nil)
     } else {
-      let alertController = UIAlertController(
-        title: "Cannot send mail",
-        message: "You have not set-up email on this device. Set-up email in Settings > Mail, Contacts, Calendars.",
-        preferredStyle: .Alert)
-      
-      let okButton = UIAlertAction(title: "👍", style: .Cancel, handler: nil)
-      alertController.addAction(okButton)
-      
-      presentViewController(alertController, animated: true, completion: nil)
+      UIApplication.sharedApplication().openURL(NSURL(string: urlString)!)
     }
   }
   
